@@ -14,9 +14,16 @@ import json
 from datetime import datetime
 from django.core import serializers as jsonserializerp
 
+from .forms import RecursoForm
+
 
 # Create your views here.
 
-
+#Views
 def index(request):
     return render(request, "polls/index.html")
+
+
+def addRecurso(request):
+    form = RecursoForm
+    return render(request, 'polls/addRecurso.html', {'form': form})
