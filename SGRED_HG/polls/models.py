@@ -98,7 +98,7 @@ class Recurso(models.Model):
     id_recurso = models.AutoField(primary_key=True)
     titulo =models.CharField(max_length=150, blank=False)
     tipo=models.CharField(max_length=150,blank=False)
-    descripccion=models.CharField(max_length=1000,blank=True)
+    descripccion=models.CharField(max_length=1000,blank=False)
     ubicacion = models.CharField(max_length=1000,blank=True)
     #solicitante =
     fecha_creacion= models.DateField()
