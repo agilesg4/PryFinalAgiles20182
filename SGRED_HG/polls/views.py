@@ -15,6 +15,7 @@ from datetime import datetime
 from django.core import serializers as jsonserializerp
 
 from .forms import RecursoForm, ArtefactoForm
+from .models import Artefacto
 
 # Create your views here.
 
@@ -28,16 +29,34 @@ def addRecurso(request):
     return render(request, 'polls/addRecurso.html', {'form': form})
 
 
-def addArtefacto(request):
-    if request.method == 'POST':
-        form = ArtefactoForm(request.POST, request.FILES)
-        if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
-            return HttpResponseRedirect('/success/url/')
-    else:
-        form = ArtefactoForm()
+def agregar_artefacto(request):
+    return render(request, "polls/addArtefacto.html")
 
-    return render(request, 'polls/addRecurso.html', {'form': form})
+
+@csrf_exempt
+def add_artefacto(request):
+    if request.method == 'POST':
+        if 'reusable' in request.POST:
+            if request.POST.get('reusable') == 'on':
+                bool_reusable = True
+            else:
+                bool_reusable = False
+        else:
+            bool_reusable = False
+
+        new_artefacto = Artefacto(nombre_mostrar=request.POST['nombre_mostrar'],
+                                  descripcion=request.POST['descripcion'],
+                                  archivo=request.FILES['archivo'],
+                                  reusable=bool_reusable,
+                                  fecha_hora_carga=datetime.now()
+                                  # ,
+                                  # cargado_por=request.user
+                                  )
+
+        new_artefacto.save()
+        return HttpResponse(serializers.serialize("json", [new_artefacto]))
+    else:
+        return HttpResponse(serializers.serialize("json", []))
 
 
 def handle_uploaded_file(f):
