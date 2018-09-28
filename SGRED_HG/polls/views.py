@@ -14,15 +14,19 @@ import json
 from datetime import datetime
 from django.core import serializers as jsonserializerp
 
-from .forms import RecursoForm, ArtefactoForm
+from .forms import RecursoForm, ArtefactoForm, ProyectoForm
 from .models import Artefacto
 
 # Create your views here.
 
-#Views
+@csrf_exempt
 def index(request):
     return render(request, "polls/index.html")
 
+
+def addProyecto(request):
+    form = ProyectoForm
+    return render(request, 'polls/addProyecto.html', {'form': form})
 
 def addRecurso(request):
     form = RecursoForm

@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls',
-    'crispy_forms'
+    'crispy_forms',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -81,8 +81,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': "SGRED",
-        'USER': "Willy",
-        "PASSWORD": "123",
+        'USER': "postgres",
+        "PASSWORD": "",
         "HOST": "127.0.0.1",
         "PORT": "5432"
     }
