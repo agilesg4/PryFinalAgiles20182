@@ -20,4 +20,4 @@ class ArtefactoForm(forms.ModelForm):
     class Meta:
         model = Artefacto
         ruta = forms.FileField()
-        fields = ('nombre_mostrar', 'descripcion', 'ruta', 'reusable')
+        fields = ('nombre_mostrar', 'descripcion', 'archivo', 'reusable')
