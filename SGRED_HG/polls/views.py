@@ -1,29 +1,38 @@
 from __future__ import unicode_literals
-from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.models import User
-from django.core import serializers
-from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt
-from .models import Proyecto, Dueno, Departamento, Area_usuaria
-from .models import Usuario
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest
-from django.core.mail import send_mail
-import json
-from datetime import datetime
-from django.core import serializers as jsonserializerp
-
 from .forms import RecursoForm
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
+from django.core import serializers
+from .models import Recurso
+from .serializers import RecursoSerializer
+import json
 
 
-# Create your views here.
+#############################
+# API
+#############################
 
-#Views
+# Recursos
+@csrf_exempt
+def apiRecursoListByTipo(request):
+    tipos = dict()
+    for obj in Recurso.objects.all():
+        tipos.setdefault(obj.tipo, []).append(RecursoSerializer(obj).data)
+    return HttpResponse(json.dumps(tipos), content_type='application/json')
+
+
+#############################
+# Views
+#############################
+
 def index(request):
     return render(request, "polls/index.html")
 
-
+# Recursos
 def addRecurso(request):
     form = RecursoForm
     return render(request, 'polls/addRecurso.html', {'form': form})
+
+def listRecurso(request):
+    return render(request, 'polls/listRecurso.html')
