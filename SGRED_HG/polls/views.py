@@ -17,6 +17,12 @@ from django.core import serializers as jsonserializerp
 
 # Create your views here.
 
-
+@csrf_exempt
 def index(request):
     return render(request, "polls/index.html")
+
+@csrf_exempt
+def proy(request):
+    return render(request, "polls/proyecto.html")
+
+
