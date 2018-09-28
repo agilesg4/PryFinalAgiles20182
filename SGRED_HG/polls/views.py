@@ -14,8 +14,7 @@ import json
 from datetime import datetime
 from django.core import serializers as jsonserializerp
 
-from .forms import RecursoForm
-
+from .forms import RecursoForm, ArtefactoForm
 
 # Create your views here.
 
@@ -27,3 +26,21 @@ def index(request):
 def addRecurso(request):
     form = RecursoForm
     return render(request, 'polls/addRecurso.html', {'form': form})
+
+
+def addArtefacto(request):
+    if request.method == 'POST':
+        form = ArtefactoForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['file'])
+            return HttpResponseRedirect('/success/url/')
+    else:
+        form = ArtefactoForm()
+
+    return render(request, 'polls/addRecurso.html', {'form': form})
+
+
+def handle_uploaded_file(f):
+    with open('some/file/name.txt', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
