@@ -1,0 +1,35 @@
+.tipoName {
+    background-color: grey;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    margin-top: 20px;
+}
+
+.tipoContentContainer {
+    border-bottom: 1px solid grey;
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    padding: 10px 5px;
+}
+
+.tipoCellContainer {
+    text-align: center;
+    padding: 10px 5px;
+    cursor: pointer;
+}
+
+.tipoCellContainer:hover {
+    opacity: 0.8;
+}
+
+.tipoImage {
+    height: 8vw;
+    width: 8vw;
+}
+
+.tipoTitle {
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
+}
