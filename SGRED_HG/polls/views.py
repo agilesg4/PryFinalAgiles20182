@@ -24,9 +24,27 @@ def index(request):
     return render(request, "polls/index.html")
 
 
-def addProyecto(request):
-    form = ProyectoForm
-    return render(request, 'polls/addProyecto.html', {'form': form})
+def agregar_Proyecto(request):
+    return render(request, "polls/addProyecto.html")
+
+
+@csrf_exempt
+def add_Proyecto(request):
+    if request.method == 'POST':
+        new_proyecto = Proyecto(nombre=request.POST['nombre'],
+                                  descripcion=request.POST['descripcion'],
+                                  fecha_inicio=datetime.now(),
+                                  fecha_fin=datetime.now(),
+                                  dueno=request.POST['id_dueno'],
+                                  responsable=request.POST['id_responsable']
+                                  # ,
+                                  # cargado_por=request.user
+                                  )
+        new_proyecto.save()
+        return HttpResponse(serializers.serialize("json", [new_proyecto]))
+    else:
+        return HttpResponse(serializers.serialize("json", []))
+
 
 def addRecurso(request):
     form = RecursoForm
