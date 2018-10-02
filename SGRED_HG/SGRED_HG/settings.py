@@ -79,12 +79,12 @@ WSGI_APPLICATION = 'SGRED_HG.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': "SGRED",
-        'USER': "Willy",
-        "PASSWORD": "123",
+        'USER': "root",
+        "PASSWORD": "",
         "HOST": "127.0.0.1",
-        "PORT": "5432"
+        "PORT": "3306"
     }
 }
 
