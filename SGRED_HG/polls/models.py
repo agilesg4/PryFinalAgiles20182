@@ -96,7 +96,7 @@ class Proyecto(models.Model):
 
 class Recurso(models.Model):
     id_recurso = models.AutoField(primary_key=True)
-    titulo =models.CharField(max_length=150, blank=False)
+    titulo = models.CharField(max_length=150, blank=False)
     tipo=models.CharField(max_length=150,blank=False)
     descripccion=models.CharField(max_length=1000,blank=False)
     ubicacion = models.CharField(max_length=1000,blank=True)
@@ -105,3 +105,17 @@ class Recurso(models.Model):
     id_usuario=models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True)
     reusable = models.BooleanField(default=False)
     id_proyecto = models.ForeignKey(Proyecto, on_delete=models.PROTECT, null=True)
+
+
+class Artefacto(models.Model):
+    id_artefacto = models.AutoField(primary_key=True)
+    nombre_mostrar = models.CharField(max_length=100, blank=False)
+    descripcion = models.CharField(max_length=250, blank=False)
+    archivo = models.FileField(upload_to='files', null=True)
+    fecha_hora_carga = models.DateTimeField()
+    cargado_por = models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True)
+    fecha_hora_edicion = models.DateTimeField(null=True)
+    reusable = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return self.nombre_mostrar

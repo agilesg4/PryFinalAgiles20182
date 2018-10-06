@@ -1,0 +1,40 @@
+<head>
+    <meta charset="UTF-8">
+    <title>SGRED</title>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+</head>
+<body>
+<div  class="col-md-6 col-sm-offset-3">
+    <h1>Nuevo Artefacto</h1>
+    <form id="formArtefacto" action="../../polls/addArtefacto/" enctype="multipart/form-data" method="post">
+        <input id="nombre_mostrar" name="nombre_mostrar" type="text" placeholder="Title" class="form-control input-md" required=""><br>
+        <input id="descripcion" name="descripcion" type="text" placeholder="Descripcion" class="form-control input-md" required=""><br>
+        <input id="archivo" name="archivo" type="file" required><br>
+        <input id="reusable" type="checkbox" name="reusable" > reusable<br>
+        <input type="submit" value="Añadir" class="btn btn-primary">
+            <a href="/polls/" class="btn btn-primary">Cancelar</a>
+    </form>
+</div>
+<script>
+    $('form').submit(function (e) {
+        var formData = new FormData($("#formArtefacto")[0]);
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function () {
+                window.location = "/polls/agregarArtefacto/";
+            },
+
+        });
+        e.preventDefault();
+    });
+</script>
+</body>
