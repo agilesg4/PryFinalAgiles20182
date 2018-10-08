@@ -5,19 +5,88 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script>
+		(function(){
+			$.getJSON("/polls/dueno").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#dueno").prepend('<option value="'+item.fields.nombre+'">'+
+						item.fields.nombre.toUpperCase() + '</option>');
+
+				});
+			});
+			$.getJSON("/polls/responsable").done(function (data1) {
+				$.each(data1, function (i, item) {
+					$("#responsable").prepend('<option value="'+item.fields.nombre+'">'+
+						item.fields.nombre.toUpperCase() + '</option>');
+
+				});
+			});
+
+		})();
+	</script>
+
+
+    <script>
+		function enviarForm() {
+
+			if ($('#dueno').val() === 'Seleccionar Dueño') {
+				return false;
+			}
+			// Aca lo cargo
+			$.ajax({
+				type: "POST",
+				url: "/polls/add_proyecto/",
+				data: JSON.stringify({
+					dueno: $('#dueno').val(),
+                }),
+                data1:  JSON.stringify({
+				    responsable: $('#responsable').val()
+                }),
+				contentType: "application/json; charset=UTF-8",
+				dataType: "json",
+				success: function (data) {
+					// Aca lo agrego nuevamente
+					$.each(data, function (i, item) {
+						let tipo = item.fields.tipo.toUpperCase();
+
+					});
+				},
+				failure: function (errMsg) {
+					alert("Hubo un error.")
+				}
+				success: function (data1) {
+					// Aca lo agrego nuevamente
+					$.each(data1, function (i, item) {
+						let tipo = item.fields.tipo.toUpperCase();
+
+					});
+				},
+				failure: function (errMsg) {
+					alert("Hubo un error.")
+				}
+
+
+
+			});
+			return false;
+		}
+	</script>
+
+
 </head>
 <body>
 <div  class="col-md-6 col-sm-offset-3">
     <h1>Nuevo Proyecto</h1>
-    <form id="formProyecto" action="../../polls/add_Proyecto/" enctype="multipart/form-data" method="post">
+    <form id="formProyecto" action="../../polls/add_Proyecto/" enctype="multipart/form-data" method="post" action="" onsubmit="return enviarForm();">
         <input id="nombre" name="nombre" type="text" placeholder="Title" class="form-control input-md" required=""><br>
         <input id="descripcion" name="descripcion" type="text" placeholder="Descripcion" class="form-control input-md" required=""><br>
         <input id="fecha_inicio" name="fecha_inicio" type="text" placeholder="Fecha Inicio" class="form-control input-md" required=""><br>
         <input id="fecha_fin" name="fecha_fin" type="text" placeholder="Fecha Fin" class="form-control input-md" required=""><br>
-		<select class="form-control input-md" id="duenos2" name="dueno">
+		<select class="form-control input-md" id="dueno" name="dueno">
             <option selected>Seleccionar Dueño</option>
         </select><br>
-        <select class="form-control input-md" id="categoria" name="responsable">
+        <select class="form-control input-md" id="responsable" name="responsable">
             <option selected>Seleccionar Responsable</option>
         </select><br>
         <input type="submit" value="Añadir" class="btn btn-primary">

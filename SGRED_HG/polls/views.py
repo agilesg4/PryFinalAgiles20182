@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
-from .models import Recurso, Artefacto
+from .models import Recurso, Artefacto, Dueno, Usuario
 from .serializers import RecursoSerializer
 from .forms import RecursoForm, ArtefactoForm, ProyectoForm
 import json
@@ -28,6 +28,15 @@ def apiRecursoListByTipo(request):
 def index(request):
     return render(request, "polls/index.html")
 
+def dueno(request):
+    lista_dueno = Dueno.objects.all()
+    return HttpResponse(serializers.serialize("json", lista_dueno))
+
+def responsable(request):
+    lista_responsable = Usuario.objects.all()
+    return HttpResponse(serializers.serialize("json", lista_responsable))
+
+
 
 def agregar_Proyecto(request):
     return render(request, "polls/addProyecto.html")
@@ -37,14 +46,14 @@ def agregar_Proyecto(request):
 def add_Proyecto(request):
     if request.method == 'POST':
         new_proyecto = Proyecto(nombre=request.POST['nombre'],
-                                  descripcion=request.POST['descripcion'],
-                                  fecha_inicio=datetime.now(),
-                                  fecha_fin=datetime.now(),
-                                  dueno=request.POST['id_dueno'],
-                                  responsable=request.POST['id_responsable']
-                                  # ,
-                                  # cargado_por=request.user
-                                  )
+                                descripcion=request.POST['descripcion'],
+                                fecha_inicio=datetime.now(),
+                                fecha_fin=datetime.now(),
+                                dueno=request.POST['id_dueno'],
+                                responsable=request.POST['id_responsable']
+                                # ,
+                                # cargado_por=request.user
+                                )
         new_proyecto.save()
         return HttpResponse(serializers.serialize("json", [new_proyecto]))
     else:
