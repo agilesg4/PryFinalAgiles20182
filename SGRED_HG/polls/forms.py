@@ -5,7 +5,7 @@ from .models import Recurso, Artefacto
 class RecursoForm(forms.ModelForm):
     class Meta:
         model = Recurso
-        fields = ('titulo', 'tipo', 'descripccion', 'ubicacion', 'id_proyecto')
+        fields = ('titulo', 'tipo', 'descripccion', 'ubicacion', 'id_proyecto', 'artefacto')
 
 
 class ArtefactoForm(forms.ModelForm):

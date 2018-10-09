@@ -3,7 +3,6 @@ from django.contrib.auth import login, authenticate, logout, update_session_auth
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core import serializers
-from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Proyecto, Dueno, Departamento, Area_usuaria
 from .models import Usuario
@@ -48,9 +47,8 @@ def add_artefacto(request):
                                   descripcion=request.POST['descripcion'],
                                   archivo=request.FILES['archivo'],
                                   reusable=bool_reusable,
-                                  fecha_hora_carga=datetime.now()
-                                  # ,
-                                  # cargado_por=request.user
+                                  fecha_hora_carga=datetime.now(),
+                                  # cargado_por=User.objects.get(username=request.user),
                                   )
 
         new_artefacto.save()
