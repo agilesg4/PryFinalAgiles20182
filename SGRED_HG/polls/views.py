@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
-from .models import Recurso, Artefacto, Dueno, Usuario
+from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto
 from .serializers import RecursoSerializer
 from .forms import RecursoForm, ArtefactoForm, ProyectoForm
 import json
@@ -33,7 +33,7 @@ def dueno(request):
     return HttpResponse(serializers.serialize("json", lista_dueno))
 
 def responsable(request):
-    lista_responsable = Usuario.objects.all()
+    lista_responsable = User.objects.all()
     return HttpResponse(serializers.serialize("json", lista_responsable))
 
 
@@ -43,28 +43,29 @@ def agregar_Proyecto(request):
 
 
 @csrf_exempt
-def add_Proyecto(request):
+def add_proyecto(request):
     if request.method == 'POST':
         new_proyecto = Proyecto(nombre=request.POST['nombre'],
                                 descripcion=request.POST['descripcion'],
-                                fecha_inicio=datetime.now(),
-                                fecha_fin=datetime.now(),
-                                dueno=request.POST['id_dueno'],
-                                responsable=request.POST['id_responsable']
-                                # ,
-                                # cargado_por=request.user
-                                )
+                                fecha_inicio=request.POST['fecha_inicio'],
+                                fecha_fin=request.POST['fecha_fin'],
+                                id_dueno_prod=Dueno.objects.get(nombre= request.POST['dueno']),
+                                id_responsable=User.objects.get(username=request.POST['responsable']),
+                               )
         new_proyecto.save()
-        return HttpResponse(serializers.serialize("json", [new_proyecto]))
+        return HttpResponse(serializers.serialize("json", []))
     else:
         return HttpResponse(serializers.serialize("json", []))
+
 
 def addRecurso(request):
     form = RecursoForm
     return render(request, 'polls/addRecurso.html', {'form': form})
 
+
 def listRecurso(request):
     return render(request, 'polls/listRecurso.html')
+
 
 def agregar_artefacto(request):
     return render(request, "polls/addArtefacto.html")
