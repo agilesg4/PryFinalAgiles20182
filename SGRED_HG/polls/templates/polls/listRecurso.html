@@ -18,7 +18,7 @@
         function cargarRecursos(){
             console.log('Ejecutando funcion cargarRecurso')
             $.ajax({
-                url: "/resources/",
+                url: "/recurso/list",
                 type: "GET",
                 success: function(result){
                     console.log('Ajax request through function cargarRecurso return success');

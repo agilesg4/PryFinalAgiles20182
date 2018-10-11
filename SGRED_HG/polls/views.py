@@ -61,20 +61,12 @@ def addRecurso(request):
     form = RecursoForm
     return render(request, 'polls/addRecurso.html', {'form': form})
 
-def listRecurso(request):
-    return render(request, 'polls/listRecurso.html')
-
 def agregar_artefacto(request):
     return render(request, "polls/addArtefacto.html")
 
 def listResources(request):
-    print 'inside get resources list'
     lista_recursos = Recurso.objects.all().values('id_recurso', 'titulo', 'tipo')
     context = {'recursos': lista_recursos}
-    # return HttpResponse(json.dumps(list), content_type="application/json")
-    # return render_to_response(request, 'polls/listRecurso.html', context)
-    # return HttpResponse(json.dumps(list), content_type="application/json")
-    # return render_to_string('polls/listRecurso.html', test_list)
     return render(request, 'polls/listRecurso.html', context)
 
 
