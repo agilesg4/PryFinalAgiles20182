@@ -11,6 +11,28 @@
     <!-- Static files -->
     <link href="{% static 'css/recursos/list.css' %}" rel="stylesheet" />
     <script type="text/javascript" src="{% static 'js/recursos/list.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+    	    cargarRecursos();
+        });
+        function cargarRecursos(){
+            console.log('Ejecutando funcion cargarRecurso')
+            $.ajax({
+                url: "/resources/",
+                type: "GET",
+                success: function(result){
+                    console.log('Ajax request through function cargarRecurso return success');
+                    if(result !== null){
+                    }
+                },
+                error: function(errMsj){
+                    alert('There was an error trying to show the information, please try again.\n\nIf the problem persists contact the system administrator');
+                }
+            });
+        }
+
+
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -35,5 +57,39 @@
 </nav>
 <!-- End NavBard -->
 
-<div class="container" id="tiposList"></div>
+<div class="container" id="tiposList">
+    <h1>Recursos</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recurso in recursos %}
+            <tr>
+                <th scope="row">{{ recurso.id_recurso }}</th>
+                <td>{{ recurso.titulo }}</td>
+                <td>{{ recurso.tipo }}</td>
+                <td><a href="#">Editar</a></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 </body>

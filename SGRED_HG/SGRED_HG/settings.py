@@ -78,13 +78,21 @@ WSGI_APPLICATION = 'SGRED_HG.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': "SGRED",
+    #     'USER': "Willy",
+    #     "PASSWORD": "",
+    #     "HOST": "127.0.0.1",
+    #     "PORT": "5432"
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "SGRED",
-        'USER': "Willy",
-        "PASSWORD": "",
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': "sgred",
+        'USER': "root",
+        "PASSWORD": "root",
         "HOST": "127.0.0.1",
-        "PORT": "5432"
+        "PORT": "3306"
     }
 }
 

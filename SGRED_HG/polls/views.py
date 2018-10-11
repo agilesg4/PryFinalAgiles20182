@@ -1,9 +1,10 @@
 from __future__ import unicode_literals
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
+from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
-from .models import Recurso, Artefacto
+from .models import Recurso, Artefacto, Proyecto
 from .serializers import RecursoSerializer
 from .forms import RecursoForm, ArtefactoForm, ProyectoForm
 import json
@@ -59,6 +60,16 @@ def listRecurso(request):
 
 def agregar_artefacto(request):
     return render(request, "polls/addArtefacto.html")
+
+def listResources(request):
+    print 'inside get resources list'
+    return HttpResponse("peticion exitosa")
+    #lista_recursos = Recurso.objects.all().values('id_recurso', 'titulo', 'tipo')
+    #context = {'recursos': lista_recursos}
+    #return HttpResponse(json.dumps(list), content_type="application/json")
+    #return render_to_response(request, 'polls/listRecurso.html', context)
+    #return HttpResponse(json.dumps(list), content_type="application/json")
+    #return render_to_string('polls/listRecurso.html', test_list)
 
 
 @csrf_exempt

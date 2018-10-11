@@ -5,6 +5,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^api/recurso/listByTipo$', views.apiRecursoListByTipo, name='apiRecursoListByTipo'),
     url(r'^recurso/list$', views.listRecurso, name='listRecurso'),
+    url(r'^resources/$', views.listResources, name='listResources'),
     url(r'^add_Proyecto/$', views.add_Proyecto, name='add_Proyecto'),
     url(r'^recurso/$', views.addRecurso, name='addRecurso'),
     url(r'^addArtefacto/$', views.add_artefacto, name='addArtefacto'),
