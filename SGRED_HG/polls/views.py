@@ -1,6 +1,12 @@
 from __future__ import unicode_literals
+
+import datetime
+
 from django.shortcuts import render, redirect, render_to_response
 from django.template.loader import render_to_string
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
@@ -87,9 +93,8 @@ def add_artefacto(request):
                                   descripcion=request.POST['descripcion'],
                                   archivo=request.FILES['archivo'],
                                   reusable=bool_reusable,
-                                  fecha_hora_carga=datetime.now()
-                                  # ,
-                                  # cargado_por=request.user
+                                  fecha_hora_carga=datetime.now(),
+                                  # cargado_por=User.objects.get(username=request.user),
                                   )
 
         new_artefacto.save()
