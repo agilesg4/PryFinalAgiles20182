@@ -37,37 +37,30 @@
 
 <div class="container" id="tiposList">
     <h1>Recursos</h1>
-    <a class="nav-link active" href="{% url 'listRecurso' %}">refresh</a>
+    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+        <a class="btn btn-secondary" href="{% url 'listRecurso' %}">Refrescar</a>
+        <a class="btn btn-secondary" href="{% url 'addRecurso' %}">Agregar recurso</a>
+    </div>
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Ubicación</th>
+                <th scope="col">Fecha de creación</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
             {% for recurso in recursos %}
             <tr>
-                <th scope="row">{{ recurso.id_recurso }}</th>
                 <td>{{ recurso.titulo }}</td>
                 <td>{{ recurso.tipo }}</td>
-                <td><a href="#">Editar</a></td>
+                <td>{{ recurso.ubicacion }}</td>
+                <td>{{ recurso.fecha_creacion }}</td>
+                <td><a href="#">Ver detalles</a> <a href="#">Editar</a></td>
             </tr>
             {% endfor %}
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
         </tbody>
     </table>
 </div>
