@@ -69,13 +69,13 @@ def agregar_artefacto(request):
 
 def listResources(request):
     print 'inside get resources list'
-    return HttpResponse("peticion exitosa")
-    #lista_recursos = Recurso.objects.all().values('id_recurso', 'titulo', 'tipo')
-    #context = {'recursos': lista_recursos}
-    #return HttpResponse(json.dumps(list), content_type="application/json")
-    #return render_to_response(request, 'polls/listRecurso.html', context)
-    #return HttpResponse(json.dumps(list), content_type="application/json")
-    #return render_to_string('polls/listRecurso.html', test_list)
+    lista_recursos = Recurso.objects.all().values('id_recurso', 'titulo', 'tipo')
+    context = {'recursos': lista_recursos}
+    # return HttpResponse(json.dumps(list), content_type="application/json")
+    # return render_to_response(request, 'polls/listRecurso.html', context)
+    # return HttpResponse(json.dumps(list), content_type="application/json")
+    # return render_to_string('polls/listRecurso.html', test_list)
+    return render(request, 'polls/listRecurso.html', context)
 
 
 @csrf_exempt
