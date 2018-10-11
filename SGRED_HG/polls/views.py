@@ -1,8 +1,16 @@
 from __future__ import unicode_literals
-from django.shortcuts import render, redirect
+
+import datetime
+
+from django.shortcuts import render, redirect, render_to_response
+from django.template.loader import render_to_string
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
+from .models import Recurso, Artefacto, Proyecto
 from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto
 from .serializers import RecursoSerializer
 from .forms import RecursoForm, ArtefactoForm, ProyectoForm
@@ -62,13 +70,13 @@ def addRecurso(request):
     form = RecursoForm
     return render(request, 'polls/addRecurso.html', {'form': form})
 
-
-def listRecurso(request):
-    return render(request, 'polls/listRecurso.html')
-
-
 def agregar_artefacto(request):
     return render(request, "polls/addArtefacto.html")
+
+def listResources(request):
+    lista_recursos = Recurso.objects.all().values('id_recurso', 'titulo', 'tipo')
+    context = {'recursos': lista_recursos}
+    return render(request, 'polls/listRecurso.html', context)
 
 
 @csrf_exempt
@@ -86,9 +94,8 @@ def add_artefacto(request):
                                   descripcion=request.POST['descripcion'],
                                   archivo=request.FILES['archivo'],
                                   reusable=bool_reusable,
-                                  fecha_hora_carga=datetime.now()
-                                  # ,
-                                  # cargado_por=request.user
+                                  fecha_hora_carga=datetime.now(),
+                                  # cargado_por=User.objects.get(username=request.user),
                                   )
 
         new_artefacto.save()

@@ -35,5 +35,33 @@
 </nav>
 <!-- End NavBard -->
 
-<div class="container" id="tiposList"></div>
+<div class="container" id="tiposList">
+    <h1>Recursos</h1>
+    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+        <a class="btn btn-secondary" href="{% url 'listRecurso' %}">Refrescar</a>
+        <a class="btn btn-secondary" href="{% url 'addRecurso' %}">Agregar recurso</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Titulo</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Ubicación</th>
+                <th scope="col">Fecha de creación</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recurso in recursos %}
+            <tr>
+                <td>{{ recurso.titulo }}</td>
+                <td>{{ recurso.tipo }}</td>
+                <td>{{ recurso.ubicacion }}</td>
+                <td>{{ recurso.fecha_creacion }}</td>
+                <td><a href="#">Ver detalles</a> <a href="#">Editar</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 </body>
