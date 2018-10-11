@@ -11,28 +11,6 @@
     <!-- Static files -->
     <link href="{% static 'css/recursos/list.css' %}" rel="stylesheet" />
     <script type="text/javascript" src="{% static 'js/recursos/list.js' %}"></script>
-    <script>
-        $(document).ready(function(){
-    	    cargarRecursos();
-        });
-        function cargarRecursos(){
-            console.log('Ejecutando funcion cargarRecurso')
-            $.ajax({
-                url: "/recurso/list",
-                type: "GET",
-                success: function(result){
-                    console.log('Ajax request through function cargarRecurso return success');
-                    if(result !== null){
-                    }
-                },
-                error: function(errMsj){
-                    alert('There was an error trying to show the information, please try again.\n\nIf the problem persists contact the system administrator');
-                }
-            });
-        }
-
-
-    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
