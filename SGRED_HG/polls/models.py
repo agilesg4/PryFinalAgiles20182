@@ -5,6 +5,8 @@ from django.db import models
 from django.contrib.auth.forms import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
+from rest_framework import serializers
+
 
 # Create your models here.
 
@@ -34,6 +36,15 @@ class Dueno(models.Model):
         if Dueno.objects.filter(email=email):
             raise forms.ValidationError('Ya existe un email igual registado.')
         return email
+
+    def __unicode__(self):
+        return self.nombre
+
+class DuenoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Dueno
+        fields = ('nombre')
 
 
 class Usuario(models.Model):
@@ -79,6 +90,13 @@ class UserForm(ModelForm):
         if password != password2:
             raise forms.ValidationError('Las Claves no coinciden.')
         return password2
+
+
+class UsuarioSerializer(serializers.ModelSerializer):
+
+     class Meta:
+         model = Usuario
+         fields = ('nombre', 'apellido', 'foto', 'pais', 'ciudad', 'email', 'username')
 
 
 class Proyecto(models.Model):
