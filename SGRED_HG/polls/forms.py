@@ -13,7 +13,7 @@ class ProyectoForm(forms.ModelForm):
 class RecursoForm(forms.ModelForm):
     class Meta:
         model = Recurso
-        fields = ('titulo', 'tipo', 'descripccion', 'ubicacion', 'id_proyecto', 'artefacto')
+        fields = ('titulo', 'tipo', 'descripcion', 'ubicacion', 'id_proyecto')
 
 
 class ArtefactoForm(forms.ModelForm):

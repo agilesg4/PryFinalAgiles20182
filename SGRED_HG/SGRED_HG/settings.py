@@ -87,12 +87,12 @@ DATABASES = {
     #     "PORT": "5432"
     # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': "sgred",
-        'USER': "root",
-        "PASSWORD": "root",
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "SGRED",
+        'USER': "Willy",
+        "PASSWORD": "123",
         "HOST": "127.0.0.1",
-        "PORT": "3306"
+        "PORT": "5432"
     }
 }
 

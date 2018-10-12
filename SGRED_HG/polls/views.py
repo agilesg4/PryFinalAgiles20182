@@ -7,6 +7,8 @@ from django.template.loader import render_to_string
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
+from django.core import serializers
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
@@ -15,7 +17,12 @@ from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto
 from .serializers import RecursoSerializer
 from .forms import RecursoForm, ArtefactoForm, ProyectoForm
 import json
+from datetime import datetime
+from django.core import serializers as jsonserializerp
+from django.shortcuts import get_object_or_404
 
+from .forms import RecursoForm, ArtefactoForm
+from .models import Artefacto, Recurso, Proyecto
 #############################
 # API
 #############################
@@ -70,6 +77,26 @@ def addRecurso(request):
     form = RecursoForm
     return render(request, 'polls/addRecurso.html', {'form': form})
 
+@csrf_exempt
+def add_recurso_rest(request):
+    if request.method == 'POST':
+        proyecto = get_object_or_404(Proyecto, id_proyecto=request.POST['id_proyecto'])
+        new_recurso = Recurso(titulo=request.POST['titulo'],
+                                  tipo=request.POST['tipo'],
+                                  descripcion=request.POST['descripcion'],
+                                  ubicacion=request.POST['ubicacion'],
+                                  id_proyecto=proyecto,
+                                  fecha_creacion=datetime.now()
+
+                            )
+
+        new_recurso.save()
+        print(serializers.serialize("json", [new_recurso]));
+        return HttpResponse(serializers.serialize("json", [new_recurso]))
+    else:
+        return HttpResponse(serializers.serialize("json", []))
+
+
 def agregar_artefacto(request):
     return render(request, "polls/addArtefacto.html")
 
@@ -99,6 +126,7 @@ def add_artefacto(request):
                                   )
 
         new_artefacto.save()
+        print(serializers.serialize("json", [new_artefacto]));
         return HttpResponse(serializers.serialize("json", [new_artefacto]))
     else:
         return HttpResponse(serializers.serialize("json", []))
