@@ -12,9 +12,10 @@ from django.core.mail import send_mail
 import json
 from datetime import datetime
 from django.core import serializers as jsonserializerp
+from django.shortcuts import get_object_or_404
 
 from .forms import RecursoForm, ArtefactoForm
-from .models import Artefacto
+from .models import Artefacto, Recurso, Proyecto
 
 # Create your views here.
 
@@ -26,6 +27,25 @@ def index(request):
 def addRecurso(request):
     form = RecursoForm
     return render(request, 'polls/addRecurso.html', {'form': form})
+
+@csrf_exempt
+def add_recurso_rest(request):
+    if request.method == 'POST':
+        proyecto = get_object_or_404(Proyecto, id_proyecto=request.POST['id_proyecto'])
+        new_recurso = Recurso(titulo=request.POST['titulo'],
+                                  tipo=request.POST['tipo'],
+                                  descripcion=request.POST['descripcion'],
+                                  ubicacion=request.POST['ubicacion'],
+                                  id_proyecto=proyecto,
+                                  fecha_creacion=datetime.now()
+
+                            )
+
+        new_recurso.save()
+        print(serializers.serialize("json", [new_recurso]));
+        return HttpResponse(serializers.serialize("json", [new_recurso]))
+    else:
+        return HttpResponse(serializers.serialize("json", []))
 
 
 def agregar_artefacto(request):
@@ -52,6 +72,7 @@ def add_artefacto(request):
                                   )
 
         new_artefacto.save()
+        print(serializers.serialize("json", [new_artefacto]));
         return HttpResponse(serializers.serialize("json", [new_artefacto]))
     else:
         return HttpResponse(serializers.serialize("json", []))

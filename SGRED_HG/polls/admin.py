@@ -5,6 +5,7 @@ from .models import Dueno
 from .models import Artefacto
 from .models import Usuario
 from .models import Proyecto
+from .models import Recurso
 from django.contrib import admin
 
 
@@ -15,4 +16,5 @@ admin.site.register(Area_usuaria)
 admin.site.register(Dueno)
 admin.site.register(Usuario)
 admin.site.register(Proyecto)
+admin.site.register(Recurso)
 
