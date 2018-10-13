@@ -136,7 +136,7 @@ class Artefacto(models.Model):
     cargado_por = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
     fecha_hora_edicion = models.DateTimeField(null=True)
     reusable = models.BooleanField(default=False)
-    #id_recurso = models.ForeignKey(Recurso, on_delete=models.PROTECT, null=True)
+    id_recurso = models.ForeignKey(Recurso, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
         return self.nombre_mostrar
