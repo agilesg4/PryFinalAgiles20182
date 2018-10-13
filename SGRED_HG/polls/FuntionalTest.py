@@ -38,4 +38,10 @@ class FunctionalTest(TestCase):
         botonGrabar = self.browser.find_element_by_id('id_grabar')
         botonGrabar.click()
 
-
+    # Caso en el que un proyecto no tiene recursos
+    def test_ver_recursos_proyecto(self):
+        self.browser.get('http://127.0.0.1:8000/polls/proyectos/1')
+        titulo = self.browser.find_element_by_css_selector("h4")
+        boton = self.browser.find_element_by_class_name("agregar_recurso")
+        self.assertIn("Recursos", titulo.text)
+        self.assertIn("Agregar Nuevo Recurso", boton.text)
