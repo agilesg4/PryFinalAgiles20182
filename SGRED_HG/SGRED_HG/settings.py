@@ -25,7 +25,7 @@ SECRET_KEY = 'brzz*h3-a5uj)0e*)z8ud7a!y!$j=qls9m+*@xf2t^i27c(d#p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'sgrede4.herokuapp.com']
 
 
 # Application definition
@@ -145,3 +145,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+import dj_database_url
+DATABASES['default'] = dj_database_url.config()
