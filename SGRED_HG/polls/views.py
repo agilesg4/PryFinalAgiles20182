@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 import datetime
 
 from django.shortcuts import render, redirect, render_to_response
-from django.template.loader import render_to_string
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
