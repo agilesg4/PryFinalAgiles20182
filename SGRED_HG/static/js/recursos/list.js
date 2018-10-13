@@ -8,7 +8,8 @@ var selectedRecursos = {};
 // Api data
 function fetchRecursosPorTipo() {
     let urlParts = window.location.href.split("/");
-    let id = urlParts[5];
+    // TODO Cambiar si local
+    let id = urlParts[4];
     $.getJSON('/polls/api/proyectos/' + id + '/recursosPorTipo').done(function (data) {
         $.each(data, function (tipoName, recursos) {
             addTipoContainer(tipoName, recursos);
