@@ -7,7 +7,9 @@ var selectedRecursos = {};
 
 // Api data
 function fetchRecursosPorTipo() {
-    $.getJSON('/polls/api/proyectos/1/recursosPorTipo').done(function (data) {
+    let urlParts = window.location.href.split("/");
+    let id = urlParts[5];
+    $.getJSON('/polls/api/proyectos/' + id + '/recursosPorTipo').done(function (data) {
         $.each(data, function (tipoName, recursos) {
             addTipoContainer(tipoName, recursos);
         });
