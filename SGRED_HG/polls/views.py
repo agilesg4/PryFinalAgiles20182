@@ -28,9 +28,9 @@ from .models import Artefacto, Recurso, Proyecto
 
 # Recursos
 @csrf_exempt
-def apiRecursoListByTipo(request):
+def apiProyectoRecursosPorTipo(request, proyecto_id):
     tipos = dict()
-    for obj in Recurso.objects.all():
+    for obj in Recurso.objects.filter(id_proyecto=proyecto_id):
         tipos.setdefault(obj.tipo, []).append(RecursoSerializer(obj).data)
     return HttpResponse(json.dumps(tipos), content_type='application/json')
 
@@ -50,11 +50,11 @@ def responsable(request):
     lista_responsable = User.objects.all()
     return HttpResponse(serializers.serialize("json", lista_responsable))
 
-
-
 def agregar_Proyecto(request):
     return render(request, "polls/addProyecto.html")
 
+def detalle_proyecto(request, proyecto_id):
+    return render(request, "polls/detalleProyecto.html")
 
 @csrf_exempt
 def add_proyecto(request):

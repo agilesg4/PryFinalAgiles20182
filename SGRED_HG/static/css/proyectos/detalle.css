@@ -1,0 +1,19 @@
+.detalle_proyecto {
+    padding: 20px 0;
+}
+
+.agregar_recurso {
+    border: 2px solid #343a40;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.agregar_recurso:hover {
+    background-color: lightgrey;
+}
+
+#tiposList {
+    margin-top: 20px;
+}
