@@ -46,6 +46,10 @@ def dueno(request):
     lista_dueno = Dueno.objects.all()
     return HttpResponse(serializers.serialize("json", lista_dueno))
 
+def recurso(request):
+    lista_recurso = Recurso.objects.all()
+    return HttpResponse(serializers.serialize("json", lista_recurso))
+
 def responsable(request):
     lista_responsable = User.objects.all()
     return HttpResponse(serializers.serialize("json", lista_responsable))
@@ -121,6 +125,7 @@ def add_artefacto(request):
                                   archivo=request.FILES['archivo'],
                                   reusable=bool_reusable,
                                   fecha_hora_carga=datetime.now(),
+                                  id_recurso = Recurso.objects.get(titulo=request.POST['recurso'])
                                   # cargado_por=User.objects.get(username=request.user),
                                   )
 

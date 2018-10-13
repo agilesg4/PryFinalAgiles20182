@@ -69,4 +69,17 @@
         e.preventDefault();
     });
 </script>
+
+  <script>
+		(function(){
+			$.getJSON("/polls/recursos").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#recurso").prepend('<option value="'+item.fields.titulo+'">'+
+						item.fields.titulo.toUpperCase() + '</option>');
+
+				});
+			});
+
+		})();
+  </script>
 </body>

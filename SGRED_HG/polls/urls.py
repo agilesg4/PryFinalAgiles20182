@@ -13,4 +13,6 @@ urlpatterns = [
     url(r'^addArtefacto/$', views.add_artefacto, name='addArtefacto'),
     url(r'^agregarArtefacto/$', views.agregar_artefacto, name='agregarArtefacto'),
     url(r'^agregar_Proyecto/$', views.agregar_Proyecto, name='agregar_Proyecto'),
+
+    url(r'^recursos/$', views.recurso, name='dueno'),
 ]
