@@ -2,9 +2,14 @@ $(document).ready(function() {
     fetchRecursosPorTipo();
 });
 
+// Data attributes
+var selectedRecursos = {};
+
 // Api data
 function fetchRecursosPorTipo() {
-    $.getJSON('/polls/api/recurso/listByTipo').done(function (data) {
+    let urlParts = window.location.href.split("/");
+    let id = urlParts[5];
+    $.getJSON('/polls/api/proyectos/' + id + '/recursosPorTipo').done(function (data) {
         $.each(data, function (tipoName, recursos) {
             addTipoContainer(tipoName, recursos);
         });
@@ -14,6 +19,14 @@ function fetchRecursosPorTipo() {
 // Listeners
 function onClickRecurso(e) {
     e.preventDefault();
+    let recurso = e.data.data;
+    if(!selectedRecursos[recurso.id_recurso]) {
+        selectedRecursos[recurso.id_recurso] = recurso;
+        setRecursoState(true, recurso)
+    } else {
+        delete selectedRecursos[recurso.id_recurso];
+        setRecursoState(false, recurso)
+    }
 }
 
 // Manejo del UI
@@ -43,8 +56,9 @@ function addTipoContainer(tipoName,recursos) {
 }
 
 function addRecursoToTipo(tipoContainer, recurso) {
-    let tipoCellContainer = $("<div class='tipoCellContainer col-md-3'></div>")
-        .click({data: recurso}, onClickRecurso);
+    let buttonId = "recurso" + recurso.id_recurso;
+    let tipoCellContainer = $("<div class='tipoCellContainer col-md-3' id=" + buttonId + "></div>")
+        .click({data: recurso, element: this}, onClickRecurso);
     let image = $("<img/>")
         .attr("src", "https://assets.dryicons.com/uploads/icon/svg/5915/80072f4d-46ea-4c63-bd9a-f0c946c25c60.svg")
         .attr("alt", "photoshop file icon")
@@ -62,4 +76,16 @@ function addRecursoToTipo(tipoContainer, recurso) {
 
     // Mostrarlo en tipoContainer
     tipoContainer.append(tipoCellContainer);
+}
+
+function setRecursoState(isSelected, recurso) {
+    let elementId = "recurso" + recurso.id_recurso;
+    let element = $("#" + elementId);
+    console.log(element);
+    if(isSelected) {
+        element.css({"opacity": 0.8});
+    }
+     else {
+        element.css({"opacity": 1.0});
+    }
 }
