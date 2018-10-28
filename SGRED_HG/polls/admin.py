@@ -6,6 +6,7 @@ from .models import Artefacto
 from .models import Usuario
 from .models import Proyecto
 from .models import Recurso
+from .models import Tipo_artefacto
 from django.contrib import admin
 
 
@@ -17,3 +18,4 @@ admin.site.register(Dueno)
 admin.site.register(Usuario)
 admin.site.register(Proyecto)
 admin.site.register(Recurso)
+admin.site.register(Tipo_artefacto)

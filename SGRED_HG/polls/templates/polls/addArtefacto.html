@@ -40,7 +40,10 @@
     <form id="formArtefacto" action="../../polls/addArtefacto/" enctype="multipart/form-data" method="post">
         <input id="nombre_mostrar" name="nombre_mostrar" type="text" placeholder="Title" class="form-control input-md" required=""><br>
         <input id="descripcion" name="descripcion" type="text" placeholder="Descripcion" class="form-control input-md" required=""><br>
-         <select class="form-control input-md" id="recurso" name="recurso">
+        <select class="form-control input-md" id="tipo_artefacto" name="tipo_artefacto">
+                <option selected>Seleccionar Tipo de Artefacto</option>
+        </select><br>
+        <select class="form-control input-md" id="recurso" name="recurso">
                 <option selected>Seleccionar Recurso</option>
         </select><br>
         <input id="archivo" name="archivo" type="file" required><br>
@@ -62,7 +65,7 @@
             contentType: false,
             processData: false,
             success: function () {
-                window.location = "/polls/agregarArtefacto/";
+                window.location = "/polls/";
             },
 
         });
@@ -72,10 +75,22 @@
 
   <script>
 		(function(){
-			$.getJSON("/polls/recursos").done(function (data) {
+			$.getJSON("/polls/lista_recursos").done(function (data) {
 				$.each(data, function (i, item) {
 					$("#recurso").prepend('<option value="'+item.fields.titulo+'">'+
 						item.fields.titulo.toUpperCase() + '</option>');
+
+				});
+			});
+
+		})();
+  </script>
+    <script>
+		(function(){
+			$.getJSON("/polls/tipo_artefacto").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#tipo_artefacto").prepend('<option value="'+item.fields.nombre+'">'+
+						item.fields.nombre.toUpperCase() + '</option>');
 
 				});
 			});

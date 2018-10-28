@@ -11,7 +11,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
-from .models import Recurso, Artefacto, Proyecto
+from .models import Recurso, Artefacto, Proyecto, Tipo_artefacto
 from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto
 from .serializers import RecursoSerializer
 from .forms import RecursoForm, ArtefactoForm, ProyectoForm
@@ -49,6 +49,10 @@ def dueno(request):
 def recurso(request):
     lista_recurso = Recurso.objects.all()
     return HttpResponse(serializers.serialize("json", lista_recurso))
+
+def tipo_artefacto(request):
+    lista_tipo_artefacto = Tipo_artefacto.objects.all()
+    return HttpResponse(serializers.serialize("json", lista_tipo_artefacto))
 
 def responsable(request):
     lista_responsable = User.objects.all()
@@ -119,18 +123,20 @@ def add_artefacto(request):
                 bool_reusable = False
         else:
             bool_reusable = False
-
         new_artefacto = Artefacto(nombre_mostrar=request.POST['nombre_mostrar'],
                                   descripcion=request.POST['descripcion'],
+                                  tipo_artefacto=Tipo_artefacto.objects.get(nombre=request.POST.get('tipo_artefacto')),
                                   archivo=request.FILES['archivo'],
                                   reusable=bool_reusable,
                                   fecha_hora_carga=datetime.now(),
-                                  id_recurso = Recurso.objects.get(titulo=request.POST['recurso'])
-                                  # cargado_por=User.objects.get(username=request.user),
+                                  fecha_hora_edicion=datetime.now(),
+                                  id_recurso=Recurso.objects.get(titulo=request.POST.get('recurso')),
+                                  cargado_por=User.objects.get(username=request.user),
+                                  editado_por=User.objects.get(username=request.user),
                                   )
 
         new_artefacto.save()
-        print(serializers.serialize("json", [new_artefacto]));
+        print(serializers.serialize("json", [new_artefacto]))
         return HttpResponse(serializers.serialize("json", [new_artefacto]))
     else:
         return HttpResponse(serializers.serialize("json", []))
