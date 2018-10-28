@@ -116,6 +116,7 @@ class Proyecto(models.Model):
 class Tipo(models.Model):
     id_tipo = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=150, blank=False)
+    icono = models.CharField(max_length=1000, blank=False)
 
     def __unicode__(self):
         return self.nombre

@@ -37,8 +37,8 @@ function addRecursoToTipo(tipoContainer, recurso) {
     let tipoCellContainer = $("<div class='tipoCellContainer col-md-3' id=" + buttonId + "></div>")
         .click({data: recurso, element: this}, onClickRecurso);
     let image = $("<img/>")
-        .attr("src", "https://assets.dryicons.com/uploads/icon/svg/5915/80072f4d-46ea-4c63-bd9a-f0c946c25c60.svg")
-        .attr("alt", "photoshop file icon")
+        .attr("src", recurso.tipo.icono)
+        .attr("alt", "file type icon")
         .attr("class", "tipoImage");
 
     let row = $("<div class='row'></div>");
