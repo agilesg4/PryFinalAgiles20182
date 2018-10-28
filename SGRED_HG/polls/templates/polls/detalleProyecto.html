@@ -12,7 +12,9 @@
     <!-- Static files -->
     <link href="{% static 'css/proyectos/detalle.css' %}" rel="stylesheet" />
     <link href="{% static 'css/recursos/list.css' %}" rel="stylesheet" />
-    <script type="text/javascript" src="{% static 'js/recursos/listProjectRecurso.js' %}"></script>
+    <link href="{% static 'css/recursos/detailRecursoModal.css' %}" rel="stylesheet" />
+    <script type="text/javascript" src="{% static 'js/recursos/detailRecursoModal.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/proyectos/listProjectRecurso.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/helpers.js' %}"></script>
 </head>
 <body>
@@ -45,6 +47,7 @@
             <button class="agregar_recurso ml-auto" onClick="goToUrl('polls/recurso')">Agregar Nuevo Recurso</button>
         </div>
     </div>
+    <div id="recurso_modal"></div>
 </div>
 
 </body>

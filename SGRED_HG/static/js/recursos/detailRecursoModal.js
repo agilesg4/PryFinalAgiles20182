@@ -4,9 +4,10 @@ $(document).ready(function() {
 
 // Tipos a los que puede pertenecer un recurso
 var availableTipos = [];
+var recurso_id = null;
 
 function buildModal() {
-    let modal = $("<div class='modal fade' id='exampleModal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'></div>");
+    let modal = $("<div class='modal fade' id='recurso_build_modal' tabindex='-1' role='dialog' aria-labelledby='recurso_modal_label' aria-hidden='true'></div>");
     let modal_dialog = $("<div class='modal-dialog' role='document'></div>");
     let modal_content = $("<div class='modal-content'></div>")
     let modal_header = $("<div class='modal-header'></div>");
@@ -20,7 +21,7 @@ function buildModal() {
     modal_body.append(data_form);
 
     modal_footer.append("<input type='submit' form='recurso_form' class='btn btn-secondary' value='Guardar Cambios'>")
-        .append("<button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancelar</button>");
+        .append("<button type='button' class='btn btn-secondary' data-dismiss='modal' onclick='clearModalInfo();'>Cancelar</button>");
 
     // Build modal
     modal_content.append(modal_header)
@@ -43,22 +44,22 @@ function buildModalForm() {
 
     // Add content to form
     titulo_field.append("<label for='recurso_titulo' class='col-form-label col-md-3'>Titulo:</label>")
-        .append("<input type='text' class='form-control col-md-9' id='recurso_titulo' autocomplete='nope'>");
+        .append("<input type='text' class='form-control col-md-9' id='recurso_titulo' autocomplete='nope' disabled>");
 
 
-    let tipo_select = $("<select class='select form-control col-md-9' id='recurso_tipo_select'></select>")
+    let tipo_select = $("<select class='select form-control col-md-9' id='recurso_tipo_select' disabled></select>")
         .append("<option value='' disabled selected>---------</option>");
 
     for(var i = 0; i < availableTipos.length; i++) {
         let option = availableTipos[i];
-        tipo_select.append("<option value='" + option + "'>" + option + "</option>");
+        tipo_select.append("<option value='" + option.id_tipo + "'>" + option.nombre + "</option>");
     }
 
     tipo_field.append("<label for='recipient-name' class='col-form-label col-md-3'>Tipo:</label>")
         .append(tipo_select);
 
     descripcion_field.append("<label for='recurso_descripcion' class='col-form-label col-md-3'>Descripción:</label>")
-        .append("<textarea class='form-control col-md-9' id='recurso_descripcion' autocomplete='nope'></textarea>");
+        .append("<textarea class='form-control col-md-9' id='recurso_descripcion' autocomplete='nope' disabled></textarea>");
 
     let file_dialog_button = $("<button class='load_file_button btn-secondary' id='file_dialog_button'>Cargar</button>")
         .css("visibility","hidden")
@@ -68,7 +69,7 @@ function buildModalForm() {
         });
 
     let path_field = $("<div class='col-md-9 row input_container_row'></div>")
-        .append("<input type='text' class='form-control col-md-12' id='load_file_name_input' oninput='handleFilePathChange(this);' autocomplete='nope'>")
+        .append("<input type='text' class='form-control col-md-12' id='load_file_name_input' oninput='handleFilePathChange(this);' autocomplete='nope' disabled>")
         .append("<input type='file' id='form_file' class='load_file_button btn-secondary' onchange='handleFileSelected(this);'>")
         .append(file_dialog_button);
 
@@ -87,21 +88,63 @@ function buildModalForm() {
 }
 
 function setModalInfo(recurso) {
-    $("#recurso_titulo").val(recurso.name);
+    clearModalInfo();
+    recurso_id = recurso.id_recurso;
+    $("#recurso_titulo").val(recurso.titulo);
     $("#recurso_descripcion").val(recurso.descripcion);
-    if($("#recurso_tipo_select option[value='" + recurso.tipo + "']").length !== 0) {
-        $("#recurso_tipo_select").val(recurso.tipo);
+    if($("#recurso_tipo_select option[value='" + recurso.tipo.id_tipo + "']").length !== 0) {
+        $("#recurso_tipo_select").val(recurso.tipo.id_tipo);
     }
     if(recurso.ubicacion) {
         $("#load_file_name_input").val(recurso.ubicacion);
+        $("#load_file_name_input").prop("disabled", true);
+        $("#file_dialog_button").css("visibility","hidden");
     } else {
+        $("#load_file_name_input").prop("disabled", false);
         $("#file_dialog_button").css("visibility","visible");
     }
 }
 
+function clearModalInfo() {
+    recurso_id = null;
+    $("#recurso_titulo").val("");
+    $("#recurso_descripcion").val("");
+    $("#recurso_tipo_select").val("");
+    $("#load_file_name_input").val("");
+    removeErrorToForm();
+}
+
 // Submit helpers
 function handleSubmit() {
-    console.log("Handle Submit");
+    let titulo = $("#recurso_titulo").val().trim();
+    let descripcion = $("#recurso_descripcion").val().trim();
+    let tipo = $("#recurso_tipo_select").val();
+    let ubicacion = $("#load_file_name_input").val().trim();
+    if(titulo === "" || descripcion === "" || tipo === "" || tipo === null || ubicacion === "") {
+        addErrorToForm("Por favor complete todos los campos");
+    } else {
+        removeErrorToForm();
+        let recursoData = {
+            titulo: titulo,
+            descripcion: descripcion,
+            tipo: parseInt(tipo),
+            ubicacion: ubicacion
+        };
+        updateRecurso(recursoData);
+    }
+}
+
+function updateRecurso(data) {
+    $.ajax({
+        type: 'PUT',
+        url: '/polls/api/recursos/' + recurso_id + '/update',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+    }).done(function() {
+        window.location.reload(true);
+    }).fail(function() {
+        addErrorToForm("Oops, hubo un error actualizando el recurso.");
+    });
 }
 
 function handleFilePathChange(input) {
@@ -139,15 +182,10 @@ function removeErrorToForm() {
 
 // HTTP
 function getTipos() {
-    // TODO Options should come from server
-    availableTipos = ["Opcion 1", "Opcion 2", "Opcion 3"];
-    let modal = buildModal();
-    $("#recurso_modal").append(modal);
-    let recurso = {
-        name: "nombre",
-        descripcion: "mi descripcion",
-        ubicacion: "ubicacion.png",
-        tipo: "Opcion 2"
-    }
-    setModalInfo(recurso);
+    $.getJSON('/polls/api/recursos/tipos').done(function (data) {
+        availableTipos = data;
+        let modal = buildModal();
+        $("#recurso_modal").append(modal);
+    });
+
 }

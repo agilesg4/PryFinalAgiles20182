@@ -2,9 +2,6 @@ $(document).ready(function() {
     fetchRecursosPorTipo();
 });
 
-// Data attributes
-var selectedRecursos = {};
-
 // Api data
 function fetchRecursosPorTipo() {
     let urlParts = window.location.href.split("/");
@@ -21,13 +18,8 @@ function fetchRecursosPorTipo() {
 function onClickRecurso(e) {
     e.preventDefault();
     let recurso = e.data.data;
-    if(!selectedRecursos[recurso.id_recurso]) {
-        selectedRecursos[recurso.id_recurso] = recurso;
-        setRecursoState(true, recurso)
-    } else {
-        delete selectedRecursos[recurso.id_recurso];
-        setRecursoState(false, recurso)
-    }
+    setModalInfo(recurso);
+    $('#recurso_build_modal').modal('toggle');
 }
 
 // Manejo del UI
@@ -77,16 +69,4 @@ function addRecursoToTipo(tipoContainer, recurso) {
 
     // Mostrarlo en tipoContainer
     tipoContainer.append(tipoCellContainer);
-}
-
-function setRecursoState(isSelected, recurso) {
-    let elementId = "recurso" + recurso.id_recurso;
-    let element = $("#" + elementId);
-    console.log(element);
-    if(isSelected) {
-        element.css({"opacity": 0.8});
-    }
-     else {
-        element.css({"opacity": 1.0});
-    }
 }
