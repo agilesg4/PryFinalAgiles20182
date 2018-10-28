@@ -11,13 +11,13 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
-from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto, Plan
+from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto, Plan, TipoAct, Actividad, Fase
 from .serializers import RecursoSerializer
 import json
 from datetime import datetime
 from django.core import serializers as jsonserializerp
 from django.shortcuts import get_object_or_404
-from .forms import RecursoForm, ArtefactoForm, PlanForm, ProyectoForm
+from .forms import RecursoForm, ArtefactoForm, PlanForm, ProyectoForm, ActividadForm
 
 #############################
 # API
@@ -45,6 +45,20 @@ def dueno(request):
     lista_dueno = Dueno.objects.all()
     return HttpResponse(serializers.serialize("json", lista_dueno))
 
+def tipoact(request):
+    lista_tipoact = TipoAct.objects.all()
+    return HttpResponse(serializers.serialize("json", lista_tipoact))
+
+
+def id_fase(request):
+    lista_id_fase = Fase.objects.all()
+    return HttpResponse(serializers.serialize("json", lista_id_fase))
+
+def id_plan(request):
+    lista_id_plan = Plan.objects.all()
+    return HttpResponse(serializers.serialize("json", lista_id_plan))
+
+
 
 def recurso(request):
     lista_recurso = Recurso.objects.all()
@@ -68,6 +82,10 @@ def agregar_Plan(request):
     return render(request, "polls/addPlan.html")
 
 
+def agregar_Actividad(request):
+    return render(request, "polls/addActividad.html")
+
+
 @csrf_exempt
 def add_proyecto(request):
     if request.method == 'POST':
@@ -75,7 +93,7 @@ def add_proyecto(request):
                                 descripcion=request.POST['descripcion'],
                                 fecha_inicio=request.POST['fecha_inicio'],
                                 fecha_fin=request.POST['fecha_fin'],
-                                id_dueno_prod=Dueno.objects.get(nombre= request.POST['dueno']),
+                                id_dueno_prod=Dueno.objects.get(nombre=request.POST['dueno']),
                                 id_responsable=User.objects.get(username=request.POST['responsable']),
                                )
         new_proyecto.save()
@@ -91,6 +109,34 @@ def add_plan(request):
                         descripcion=request.POST['descripcion'],
                         )
         new_plan.save()
+        return HttpResponse(serializers.serialize("json", []))
+    else:
+        return HttpResponse(serializers.serialize("json", []))
+
+
+@csrf_exempt
+def add_actividad(request):
+    if request.method == 'POST':
+        if 'finalizado' in request.POST:
+            if request.POST.get('finalizado') == 'on':
+                bool_finalizado = True
+            else:
+                bool_finalizado = False
+        else:
+            bool_finalizado = False
+
+
+        new_actividad = Actividad(nombre=request.POST['nombre'],
+                                  descripcion=request.POST['descripcion'],
+                                  tipoact=TipoAct.objects.get(nombre=request.POST['tipoact']),
+                                  id_fase=Fase.objects.get(nombre=request.POST['id_fase']),
+                                  fecha_inicio=request.POST['fecha_inicio'],
+                                  fecha_fin=request.POST['fecha_fin'],
+                                  finalizado=bool_finalizado,
+                                  periodicidad=request.POST['periodicidad'],
+                                  id_plan=Plan.objects.get(nombre=request.POST['id_plan']),
+                                  )
+        new_actividad.save()
         return HttpResponse(serializers.serialize("json", []))
     else:
         return HttpResponse(serializers.serialize("json", []))

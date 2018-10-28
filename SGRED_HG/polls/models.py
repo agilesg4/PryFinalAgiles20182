@@ -152,6 +152,13 @@ class Plan(models.Model):
         return self.nombre
 
 
+class PlanSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Plan
+        fields = 'nombre'
+
+
 class Fase(models.Model):
     id_fase = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=150, blank=True)
@@ -160,12 +167,29 @@ class Fase(models.Model):
         return self.nombre
 
 
+class FaseSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Fase
+        fields = 'nombre'
+
+
+
 class TipoAct(models.Model):
     id_tipoact = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=150, blank=True)
 
     def __unicode__(self):
         return self.nombre
+
+
+class TipoActSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TipoAct
+        fields = 'nombre'
+
+
 
 
 class Actividad(models.Model):
@@ -178,6 +202,7 @@ class Actividad(models.Model):
     fecha_fin = models.DateField()
     finalizado = models.BooleanField(default=False)
     periodicidad = models.CharField(max_length=150, blank=True)
+    id_plan = models.ForeignKey(Plan, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
         return self.nombre
