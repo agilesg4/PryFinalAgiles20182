@@ -1,3 +1,4 @@
+import csv
 import os
 from unittest import TestCase
 from selenium import webdriver
@@ -6,7 +7,7 @@ import sys
 
 class FunctionalTest(TestCase):
     def setUp(self):
-        self.browser = webdriver.Chrome('C:/chromedriver.exe')
+        self.browser = webdriver.Chrome('D:/chromedriver.exe')
 
 
     def tearDown(self):
@@ -34,6 +35,7 @@ class FunctionalTest(TestCase):
         ubicacion = self.browser.find_element_by_id('id_ubicacion')
         ubicacion.send_keys('https://github.com/jc-mojicap/PryFinalAgiles20182')
         self.browser.implicitly_wait(3)
+        # Debe existir un proyecto Web
         self.browser.find_element_by_xpath("//select[@id='id_id_proyecto']/option[text()='Web']").click()
         botonGrabar = self.browser.find_element_by_id('id_grabar')
         botonGrabar.click()
@@ -69,6 +71,9 @@ class FunctionalTest(TestCase):
         titulo.send_keys('prueba artefacto 1')
         descripcion = self.browser.find_element_by_id('descripcion')
         descripcion.send_keys('descripcion')
+        tipo_artefacto = self.browser.find_element_by_id('tipo_artefacto')
+        # HTML debe existir previamente en la base de datos.
+        tipo_artefacto.send_keys('HTML')
         recurso = self.browser.find_element_by_id('recurso')
         recurso.send_keys('Graficos de barras  1')
         archivo = self.browser.find_element_by_id('archivo')
