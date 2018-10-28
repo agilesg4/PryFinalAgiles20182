@@ -1,7 +1,9 @@
 $(document).ready(function() {
-    let modal = buildModal();
-    $("#recurso_modal").append(modal);
+    getTipos();
 });
+
+// Tipos a los que puede pertenecer un recurso
+var availableTipos = [];
 
 function buildModal() {
     let modal = $("<div class='modal fade' id='exampleModal' tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true'></div>");
@@ -32,9 +34,6 @@ function buildModal() {
 }
 
 function buildModalForm() {
-    // TODO Options should come from server
-    let options = ["Opcion 1", "Opcion 2", "Opcion 3"];
-
     let form = $("<form onsubmit='handleSubmit();return false;' id='recurso_form'></form>");
     let error_field = $("<div id='form_error_field'></div>")
     let titulo_field = $("<div class='form-group form-inline'></div>");
@@ -43,36 +42,37 @@ function buildModalForm() {
     let ubicacion_field = $("<div class='form-group form-inline'></div>");
 
     // Add content to form
-    titulo_field.append("<label for='recipient-name' class='col-form-label col-md-3'>Titulo:</label>")
-        .append("<input type='text' class='form-control col-md-9' id='recipient-name' autocomplete='nope'>");
+    titulo_field.append("<label for='recurso_titulo' class='col-form-label col-md-3'>Titulo:</label>")
+        .append("<input type='text' class='form-control col-md-9' id='recurso_titulo' autocomplete='nope'>");
 
 
-    let tipo_select = $("<select class='select form-control col-md-9'></select>")
+    let tipo_select = $("<select class='select form-control col-md-9' id='recurso_tipo_select'></select>")
         .append("<option value='' disabled selected>---------</option>");
 
-    for(var i = 0; i < options.length; i++) {
-        let option = options[i];
+    for(var i = 0; i < availableTipos.length; i++) {
+        let option = availableTipos[i];
         tipo_select.append("<option value='" + option + "'>" + option + "</option>");
     }
 
     tipo_field.append("<label for='recipient-name' class='col-form-label col-md-3'>Tipo:</label>")
         .append(tipo_select);
 
-    descripcion_field.append("<label for='recipient-name' class='col-form-label col-md-3'>Descripción:</label>")
-        .append("<textarea class='form-control col-md-9' id='recipient-name' autocomplete='nope'></textarea>");
+    descripcion_field.append("<label for='recurso_descripcion' class='col-form-label col-md-3'>Descripción:</label>")
+        .append("<textarea class='form-control col-md-9' id='recurso_descripcion' autocomplete='nope'></textarea>");
 
-    let file_dialog_button = $("<button class='load_file_button btn-secondary'>Cargar</button>")
+    let file_dialog_button = $("<button class='load_file_button btn-secondary' id='file_dialog_button'>Cargar</button>")
+        .css("visibility","hidden")
         .click(function() {
             $("#form_file").click();
             return false;
         });
 
     let path_field = $("<div class='col-md-9 row input_container_row'></div>")
-        .append("<input type='text' class='form-control col-md-12' id='load_file_name_input' autocomplete='nope'>")
+        .append("<input type='text' class='form-control col-md-12' id='load_file_name_input' oninput='handleFilePathChange(this);' autocomplete='nope'>")
         .append("<input type='file' id='form_file' class='load_file_button btn-secondary' onchange='handleFileSelected(this);'>")
         .append(file_dialog_button);
 
-    ubicacion_field.append("<label for='recipient-name' class='col-form-label col-md-3'>Ubicación:</label>")
+    ubicacion_field.append("<label for='load_file_name_input' class='col-form-label col-md-3'>Ubicación:</label>")
         .append(path_field);
 
 
@@ -86,9 +86,30 @@ function buildModalForm() {
     return form;
 }
 
+function setModalInfo(recurso) {
+    $("#recurso_titulo").val(recurso.name);
+    $("#recurso_descripcion").val(recurso.descripcion);
+    if($("#recurso_tipo_select option[value='" + recurso.tipo + "']").length !== 0) {
+        $("#recurso_tipo_select").val(recurso.tipo);
+    }
+    if(recurso.ubicacion) {
+        $("#load_file_name_input").val(recurso.ubicacion);
+    } else {
+        $("#file_dialog_button").css("visibility","visible");
+    }
+}
+
 // Submit helpers
 function handleSubmit() {
     console.log("Handle Submit");
+}
+
+function handleFilePathChange(input) {
+    if(input.value.trim() === "") {
+        $("#file_dialog_button").css("visibility","visible");
+    } else {
+        $("#file_dialog_button").css("visibility","hidden");
+    }
 }
 
 // File helpers
@@ -96,6 +117,7 @@ function handleFileSelected(input) {
     let files = input.files;
     if(files.length <= 0) return;
     $("#load_file_name_input").val(files[0].name);
+    $("#file_dialog_button").css("visibility","hidden");
 }
 
 // Error helpers
@@ -113,4 +135,19 @@ function addErrorToForm(error) {
 
 function removeErrorToForm() {
     $("#form_error_field").html("");
+}
+
+// HTTP
+function getTipos() {
+    // TODO Options should come from server
+    availableTipos = ["Opcion 1", "Opcion 2", "Opcion 3"];
+    let modal = buildModal();
+    $("#recurso_modal").append(modal);
+    let recurso = {
+        name: "nombre",
+        descripcion: "mi descripcion",
+        ubicacion: "ubicacion.png",
+        tipo: "Opcion 2"
+    }
+    setModalInfo(recurso);
 }
