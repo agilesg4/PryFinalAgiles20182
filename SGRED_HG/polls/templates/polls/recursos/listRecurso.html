@@ -9,8 +9,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!-- Static files -->
+    <link href="{% static 'css/proyectos/detalle.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/recursos/list.css' %}" rel="stylesheet" />
     <link href="{% static 'css/recursos/detailRecursoModal.css' %}" rel="stylesheet" />
     <script type="text/javascript" src="{% static 'js/recursos/detailRecursoModal.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/recursos/listRecursoPorTipo.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/recursos/listRecurso.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/helpers.js' %}"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -35,34 +40,13 @@
 </nav>
 <!-- End NavBard -->
 
-<div class="container" id="tiposList">
-    <h1>Recursos</h1>
-    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-        <a class="btn btn-secondary" href="{% url 'listRecurso' %}">Refrescar</a>
-        <a class="btn btn-secondary" href="{% url 'addRecurso' %}">Agregar recurso</a>
+<div class="container detalle_proyecto">
+    <h4>Recursos</h4>
+    <div class="container" id="tiposList">
+        <div class="row">
+            <button class="agregar_recurso ml-auto" onClick="goToUrl('polls/recurso')">Agregar Nuevo Recurso</button>
+        </div>
     </div>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Titulo</th>
-            <th scope="col">Tipo</th>
-            <th scope="col">Ubicación</th>
-            <th scope="col">Fecha de creación</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for recurso in recursos %}
-        <tr>
-            <td>{{ recurso.titulo }}</td>
-            <td>{{ recurso.tipo }}</td>
-            <td>{{ recurso.ubicacion }}</td>
-            <td>{{ recurso.fecha_creacion }}</td>
-            <td><a href="#">Ver detalles</a> <a href="#">Editar</a></td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
     <div id="recurso_modal"></div>
 </div>
 </body>
