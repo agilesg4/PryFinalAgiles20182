@@ -79,7 +79,7 @@ def add_proyecto(request):
 
 def addRecurso(request):
     form = RecursoForm
-    return render(request, 'polls/addRecurso.html', {'form': form})
+    return render(request, 'polls/recursos/addRecurso.html', {'form': form})
 
 @csrf_exempt
 def add_recurso_rest(request):
@@ -107,7 +107,7 @@ def agregar_artefacto(request):
 def listResources(request):
     lista_recursos = Recurso.objects.all().values('id_recurso', 'titulo', 'tipo')
     context = {'recursos': lista_recursos}
-    return render(request, 'polls/listRecurso.html', context)
+    return render(request, 'polls/recursos/listRecurso.html', context)
 
 
 @csrf_exempt

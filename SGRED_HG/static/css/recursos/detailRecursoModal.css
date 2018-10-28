@@ -1,0 +1,35 @@
+.modal_title {
+    text-align: center;
+    width: 100%;
+}
+
+input {
+    height: 38px !important;
+}
+
+textarea {
+    height: 50px;
+    resize: none;
+}
+
+.input_container_row {
+    margin: 0;
+    padding: 0;
+}
+
+.input_container_row > input {
+    padding-right: 80px;
+}
+
+.input_container_row > .load_file_button {
+    border-radius: 4px;
+    height: 29px;
+    margin-top: 5px;
+    position: absolute;
+    right: 5px;
+    width: 66px;
+}
+
+.input_container_row > input.load_file_button {
+    display: none;
+}
