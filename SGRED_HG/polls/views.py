@@ -1,27 +1,17 @@
 from __future__ import unicode_literals
-
 import datetime
-
 from django.shortcuts import render, redirect, render_to_response
-from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.models import User
-from django.core import serializers
-from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
-from .models import Recurso, Artefacto, Proyecto
 from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto
 from .serializers import RecursoSerializer
-from .forms import RecursoForm, ArtefactoForm, ProyectoForm
 import json
 from datetime import datetime
-from django.core import serializers as jsonserializerp
 from django.shortcuts import get_object_or_404
-
 from .forms import RecursoForm, ArtefactoForm
-from .models import Artefacto, Recurso, Proyecto
+from .models import Artefacto, Recurso, Proyecto, Tipo
+
 #############################
 # API
 #############################
@@ -31,7 +21,7 @@ from .models import Artefacto, Recurso, Proyecto
 def apiProyectoRecursosPorTipo(request, proyecto_id):
     tipos = dict()
     for obj in Recurso.objects.filter(id_proyecto=proyecto_id):
-        tipos.setdefault(obj.tipo, []).append(RecursoSerializer(obj).data)
+        tipos.setdefault(obj.tipo.nombre, []).append(RecursoSerializer(obj).data)
     return HttpResponse(json.dumps(tipos), content_type='application/json')
 
 #############################
@@ -85,8 +75,9 @@ def addRecurso(request):
 def add_recurso_rest(request):
     if request.method == 'POST':
         proyecto = get_object_or_404(Proyecto, id_proyecto=request.POST['id_proyecto'])
+        tipo = get_object_or_404(Tipo, id_tipo=request.POST['tipo'])
         new_recurso = Recurso(titulo=request.POST['titulo'],
-                                  tipo=request.POST['tipo'],
+                                  tipo=tipo,
                                   descripcion=request.POST['descripcion'],
                                   ubicacion=request.POST['ubicacion'],
                                   id_proyecto=proyecto,

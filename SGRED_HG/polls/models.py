@@ -111,13 +111,22 @@ class Proyecto(models.Model):
     def __unicode__(self):
         return self.nombre
 
+
+# Tipo del recurso
+class Tipo(models.Model):
+    id_tipo = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=150, blank=False)
+
+    def __unicode__(self):
+        return self.nombre
+
+
 class Recurso(models.Model):
     id_recurso = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=150, blank=False)
-    tipo=models.CharField(max_length=150,blank=False)
+    tipo=models.ForeignKey(Tipo, on_delete=models.PROTECT, null=True)
     descripcion=models.CharField(max_length=1000,blank=False)
     ubicacion = models.CharField(max_length=1000,blank=True)
-    #solicitante =
     fecha_creacion= models.DateField()
     id_usuario=models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True)
     reusable = models.BooleanField(default=False)
@@ -125,7 +134,6 @@ class Recurso(models.Model):
 
     def __unicode__(self):
         return self.titulo
-
 
 class Artefacto(models.Model):
     id_artefacto = models.AutoField(primary_key=True)
