@@ -1,5 +1,5 @@
 from django import forms
-from .models import Recurso, Artefacto, Proyecto
+from .models import Recurso, Artefacto, Proyecto, Plan
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, ButtonHolder, Submit
 
@@ -8,6 +8,12 @@ class ProyectoForm(forms.ModelForm):
     class Meta:
         model = Proyecto
         fields = ('id_proyecto','nombre', 'descripcion', 'fecha_inicio', 'fecha_fin', 'id_dueno_prod','id_responsable')
+
+
+class PlanForm(forms.ModelForm):
+    class Meta:
+        model = Plan
+        fields = ('id_plan','nombre', 'descripcion')
 
 
 class RecursoForm(forms.ModelForm):

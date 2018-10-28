@@ -15,10 +15,10 @@ class Departamento(models.Model):
     nombre = models.CharField(max_length=150, blank=True)
 
 
-class Area_usuaria(models.Model):
+class Area_Usuaria(models.Model):
     id_area = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=150, blank=True)
-    id_departamento = models.ForeignKey(Departamento, on_delete=models.PROTECT,null=True)
+    id_departamento = models.ForeignKey(Departamento, on_delete=models.PROTECT, null=True)
 
 
 class Dueno(models.Model):
@@ -28,7 +28,7 @@ class Dueno(models.Model):
     cargo = models.CharField(max_length=150, blank=True)
     celular = models.CharField(max_length=10, blank=True)
     email = forms.EmailField()
-    id_area = models.ForeignKey(Area_usuaria, on_delete=models.PROTECT,null=True)
+    id_area = models.ForeignKey(Area_Usuaria, on_delete=models.PROTECT, null=True)
 
     def clean_email(self):
         """Comprueba que no exista un email igual en la Base de Datos"""
@@ -40,11 +40,12 @@ class Dueno(models.Model):
     def __unicode__(self):
         return self.nombre
 
+
 class DuenoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Dueno
-        fields = ('nombre')
+        fields = 'nombre'
 
 
 class Usuario(models.Model):
@@ -85,8 +86,8 @@ class UserForm(ModelForm):
 
     def clean_password2(self):
         """Comprueba que password y password2 segan iguales"""
-        password=self.cleaned_data['password']
-        password2=self.cleaned_data['password2']
+        password = self.cleaned_data['password']
+        password2 = self.cleaned_data['password2']
         if password != password2:
             raise forms.ValidationError('Las Claves no coinciden.')
         return password2
@@ -94,9 +95,9 @@ class UserForm(ModelForm):
 
 class UsuarioSerializer(serializers.ModelSerializer):
 
-     class Meta:
-         model = Usuario
-         fields = ('nombre', 'apellido', 'foto', 'pais', 'ciudad', 'email', 'username')
+    class Meta:
+        model = Usuario
+        fields = ('nombre', 'apellido', 'foto', 'pais', 'ciudad', 'email', 'username')
 
 
 class Proyecto(models.Model):
@@ -105,21 +106,21 @@ class Proyecto(models.Model):
     descripcion = models.CharField(max_length=1000, blank=True)
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
-    id_dueno_prod = models.ForeignKey(Dueno, on_delete=models.PROTECT,null=True)
-    id_responsable = models.ForeignKey(User,on_delete=models.PROTECT,null=True)
+    id_dueno_prod = models.ForeignKey(Dueno, on_delete=models.PROTECT, null=True)
+    id_responsable = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
         return self.nombre
 
+
 class Recurso(models.Model):
     id_recurso = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=150, blank=False)
-    tipo=models.CharField(max_length=150,blank=False)
-    descripcion=models.CharField(max_length=1000,blank=False)
-    ubicacion = models.CharField(max_length=1000,blank=True)
-    #solicitante =
-    fecha_creacion= models.DateField()
-    id_usuario=models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True)
+    tipo = models.CharField(max_length=150, blank=False)
+    descripcion = models.CharField(max_length=1000, blank=False)
+    ubicacion = models.CharField(max_length=1000, blank=True)
+    fecha_creacion = models.DateField()
+    id_usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True)
     reusable = models.BooleanField(default=False)
     id_proyecto = models.ForeignKey(Proyecto, on_delete=models.PROTECT, null=True)
 
@@ -140,3 +141,51 @@ class Artefacto(models.Model):
 
     def __unicode__(self):
         return self.nombre_mostrar
+
+
+class Plan(models.Model):
+    id_plan = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=150, blank=True)
+    descripcion = models.CharField(max_length=1000, blank=True)
+
+    def __unicode__(self):
+        return self.nombre
+
+
+class Fase(models.Model):
+    id_fase = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=150, blank=True)
+
+    def __unicode__(self):
+        return self.nombre
+
+
+class TipoAct(models.Model):
+    id_tipoact = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=150, blank=True)
+
+    def __unicode__(self):
+        return self.nombre
+
+
+class Actividad(models.Model):
+    id_actividad = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=150, blank=True)
+    descripcion = models.CharField(max_length=1000, blank=True)
+    tipoact = models.ForeignKey(TipoAct, on_delete=models.PROTECT, null=True)
+    id_fase = models.ForeignKey(Fase, on_delete=models.PROTECT, null=True)
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+    finalizado = models.BooleanField(default=False)
+    periodicidad = models.CharField(max_length=150, blank=True)
+
+    def __unicode__(self):
+        return self.nombre
+
+
+class ResponsableAct(models.Model):
+    id_actividad = models.ForeignKey(Actividad, on_delete=models.PROTECT, null=True)
+    id_responsable = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+
+    def __unicode__(self):
+        return self.id_actividad

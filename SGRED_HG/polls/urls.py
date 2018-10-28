@@ -16,4 +16,9 @@ urlpatterns = [
     url(r'^proyectos/(?P<proyecto_id>[0-9]+)/$', views.detalle_proyecto, name='detalle_proyecto'),
     url(r'^recursos/$', views.recurso, name='dueno'),
     url(r'^addBitacora/$', views.form_bitacora, name='form_bitacora'),
+    url(r'^add_fase/$', views.add_proyecto, name='add_fase'),
+    url(r'^add_plan/$', views.add_plan, name='add_plan'),
+    url(r'^agregar_Plan/$', views.agregar_Plan, name='agregar_Plan'),
+    url(r'^add_actividad/$', views.add_proyecto, name='add_actividad'),
+    url(r'^agregar_Actividad/$', views.agregar_Proyecto, name='agregar_Actividad'),
 ]
