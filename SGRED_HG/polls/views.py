@@ -60,6 +60,7 @@ def agregar_Proyecto(request):
 def detalle_proyecto(request, proyecto_id):
     return render(request, "polls/detalleProyecto.html")
 
+
 @csrf_exempt
 def add_proyecto(request):
     if request.method == 'POST':
@@ -135,6 +136,9 @@ def add_artefacto(request):
     else:
         return HttpResponse(serializers.serialize("json", []))
 
+
+def form_bitacora(request):
+    return render(request, 'polls/addBitacora.html')
 
 def handle_uploaded_file(f):
     with open('some/file/name.txt', 'wb+') as destination:

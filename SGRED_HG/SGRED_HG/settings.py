@@ -58,7 +58,7 @@ ROOT_URLCONF = 'SGRED_HG.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'polls/templates/polls')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,15 +86,8 @@ DATABASES = {
          "HOST": "127.0.0.1",
          "PORT": "5432"
      }
-    #'default': {
-    #    'ENGINE': 'django.db.backends.mysql',
-    #    'NAME': "sgred",
-    #    'USER': "root",
-    #    "PASSWORD": "root",
-    #    "HOST": "127.0.0.1",
-    #    "PORT": "3306"
-    #}
 }
+
 
 
 # Password validation
@@ -138,5 +131,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
-import dj_database_url
-DATABASES['default'] = dj_database_url.config()
+#Comentar estas 2 lineas para desplegar localmente
+#import dj_database_url
+#DATABASES['default'] = dj_database_url.config()
