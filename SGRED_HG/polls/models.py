@@ -140,3 +140,21 @@ class Artefacto(models.Model):
 
     def __unicode__(self):
         return self.nombre_mostrar
+
+class Actividad(models.Model):
+    id_actividad = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=150, blank=True)
+
+    def __unicode__(self):
+        return self.nombre
+
+class Bitacora(models.Model):
+    id_bitacora = models.AutoField(primary_key=True)
+    descripcion = models.CharField(max_length=1000,blank=True)
+    archivo = models.FileField(upload_to='files', null=True)
+    fecha = models.DateTimeField(null=True)
+    id_actividad = models.ForeignKey(Actividad, on_delete=models.PROTECT, null=True)
+
+
+
+
