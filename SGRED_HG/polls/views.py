@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
 from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto
-from .serializers import RecursoSerializer
+from .serializers import RecursoSerializer, TipoSerializer
 import json
 from datetime import datetime
 from django.shortcuts import get_object_or_404
@@ -18,11 +18,43 @@ from .models import Artefacto, Recurso, Proyecto, Tipo
 
 # Recursos
 @csrf_exempt
-def apiProyectoRecursosPorTipo(request, proyecto_id):
+def api_proyecto_recursos_por_tipo(request, proyecto_id):
     tipos = dict()
     for obj in Recurso.objects.filter(id_proyecto=proyecto_id):
         tipos.setdefault(obj.tipo.nombre, []).append(RecursoSerializer(obj).data)
     return HttpResponse(json.dumps(tipos), content_type='application/json')
+
+@csrf_exempt
+def api_recursos_por_tipo(request):
+    tipos = dict()
+    for obj in Recurso.objects.all():
+        tipos.setdefault(obj.tipo.nombre, []).append(RecursoSerializer(obj).data)
+    return HttpResponse(json.dumps(tipos), content_type='application/json')
+
+@csrf_exempt
+def api_update_recurso(request, recurso_id):
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        titulo = data['titulo']
+        tipo = get_object_or_404(Tipo, id_tipo=data['tipo'])
+        descripcion = data['descripcion']
+        ubicacion = data['ubicacion']
+        recurso = Recurso.objects.filter(id_recurso=recurso_id)
+
+        if recurso:
+            recurso.update(titulo=titulo, tipo=tipo, descripcion=descripcion, ubicacion=ubicacion)
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse("Recursos no existe", status=404)
+    else:
+        return HttpResponse(serializers.serialize("json", []))
+
+# Tipos de recursos
+@csrf_exempt
+def api_recursos_tipos(request):
+    lista_tipos = Tipo.objects.all()
+    serializer = TipoSerializer(lista_tipos, many=True)
+    return HttpResponse(json.dumps(serializer.data), content_type='application/json')
 
 #############################
 # Views

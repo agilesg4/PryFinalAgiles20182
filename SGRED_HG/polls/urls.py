@@ -3,7 +3,10 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^api/proyectos/(?P<proyecto_id>[0-9]+)/recursosPorTipo$', views.apiProyectoRecursosPorTipo, name='apiProyectoRecursosPorTipo'),
+    url(r'^api/proyectos/(?P<proyecto_id>[0-9]+)/recursosPorTipo$', views.api_proyecto_recursos_por_tipo, name='api_proyecto_recursos_por_tipo'),
+    url(r'^api/recursosPorTipo$', views.api_recursos_por_tipo, name='api_recursos_por_tipo'),
+    url(r'^api/recursos/tipos$', views.api_recursos_tipos, name='api_recursos_tipos'),
+    url(r'^api/recursos/(?P<recurso_id>[0-9]+)/update$', views.api_update_recurso, name='api_update_recurso'),
     url(r'^recurso/list$', views.listResources, name='listRecurso'),
     url(r'^dueno/$', views.dueno, name='dueno'),
     url(r'^responsable/$', views.responsable, name='responsable'),
