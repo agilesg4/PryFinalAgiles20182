@@ -20,7 +20,10 @@ function buildModal() {
     let data_form = buildModalForm();
     modal_body.append(data_form);
 
-    modal_footer.append("<input type='submit' form='recurso_form' class='btn btn-secondary' value='Guardar Cambios'>")
+    let save_button = $("<input type='submit' id='modal_save_button' form='recurso_form' class='btn btn-secondary' value='Guardar Cambios'>")
+        .css("visibility", "hidden");
+
+    modal_footer.append(save_button)
         .append("<button type='button' class='btn btn-secondary' data-dismiss='modal' onclick='clearModalInfo();'>Cancelar</button>");
 
     // Build modal
@@ -96,11 +99,13 @@ function setModalInfo(recurso) {
         $("#recurso_tipo_select").val(recurso.tipo.id_tipo);
     }
     if(recurso.ubicacion) {
-        $("#load_file_name_input").val(recurso.ubicacion);
-        $("#load_file_name_input").prop("disabled", true);
+        $("#load_file_name_input").val(recurso.ubicacion)
+            .prop("disabled", true);
+        $("#modal_save_button").css("visibility", "hidden");
         $("#file_dialog_button").css("visibility","hidden");
     } else {
         $("#load_file_name_input").prop("disabled", false);
+        $("#modal_save_button").css("visibility", "visible");
         $("#file_dialog_button").css("visibility","visible");
     }
 }
