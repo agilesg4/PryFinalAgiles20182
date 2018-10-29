@@ -29,6 +29,12 @@
                     data.addColumn('number', 'Duration');
                     data.addColumn('number', 'Percent Complete');
                     data.addColumn('string', 'Dependencies');
+
+                if(actividad.toString()==="")
+                {
+                    $("#chart_div").prepend('<div class="alert alert-info">' +
+                             ' No existen creadas actividades' + '</div>');
+                }
                 $.each(actividad, function (i, item) {
                     if(item.fields.nombre==="" || item.fields.nombre===undefined) {
                         $("#chart_div").prepend('<p>' +
