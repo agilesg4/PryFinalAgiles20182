@@ -42,6 +42,9 @@ def apiProyectoRecursosPorTipo(request, proyecto_id):
 def index(request):
     return render(request, "polls/index.html")
 
+@csrf_exempt
+def listar_actividades(request):
+    return render(request, "polls/listActividades.html")
 
 def dueno(request):
     lista_dueno = Dueno.objects.all()
@@ -130,7 +133,6 @@ def add_actividad(request):
         else:
             bool_finalizado = False
 
-
         new_actividad = Actividad(nombre=request.POST['nombre'],
                                   descripcion=request.POST['descripcion'],
                                   tipoact=TipoAct.objects.get(nombre=request.POST['tipoact']),
@@ -178,6 +180,11 @@ def listResources(request):
     lista_recursos = Recurso.objects.all().values('id_recurso', 'titulo', 'tipo')
     context = {'recursos': lista_recursos}
     return render(request, 'polls/listRecurso.html', context)
+
+
+def listActividadesFuturas(request):
+    lista_Actividades_Futuras = Actividad.objects.all()
+    return HttpResponse(serializers.serialize("json", lista_Actividades_Futuras))
 
 
 @csrf_exempt

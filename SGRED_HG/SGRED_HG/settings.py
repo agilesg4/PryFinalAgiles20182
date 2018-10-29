@@ -79,12 +79,12 @@ WSGI_APPLICATION = 'SGRED_HG.wsgi.application'
 
 DATABASES = {
      'default': {
-         'ENGINE': 'django.db.backends.postgresql',
+         'ENGINE': 'django.db.backends.sqlite3',
          'NAME': "SGRED",
-         'USER': "postgres",
-         "PASSWORD": "123",
+         'USER': "root",
+         "PASSWORD": "",
          "HOST": "127.0.0.1",
-         "PORT": "5432"
+         "PORT": "1111"
      }
 }
 
@@ -132,3 +132,9 @@ STATICFILES_DIRS = [
 #Comentar estas 2 lineas para desplegar localmente
 #import dj_database_url
 #DATABASES['default'] = dj_database_url.config()
+
+try:
+    from local_settings import *
+except ImportError, e:
+    print "import error", e
+    pass

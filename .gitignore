@@ -117,3 +117,4 @@ venv.bak/
 *.pyc
 polls/*.pyc
 SGRED_HG/*.pyc
+local_settings.py

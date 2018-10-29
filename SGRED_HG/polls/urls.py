@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'^agregar_Plan/$', views.agregar_Plan, name='agregar_Plan'),
     url(r'^add_actividad/$', views.add_actividad, name='add_actividad'),
     url(r'^agregar_Actividad/$', views.agregar_Actividad, name='agregar_Actividad'),
+    url(r'^lista_actividades/$', views.listActividadesFuturas, name='lista_actividades'),
+    url(r'^listar_actividades/$', views.listar_actividades, name='listar_actividades'),
 ]

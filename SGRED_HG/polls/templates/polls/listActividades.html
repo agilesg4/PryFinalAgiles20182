@@ -1,12 +1,63 @@
-{% load static %}
+
 <head>
+
     <meta charset="UTF-8">
-    <title>Listar Recursos</title>
+    <title>Listar Actividades</title>
     <!-- Bootstrap and Jquery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['gantt']});
+        google.charts.setOnLoadCallback(drawChart);
+
+
+
+        function drawChart() {
+
+            $.getJSON("../lista_actividades").done(function (actividad) {
+                var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Task ID');
+                    data.addColumn('string', 'Task Name');
+                    data.addColumn('string', 'Resource');
+                    data.addColumn('date', 'Start Date');
+                    data.addColumn('date', 'End Date');
+                    data.addColumn('number', 'Duration');
+                    data.addColumn('number', 'Percent Complete');
+                    data.addColumn('string', 'Dependencies');
+                $.each(actividad, function (i, item) {
+                    if(item.fields.nombre==="" || item.fields.nombre===undefined) {
+                        $("#chart_div").prepend('<p>' +
+                             'No hay Actividades' + '</p>');
+                    }
+                    else {
+                        alert(item.fields.nombre);
+                        data.addRow(
+                            [item.fields.nombre, item.fields.nombre, item.fields.descripcion,
+                                new Date(item.fields.fecha_inicio), new Date(item.fields.fecha_fin), null,
+                                item.fields.finalizado==0?0:100, null]
+                        );
+                        var options = {
+                            height: 400,
+                            gantt: {
+                              trackHeight: 30
+                            }
+                        };
+
+                        var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+
+                        chart.draw(data, options);
+                    }
+
+                });
+            });
+
+        }
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -22,42 +73,18 @@
             <a href="{% url 'addRecurso' %}" class="nav-link">Añadir Recurso</a>
         </li>
         <li class="nav-item">
-            <a href="{% url 'agregarArtefacto' %}" class="nav-link">Añadir artefacto</a>
+            <a href="{% url 'agregarArtefacto' %}" class="nav-link active">Añadir artefacto</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" href="{% url 'listRecurso' %}">Listar recursos</a>
+            <a class="nav-link " href="{% url 'listRecurso' %}">Listar recursos</a>
         </li>
     </ul>
 </nav>
 <!-- End NavBard -->
+<div class="container">
+        <h1>Listar Actividades</h1>
+              <div id="chart_div"></div>
 
-<div class="container" id="tiposList">
-    <h1>Recursos</h1>
-    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-        <a class="btn btn-secondary" href="{% url 'listRecurso' %}">Refrescar</a>
-        <a class="btn btn-secondary" href="{% url 'addRecurso' %}">Agregar recurso</a>
-    </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Titulo</th>
-                <th scope="col">Tipo</th>
-                <th scope="col">Ubicación</th>
-                <th scope="col">Fecha de creación</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for recurso in recursos %}
-            <tr>
-                <td>{{ recurso.titulo }}</td>
-                <td>{{ recurso.tipo }}</td>
-                <td>{{ recurso.ubicacion }}</td>
-                <td>{{ recurso.fecha_creacion }}</td>
-                <td><a href="#">Ver detalles</a> <a href="#">Editar</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 </div>
+
 </body>
