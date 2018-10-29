@@ -1,0 +1,174 @@
+<head>
+
+    <meta charset="UTF-8">
+    <title>Agregar Actividad</title>
+    <!-- Bootstrap and Jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+    <script>
+		(function(){
+			$.getJSON("/polls/tipoact").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#tipoact").prepend('<option value="'+item.fields.nombre+'">'+
+						item.fields.nombre.toUpperCase() + '</option>');
+
+				});
+			});
+
+		})();
+	</script>
+
+    <script>
+		(function(){
+			$.getJSON("/polls/id_fase").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#id_fase").prepend('<option value="'+item.fields.nombre+'">'+
+						item.fields.nombre.toUpperCase() + '</option>');
+
+				});
+			});
+
+		})();
+	</script>
+
+
+    <script>
+		(function(){
+			$.getJSON("/polls/id_plan").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#id_plan").prepend('<option value="'+item.fields.nombre+'">'+
+						item.fields.nombre.toUpperCase() + '</option>');
+
+				});
+			});
+
+		})();
+	</script>
+
+
+    <script>
+		function enviarForm() {
+
+			if ($('#tipoact').val() === 'Seleccionar Tipo Actividad') {
+				return false;
+			}
+
+			if ($('#id_fase').val() === 'Seleccionar Fase') {
+				return false;
+			}
+
+			if ($('#id_plan').val() === 'Seleccionar Plan') {
+				return false;
+			}
+
+			// Aca lo cargo
+			$.ajax({
+				type: "POST",
+				url: "/polls/add_actividad/",
+				data: JSON.stringify({
+					nombrep: $('#nombrep').val(),
+                    descripcion: $('#descripcion').val(),
+                    tipoact: $('#tipoact').val(),
+                    id_fase: $('#id_fase').val(),
+                    fecha_inicio: $('#fecha_inicio').val(),
+                    fecha_fin: $('#fecha_fin').val(),
+                    finalizado: $('#finalizado').val(),
+                    periodicidad: $('#periodicidad').val(),
+                    id_plan: $('#id_plan').val(),
+                }),
+                contentType: "application/json; charset=UTF-8",
+				dataType: "json",
+				success: function (data) {
+					// Aca lo agrego nuevamente
+                    window.location = "/polls/index"
+				},
+				failure: function (errMsg) {
+					alert("Hubo un error.")
+
+				}
+			});
+
+			return false;
+		}
+	</script>
+
+
+
+
+
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <!-- Brand/logo -->
+    <a class="navbar-brand" href="{% url 'index' %}">SGRED</a>
+
+    <!-- Links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="{% url 'agregar_Proyecto' %}" class="nav-link active">Añadir Proyecto</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'addRecurso' %}" class="nav-link">Añadir Recurso</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'agregarArtefacto' %}" class="nav-link">Añadir artefacto</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href="{% url 'listRecurso' %}">Listar recursos</a>
+        </li>
+    </ul>
+</nav>
+<!-- End NavBard -->
+<div class="container">
+    <div  class="col-md-6 col-sm-offset-3">
+        <h1>Nueva Actividad</h1>
+        <form id="formActividad" action="../../polls/add_actividad/" enctype="multipart/form-data" method="post" >
+            <input id="nombre" name="nombre" type="text" placeholder="Title" class="form-control input-md" required=""><br>
+            <input id="descripcion" name="descripcion" type="text" placeholder="Descripcion" class="form-control input-md" required=""><br>
+            <select class="form-control input-md" id="tipoact" name="tipoact">
+                <option selected>Seleccionar Tipo Actividad</option>
+            </select><br>
+            <select class="form-control input-md" id="id_fase" name="id_fase">
+                <option selected>Seleccionar Fase</option>
+            </select><br>
+            <input id="fecha_inicio" name="fecha_inicio" type="date" placeholder="Fecha Inicio" class="form-control input-md" required=""><br>
+            <input id="fecha_fin" name="fecha_fin" type="date" placeholder="Fecha Fin" class="form-control input-md" required=""><br>
+            <input id="finalizado" name="finalizado" type="checkbox" placeholder="finalizado" class="form-control input-md">Finalizado<br>
+            <select class="form-control input-md" id="periodicidad" name="periodicidad">
+                <option selected>Seleccionar Periodicidad</option>
+                <option >Diario</option>
+                <option >Semanal</option>
+                <option >Mensual</option>
+            </select><br>
+            <select class="form-control input-md" id="id_plan" name="id_plan">
+                <option selected>Seleccionar Plan</option>
+            </select><br>
+            <input type="submit" value="Añadir" class="btn btn-primary">
+                <a href="/polls/" class="btn btn-primary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('form').submit(function (e) {
+        var formData = new FormData($("#formActividad")[0]);
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function () {
+                window.location = "/polls/";
+            },
+
+        });
+        e.preventDefault();
+    });
+</script>
+</body>
