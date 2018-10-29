@@ -84,3 +84,16 @@ class FunctionalTest(TestCase):
         self.browser.implicitly_wait(5)
         botonGrabar = self.browser.find_element_by_id('grabar')
         botonGrabar.click()
+
+    def test_listar_actividades(self):
+        self.browser.get('http://127.0.0.1:8000')
+        link = self.browser.find_element_by_id('listar_actividades')
+        link.click()
+        self.browser.implicitly_wait(3)
+        texto = self.browser.find_element_by_xpath("//*[contains(text(), 'Actividad 1')]")
+        self.assertIn("Actividad 1", texto.text)
+
+
+
+
+
