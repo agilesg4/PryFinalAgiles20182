@@ -20,7 +20,7 @@ from django.shortcuts import get_object_or_404
 from .forms import RecursoForm, ArtefactoForm, PlanForm, ProyectoForm, ActividadForm
 
 from .forms import RecursoForm, ArtefactoForm
-from .models import Artefacto, Recurso, Proyecto
+from .models import Artefacto, Recurso, Proyecto,Actividad
 #############################
 # API
 #############################
@@ -219,6 +219,21 @@ def add_artefacto(request):
 def form_bitacora(request):
     return render(request, 'polls/addBitacora.html')
 
+@csrf_exempt
+def add_bitacora_rest(request):
+    if request.method == 'POST':
+        actividad = get_object_or_404(Actividad, id_actividad=request.POST['id_actividad'])
+        new_actividad = Recurso(titulo=request.POST['titulo'],
+                              fecha =datetime.now(),
+                              descripcion=request.POST['descripcion'],
+                              archivo=request.FILES['archivo'],
+                              id_actividad=actividad
+                            )
+        new_actividad.save()
+        print(serializers.serialize("json", [new_actividad]));
+        return HttpResponse(serializers.serialize("json", [new_actividad]))
+    else:
+        return HttpResponse(serializers.serialize("json", []))
 
 def handle_uploaded_file(f):
     with open('some/file/name.txt', 'wb+') as destination:
