@@ -31,3 +31,20 @@ class Kata_test(TestCase):
         except:
             texto2 = "prueba"
         self.assertNotIn("Actividad 2", texto2)
+
+    def test_detalle_actividad_2(self):
+        self.browser.get('http://127.0.0.1:8000/listar_actividades/1/')
+        nombre = self.browser.find_element_by_id("tituloactividad")
+        self.assertIn("Actividad 1", nombre.text)
+        descripcion = self.browser.find_element_by_id("descripcion")
+        self.assertIn("Descripcion Actividad 1", descripcion.text)
+        tipoact = self.browser.find_element_by_id("tipoactividad")
+        self.assertNotIn(None, tipoact.text)
+        idfase = self.browser.find_element_by_id("fase")
+        self.assertNotIn(None, idfase.text)
+        periodicidad = self.browser.find_element_by_id("periodicidad")
+        self.assertIn("Diario", periodicidad.text)
+        fecha_inicio = self.browser.find_element_by_id("fechainicio")
+        self.assertNotIn(None, fecha_inicio)
+
+
