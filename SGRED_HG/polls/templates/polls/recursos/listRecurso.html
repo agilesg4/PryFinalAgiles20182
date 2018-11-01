@@ -3,30 +3,24 @@
 {% load crispy_forms_tags %}
 
 {%block content%}
-<head>
-    <meta charset="UTF-8">
-    <title>Listar Recursos</title>
+<!-- Static files -->
+<link href="{% static 'css/proyectos/detalle.css' %}" rel="stylesheet" />
+<link href="{% static 'css/recursos/list.css' %}" rel="stylesheet" />
+<link href="{% static 'css/recursos/detailRecursoModal.css' %}" rel="stylesheet" />
+<script type="text/javascript" src="{% static 'js/recursos/detailRecursoModal.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/recursos/listRecursoPorTipo.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/recursos/listRecurso.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/helpers.js' %}"></script>
 
-    <!-- Static files -->
-    <link href="{% static 'css/proyectos/detalle.css' %}" rel="stylesheet" />
-    <link href="{% static 'css/recursos/list.css' %}" rel="stylesheet" />
-    <link href="{% static 'css/recursos/detailRecursoModal.css' %}" rel="stylesheet" />
-    <script type="text/javascript" src="{% static 'js/recursos/detailRecursoModal.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/recursos/listRecursoPorTipo.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/recursos/listRecurso.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/helpers.js' %}"></script>
-</head>
-<body>
-
-<div class="container detalle_proyecto">
-    <h4>Recursos</h4>
-    <div class="container" id="tiposList">
-        <div class="row">
-            <button class="agregar_recurso ml-auto" onClick="goToUrl('polls/recurso')">Agregar Nuevo Recurso</button>
-        </div>
+<div class="header row">
+    <div class="col-lg-6">
+        <h4>Listado de recursos</h4>
     </div>
-    <div id="recurso_modal"></div>
+    <div class="col-lg-6">
+        <button class="agregar_recurso float-right" onClick="goToUrl('polls/recurso')">Agregar Nuevo Recurso</button>
+    </div>
 </div>
-</body>
+<div id="tiposList" class="row"></div>
+<div id="recurso_modal"></div>
 
 {% endblock %}

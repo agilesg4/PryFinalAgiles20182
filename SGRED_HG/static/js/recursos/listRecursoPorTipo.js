@@ -8,7 +8,7 @@ function onClickRecurso(e) {
 
 // Manejo del UI
 function addTipoContainer(tipoName,recursos) {
-    let row = $("<div class='row'></div>");
+    let row = $("<div class='col-lg-12'></div>");
     let name = $("<div class='tipoName col-md-12'></div>")
         .append(tipoName);
 

@@ -1,14 +1,8 @@
-{% load bootstrap3 %}
+{% extends "index.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
 
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
+{%block content%}
     <div class ='row'>
         <div class="col-md-4 col-md-offset-4">
             <div class="page header">
@@ -36,5 +30,4 @@
             </form>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}

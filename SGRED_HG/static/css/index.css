@@ -1,0 +1,79 @@
+#bg {
+    background-image: url("../img/sports_img_2.png");
+    position: relative;
+    background-position: 50% 0 !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    background-size: auto 460px !important;
+}
+
+.content {
+    padding-top: 20px;
+    background-color: white;
+    height: 100vh;
+}
+
+/* Navbar Styles */
+.nav_bar_images {
+    margin-bottom: 40px;
+}
+
+.navbar {
+    background-color: #518f89 !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+}
+
+.navbar-nav.options>li{
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.nav-item {
+    padding-right: 15px;
+    padding-left: 15px;
+    cursor: pointer;
+}
+
+#userlogged, #logIn {
+    color: white;
+}
+
+#userlogged:hover, #logIn:hover {
+    background-color: rgba(81,143,137, 0.2);
+}
+
+#userlogged:focus, #logIn:focus {
+    background-color: rgba(81,143,137, 0.2);
+}
+
+#userlogged:active, #logIn:active {
+    background-color: rgba(81,143,137, 0.2);
+}
+
+.banner_title {
+    color: white !important;
+}
+
+/* Footer styles */
+footer {
+    background-color: black;
+    color: white;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-top: 40px;
+}
+
+.logo_uniandes {
+    text-align: center;
+}
+
+.rights-footer-row {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer_section {
+    margin-bottom: 10px;
+}

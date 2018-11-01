@@ -18,6 +18,8 @@ from .forms import RecursoForm, ArtefactoForm, PlanForm, ProyectoForm, Actividad
 from .forms import RecursoForm, ArtefactoForm
 from .models import Artefacto, Recurso, Proyecto,Actividad
 
+DEFAULT_HOME_PAGE = "polls/recursos/listRecurso.html"
+
 #############################
 # API
 #############################
@@ -69,7 +71,7 @@ def api_recursos_tipos(request):
 
 @csrf_exempt
 def index(request):
-    return render(request, "polls/index.html")
+    return render(request, DEFAULT_HOME_PAGE)
 
 @csrf_exempt
 def listar_actividades(request):
@@ -284,7 +286,7 @@ def login_view(request):
 
     if request.user.is_authenticated():
         # return redirect(reverse('media1:index'))
-        return render(request, "polls/index.html")
+        return render(request, DEFAULT_HOME_PAGE)
 
     mensaje = ''
     if request.method == 'POST':
@@ -294,7 +296,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             # return redirect(reverse('media1:index'))
-            return render(request, "polls/index.html")
+            return render(request, DEFAULT_HOME_PAGE)
         else:
             mensaje = 'Credenciales de acceso incorrectas'
 
@@ -303,4 +305,4 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return render(request, "polls/index.html")
+    return render(request, DEFAULT_HOME_PAGE)

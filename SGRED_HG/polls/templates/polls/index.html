@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,40 +17,33 @@
     <!-- include summernote css/js -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+
+    <link href="{% static 'css/index.css' %}" rel="stylesheet" />
 </head>
-<body>
-<div class="container">
+<body id="bg">
+<div class="container content">
     <header id="header">
-        <div id="header_bar">
-            <h1>sflkjasf</h1>
+        <div id="header_bar" class="row nav_bar_images">
+            <div class="col-lg-12">
+                <a href="/">
+                    <img src="{% static 'img/uniandes_logo.png' %}" alt="" width="220" height="auto">
+                </a>
+                <span class="float-right">
+                    <a href="/">
+                        <img src="{% static 'img/conectate_logo.png' %}" alt=""  width="220" height="auto">
+                    </a>
+                </span>
+            </div>
         </div>
         <section id="menublock">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand d-block d-sm-block d-md-none">SGRED</a>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand d-block d-sm-block d-md-none banner_title">SGRED</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Links -->
-                    <ul class="navbar-nav mr-auto">
-
-                        <!-- Artefacto Links -->
-                        <li class="dropdown nav-item">
-                            <a id="artefactosDropdown" data-toggle="dropdown" class="nav-link">Artefactos</a>
-                            <ul class="dropdown-menu" aria-labelledby="artefactosDropdown">
-                                <li>
-                                    <a href="{% url 'agregarArtefacto' %}" class="" id="add_artefacto">Añadir artefacto</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <!-- Proyecto Links -->
-                        <li class="dropdown">
-                            <a id="proyectosDropdown" data-toggle="dropdown" class="nav-link">Proyectos</a>
-                            <div class="dropdown-menu" aria-labelledby="proyectosDropdown">
-                                <a href="{% url 'agregar_Proyecto' %}" class="dropdown-item">Crear Proyecto</a>
-                            </div>
-                        </li>
+                    <ul class="navbar-nav mr-auto options">
 
                         <!-- Recurso Links -->
                         <li class="dropdown nav-item">
@@ -60,6 +54,24 @@
                                 </li>
                                 <li>
                                     <a class="" href="{% url 'listRecurso' %}">Listar recursos</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <!-- Proyecto Links -->
+                        <li class="dropdown nav-item">
+                            <a id="proyectosDropdown" data-toggle="dropdown" class="nav-link">Proyectos</a>
+                            <div class="dropdown-menu" aria-labelledby="proyectosDropdown">
+                                <a href="{% url 'agregar_Proyecto' %}" class="dropdown-item">Crear Proyecto</a>
+                            </div>
+                        </li>
+
+                        <!-- Artefacto Links -->
+                        <li class="dropdown nav-item">
+                            <a id="artefactosDropdown" data-toggle="dropdown" class="nav-link">Artefactos</a>
+                            <ul class="dropdown-menu" aria-labelledby="artefactosDropdown">
+                                <li>
+                                    <a href="{% url 'agregarArtefacto' %}" class="" id="add_artefacto">Añadir artefacto</a>
                                 </li>
                             </ul>
                         </li>
@@ -119,8 +131,29 @@
         </section>
 
     </header>
-    {% block content %}{% endblock content %}
+    <div id="page_content" class="row">
+        <div class="col-lg-12 page_content">
+            {% block content %}{% endblock content %}
+        </div>
+    </div>
+    <footer>
+        <div class="row">
+            <div class="col-lg-3 logo_uniandes footer_section">
+                <img src="{% static 'img/uniandes_logo_light.png' %}" alt="" width="200" height="auto">
+            </div>
+            <div class="col-lg-5 footer_section">
+                <div>Uniandino Siempre - Universidad de los Andes</div>
+                <div>Cra 1 Nº 18A- 12 Bogotá Edificio Pedro Navas, 1er piso  | Bogotá - Colombia</div>
+                <div>Tels: +571 3394949 - +571 3394999 </div>
+            </div>
+            <div class="col-lg-4 footer_section">Conecta-TE | Centro de Innovación en Tecnología y Educación</div>
+        </div>
+        <div class="row rights-footer-row">
+            <div class="col-lg-12">
+                Copyright &copy; 2018 Todos los derechos reservados
+            </div>
+        </div>
+    </footer>
 </div>
-
 </body>
 </html>
