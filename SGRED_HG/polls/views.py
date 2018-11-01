@@ -34,8 +34,9 @@ def api_proyecto_recursos_por_tipo(request, proyecto_id):
 
 @csrf_exempt
 def api_recursos_por_tipo(request):
+    usuario = Usuario.objects.filter(auth_user=request.user)
     tipos = dict()
-    for obj in Recurso.objects.all():
+    for obj in Recurso.objects.filter(id_usuario_id=usuario):
         tipos.setdefault(obj.tipo.nombre, []).append(RecursoSerializer(obj).data)
     return HttpResponse(json.dumps(tipos), content_type='application/json')
 
@@ -187,6 +188,7 @@ def addRecurso(request):
 
 @csrf_exempt
 def add_recurso_rest(request):
+    usuario = Usuario.objects.filter(auth_user=request.user).first()
     if request.method == 'POST':
         proyecto = get_object_or_404(Proyecto, id_proyecto=request.POST['id_proyecto'])
         tipo = get_object_or_404(Tipo, id_tipo=request.POST['tipo'])
@@ -195,7 +197,8 @@ def add_recurso_rest(request):
                                   descripcion=request.POST['descripcion'],
                                   ubicacion=request.POST['ubicacion'],
                                   id_proyecto=proyecto,
-                                  fecha_creacion=datetime.now()
+                                  fecha_creacion=datetime.now(),
+                                  id_usuario=usuario
                             )
 
         new_recurso.save()
@@ -209,7 +212,12 @@ def agregar_artefacto(request):
 
 
 def listResources(request):
-    lista_recursos = Recurso.objects.all().values('id_recurso', 'titulo', 'tipo')
+    usuario = Usuario.objects.filter(auth_user=request.user)
+    print 'usuario '
+    print usuario
+    lista_recursos = Recurso.objects.filter(id_usuario_id=usuario)
+    print 'tamano lista '
+    print len(lista_recursos)
     context = {'recursos': lista_recursos}
     return render(request, 'polls/recursos/listRecurso.html', context)
 
