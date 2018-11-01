@@ -243,3 +243,8 @@ def handle_uploaded_file(f):
 
 def detalle_actividad(request, actividad_id):
     return render(request, "polls/detalle_actividad.html")
+
+def rest_actividades_id(request,actividad_id):
+    lista_Actividades_Futuras = Actividad.objects.filter(id_actividad=actividad_id);
+    return HttpResponse(serializers.serialize("json", lista_Actividades_Futuras))
+
