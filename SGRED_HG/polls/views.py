@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 import datetime
 from django.shortcuts import render, redirect, render_to_response
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
