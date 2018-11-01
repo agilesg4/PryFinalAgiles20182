@@ -28,4 +28,6 @@ urlpatterns = [
     url(r'^listar_actividades/$', views.listar_actividades, name='listar_actividades'),
     url(r'^listar_actividades/(?P<actividad_id>[0-9]+)/$', views.detalle_actividad, name='detalle_actividad'),
     url(r'^rest_actividades_id/(?P<actividad_id>[0-9]+)/$', views.rest_actividades_id, name='rest_actividades_id'),
+    url(r'^login/$', views.login_view, name='login'),
+    url(r'^logout/$', views.logout_view, name='logout'),
 ]

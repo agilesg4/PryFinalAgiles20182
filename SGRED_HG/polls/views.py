@@ -248,3 +248,29 @@ def rest_actividades_id(request,actividad_id):
     lista_Actividades_Futuras = Actividad.objects.filter(id_actividad=actividad_id);
     return HttpResponse(serializers.serialize("json", lista_Actividades_Futuras))
 
+
+
+def login_view(request):
+
+    if request.user.is_authenticated():
+        # return redirect(reverse('media1:index'))
+        return render(request, "polls/index.html")
+
+    mensaje = ''
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # return redirect(reverse('media1:index'))
+            return render(request, "polls/index.html")
+        else:
+            mensaje = 'Credenciales de acceso incorrectas'
+
+    return render(request, 'polls/login.html', {'mensaje': mensaje})
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, "polls/index.html")
