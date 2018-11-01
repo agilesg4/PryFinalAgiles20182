@@ -1,5 +1,5 @@
 <head>
-    <head>
+
     <meta charset="UTF-8">
     <title>Agregar artefacto</title>
     <!-- Bootstrap and Jquery -->
@@ -7,9 +7,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-
-</head>
 
 </head>
 <body>
@@ -40,7 +37,10 @@
     <form id="formArtefacto" action="../../polls/addArtefacto/" enctype="multipart/form-data" method="post">
         <input id="nombre_mostrar" name="nombre_mostrar" type="text" placeholder="Title" class="form-control input-md" required=""><br>
         <input id="descripcion" name="descripcion" type="text" placeholder="Descripcion" class="form-control input-md" required=""><br>
-         <select class="form-control input-md" id="recurso" name="recurso">
+        <select class="form-control input-md" id="tipo_artefacto" name="tipo_artefacto">
+                <option selected>Seleccionar Tipo de Artefacto</option>
+        </select><br>
+        <select class="form-control input-md" id="recurso" name="recurso">
                 <option selected>Seleccionar Recurso</option>
         </select><br>
         <input id="archivo" name="archivo" type="file" required><br>
@@ -62,7 +62,7 @@
             contentType: false,
             processData: false,
             success: function () {
-                window.location = "/polls/agregarArtefacto/";
+                window.location = "/polls/";
             },
 
         });
@@ -72,10 +72,22 @@
 
   <script>
 		(function(){
-			$.getJSON("/polls/recursos").done(function (data) {
+			$.getJSON("/polls/lista_recursos").done(function (data) {
 				$.each(data, function (i, item) {
 					$("#recurso").prepend('<option value="'+item.fields.titulo+'">'+
 						item.fields.titulo.toUpperCase() + '</option>');
+
+				});
+			});
+
+		})();
+  </script>
+    <script>
+		(function(){
+			$.getJSON("/polls/tipo_artefacto").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#tipo_artefacto").prepend('<option value="'+item.fields.nombre+'">'+
+						item.fields.nombre.toUpperCase() + '</option>');
 
 				});
 			});

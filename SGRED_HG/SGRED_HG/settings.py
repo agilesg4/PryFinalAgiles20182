@@ -78,18 +78,15 @@ WSGI_APPLICATION = 'SGRED_HG.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-
      'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': os.environ.get('DATABASE_NAME'),
-         'USER': os.environ.get('DATABASE_USER'),
-         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-         'HOST': os.environ.get('DATABASE_HOST'),
-         'PORT': os.environ.get('DATABASE_PORT'),
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': "SGRED",
+         'USER': "root",
+         "PASSWORD": "",
+         "HOST": "127.0.0.1",
+         "PORT": "1111"
      }
-
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -135,3 +132,9 @@ STATICFILES_DIRS = [
 #Comentar estas 2 lineas para desplegar localmente
 #import dj_database_url
 #DATABASES['default'] = dj_database_url.config()
+
+try:
+    from local_settings import *
+except ImportError, e:
+    print "import error", e
+    pass

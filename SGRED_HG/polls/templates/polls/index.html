@@ -26,7 +26,7 @@
     <!-- Links -->
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a href="{% url 'agregar_Proyecto' %}" class="nav-link">Añadir Proyecto</a>
+            <a href="{% url 'agregar_Proyecto' %}" class="nav-link">Crear Proyecto</a>
         </li>
         <li class="nav-item">
             <a href="{% url 'addRecurso' %}" class="nav-link" id="add_recurso">Añadir Recurso</a>
@@ -36,6 +36,15 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{% url 'listRecurso' %}">Listar recursos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'agregar_Plan' %}">Agrear Plan de Trabajo</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'agregar_Actividad' %}">Agregar Actividad</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'listar_actividades' %}" id="listar_actividades">Listar Actividades</a>
         </li>
     </ul>
 </nav>
