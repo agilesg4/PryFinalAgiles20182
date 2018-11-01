@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls',
-    'crispy_forms'
+    'crispy_forms',
+    'bootstrap3'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -87,6 +88,7 @@ DATABASES = {
          "PORT": "1111"
      }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
