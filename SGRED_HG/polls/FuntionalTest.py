@@ -93,6 +93,25 @@ class FunctionalTest(TestCase):
         texto = self.browser.find_element_by_xpath("//*[contains(text(), 'Actividad 1')]")
         self.assertIn("Actividad 1", texto.text)
 
+    def test_login_usuario(self):
+        self.browser.get('http://localhost:8000')
+        link = self.browser.find_element_by_id('logIn')
+        link.click()
+
+        usuario = self.browser.find_element_by_id('username')
+        usuario.send_keys('dazak')
+
+        contrasena = self.browser.find_element_by_id('password')
+        contrasena.send_keys('Password123')
+
+        botonAceptar = self.browser.find_element_by_id('aceptar')
+        botonAceptar.click()
+
+        self.browser.implicitly_wait(3)
+
+        span = self.browser.find_element_by_id('userlogged')
+
+        self.assertIn('dazak', span.text)
 
 
 
