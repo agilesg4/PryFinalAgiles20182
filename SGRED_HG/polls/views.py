@@ -239,3 +239,29 @@ def handle_uploaded_file(f):
     with open('some/file/name.txt', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+
+
+def login_view(request):
+
+    if request.user.is_authenticated():
+        # return redirect(reverse('media1:index'))
+        return render(request, "polls/index.html")
+
+    mensaje = ''
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # return redirect(reverse('media1:index'))
+            return render(request, "polls/index.html")
+        else:
+            mensaje = 'Credenciales de acceso incorrectas'
+
+    return render(request, 'polls/login.html', {'mensaje': mensaje})
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, "polls/index.html")

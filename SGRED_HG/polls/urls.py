@@ -26,4 +26,6 @@ urlpatterns = [
     url(r'^agregar_Actividad/$', views.agregar_Actividad, name='agregar_Actividad'),
     url(r'^lista_actividades/$', views.listActividadesFuturas, name='lista_actividades'),
     url(r'^listar_actividades/$', views.listar_actividades, name='listar_actividades'),
+    url(r'^login/$', views.login_view, name='login'),
+    url(r'^logout/$', views.logout_view, name='logout'),
 ]
