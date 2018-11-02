@@ -225,6 +225,7 @@ class Actividad(models.Model):
     finalizado = models.BooleanField(default=False)
     periodicidad = models.CharField(max_length=150, blank=True)
     id_plan = models.ForeignKey(Plan, on_delete=models.PROTECT, null=True)
+    id_responsable = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
         return self.nombre

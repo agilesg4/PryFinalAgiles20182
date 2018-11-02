@@ -46,6 +46,19 @@
 		})();
 	</script>
 
+    <script>
+    (function(){
+        $.getJSON("/polls/responsable").done(function (data) {
+            $.each(data, function (i, item) {
+                $("#responsable").prepend('<option value="'+item.fields.username+'">'+
+                    item.fields.username.toUpperCase() + '</option>');
+
+            });
+        });
+
+    })();
+    </script>
+
 
     <script>
 		function enviarForm() {
@@ -62,6 +75,10 @@
 				return false;
 			}
 
+			if ($('#responsable').val() === 'Seleccionar Responsable') {
+                return false;
+            }
+
 			// Aca lo cargo
 			$.ajax({
 				type: "POST",
@@ -76,6 +93,7 @@
                     finalizado: $('#finalizado').val(),
                     periodicidad: $('#periodicidad').val(),
                     id_plan: $('#id_plan').val(),
+                    responsable: $('#responsable').val(),
                 }),
                 contentType: "application/json; charset=UTF-8",
 				dataType: "json",
@@ -112,7 +130,7 @@
             </select><br>
             <input id="fecha_inicio" name="fecha_inicio" type="date" placeholder="Fecha Inicio" class="form-control input-md" required=""><br>
             <input id="fecha_fin" name="fecha_fin" type="date" placeholder="Fecha Fin" class="form-control input-md" required=""><br>
-            <input id="finalizado" name="finalizado" type="checkbox" placeholder="finalizado" class="form-control input-md">Finalizado<br>
+            <input id="finalizado" type="checkbox" name="finalizado"  >Finalizado<br>
             <select class="form-control input-md" id="periodicidad" name="periodicidad">
                 <option selected>Seleccionar Periodicidad</option>
                 <option >Diario</option>
@@ -122,6 +140,10 @@
             <select class="form-control input-md" id="id_plan" name="id_plan">
                 <option selected>Seleccionar Plan</option>
             </select><br>
+            <select class="form-control input-md" id="responsable" name="responsable">
+                <option selected>Seleccionar Responsable</option>
+            </select><br>
+
             <input type="submit" value="Añadir" class="btn btn-primary">
                 <a href="/polls/" class="btn btn-primary">Cancelar</a>
         </form>

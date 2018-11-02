@@ -176,6 +176,7 @@ def add_actividad(request):
                                   finalizado=bool_finalizado,
                                   periodicidad=request.POST['periodicidad'],
                                   id_plan=Plan.objects.get(nombre=request.POST['id_plan']),
+                                  id_responsable=User.objects.get(username=request.POST['responsable']),
                                   )
         new_actividad.save()
         return HttpResponse(serializers.serialize("json", []))
