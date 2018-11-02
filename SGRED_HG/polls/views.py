@@ -265,16 +265,16 @@ def form_bitacora(request):
 @csrf_exempt
 def add_bitacora_rest(request):
     if request.method == 'POST':
-        actividad = get_object_or_404(Actividad, id_actividad=request.POST['id_actividad'])
-        new_actividad = Recurso(titulo=request.POST['titulo'],
-                              fecha =datetime.now(),
-                              descripcion=request.POST['descripcion'],
+        print ("is this post")
+        #actividad = get_object_or_404(Actividad, id_actividad=request.POST['id_actividad'])
+        new_bitacora = Recurso(fecha =request.POST['fecha'],
+                              descripcion=request.POST['summernote'],
                               archivo=request.FILES['archivo'],
-                              id_actividad=actividad
+                              #id_actividad=actividad
                             )
-        new_actividad.save()
-        print(serializers.serialize("json", [new_actividad]));
-        return HttpResponse(serializers.serialize("json", [new_actividad]))
+        new_bitacora.save()
+        print(serializers.serialize("json", [new_bitacora]));
+        return HttpResponse(serializers.serialize("json", [new_bitacora]))
     else:
         return HttpResponse(serializers.serialize("json", []))
 
