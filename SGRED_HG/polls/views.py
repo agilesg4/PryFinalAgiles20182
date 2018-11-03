@@ -207,10 +207,11 @@ def add_recurso_rest(request):
                             )
 
         new_recurso.save()
-        #return render(request, "/polls/recurso/list")
-        return HttpResponse(serializers.serialize("json", [new_recurso]))
+        return render(request, 'polls/recursos/listRecurso.html')
+        #return HttpResponse(serializers.serialize("json", [new_recurso]))
     else:
-        return HttpResponse(serializers.serialize("json", []))
+        return render(request, 'polls/recursos/listRecurso.html')
+        #return HttpResponse(serializers.serialize("json", []))
 
 
 def agregar_artefacto(request):
@@ -228,9 +229,8 @@ def listResources(request):
 
 def listActividadesFuturas(request):
     usuario = None
-    if request.user is None:
-        #usuario = Usuario.objects.filter(auth_user=request.user)
-        usuario = User.objects.filter(auth_user=request.user)
+    if request.user is not None:
+        usuario = Usuario.objects.filter(auth_user=request.user)
     lista_Actividades_Futuras = Actividad.objects.filter(id_responsable=usuario)
     #lista_Actividades_Futuras = Actividad.objects.all()
     return HttpResponse(serializers.serialize("json", lista_Actividades_Futuras))
@@ -286,9 +286,11 @@ def add_bitacora_rest(request):
                             )
         new_bitacora.save()
         print(serializers.serialize("json", [new_bitacora]));
-        return HttpResponse(serializers.serialize("json", [new_bitacora]))
+        return render(request, 'polls/recursos/listActividades.html')
+        #return HttpResponse(serializers.serialize("json", [new_bitacora]))
     else:
-        return HttpResponse(serializers.serialize("json", []))
+        return render(request, 'polls/recursos/listActividades.html')
+        #return HttpResponse(serializers.serialize("json", []))
 
 def handle_uploaded_file(f):
     with open('some/file/name.txt', 'wb+') as destination:
