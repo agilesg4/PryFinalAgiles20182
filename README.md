@@ -9,9 +9,9 @@ Sigue estas instrucciones para tener una copia del proyecto corriendo localmente
 ### Prerequisitos
 
 Para este proyecto se usaron las siguientes tecnologias.
-* Python ver. 2.7.10
-* Django ver. 1.11.15
-* PostgreSQL
+*  Python ver. 2.7.10
+*  Django ver. 1.11.15
+*  PostgreSQL
 
 Al clonar el proyecto no olvidar correr el siguiente comando para instalar todas las depedencias.
 ```
