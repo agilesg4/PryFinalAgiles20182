@@ -12,29 +12,31 @@
         Añadir registro bitacora
     </h2>
 
-   <form  method="POST" class="form-group" id="formbitacora" action="../../polls/">
+   <form  method="POST" class="form-group" id="formbitacora" enctype="multipart/form-data" action="../../addbitacora/" onsubmit=" mySubmitFunction(e); return false">
        {% csrf_token %}
       <div class="form-group row">
-        <label for="fecha" class="col-sm-2 col-form-label">Fecha</label>
+        <label class="col-sm-2 col-form-label">Fecha</label>
         <div class="col-sm-10">
-          <input type="date"  class="form-control" id="inputDate" value="">
+          <input type="date"  class="form-control" id="fecha" name="fecha" value="">
         </div>
       </div>
       <div class="form-group row">
-        <label for="media" class="col-sm-2 col-form-label">Media</label>
+        <label  class="col-sm-2 col-form-label">Media</label>
         <div class="col-sm-10">
-          <input type="file" class="form-control" id="inputFile" >
+          <input type="file" class="form-control" id="archivo" name="archivo" >
         </div>
       </div>
        <div class="form-group row">
-           <label for="desc" class="col-sm-2 col-form-label">Descripcción</label>
+           <label  class="col-sm-2 col-form-label">Descripcción</label>
             <div class="col-sm-10">
-                <textarea id="summernote" name="editordata"></textarea>
+                <textarea id="summernote" name="descripcion"></textarea>
             </div>
        </div>
+
+       <input type="number" value="" name="actividad_id" id="fakeid" hidden/>
        <div class="form-group row">
-           <button  class="btn btn-primary" type="submit">Crear</button>
-           <button id="cancelar">Cancelar</button>
+           <button  class="btn btn-primary" type="submit" id="submit_bitacora">Crear</button>
+           <a href="/polls/" class="btn btn-primary">Cancelar</a>
        </div>
     </form>
 

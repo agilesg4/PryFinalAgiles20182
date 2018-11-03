@@ -141,6 +141,21 @@ class FunctionalTest(TestCase):
 
         self.assertIn('Iniciar sesion', span.text)
 
+    def test_agregar_bitacora(self):
+        self.browser.get('http://127.0.0.1:8000/polls/listar_actividades/1/addbitacora/')
+
+        titulo = self.browser.find_element_by_id('fecha')
+
+        titulo.send_keys('30/11/2018')
+        self.browser.implicitly_wait(3)
+        tipo = self.browser.find_element_by_id('archivo')
+        tipo.send_keys('C:\Users\Zulma\Documents\GitHub\PryFinalAgiles20182\SGRED_HG\Files\Ticket.png')
+        self.browser.implicitly_wait(3)
+        descripcion = self.browser.find_element_by_id('summernote')
+        self.browser.implicitly_wait(3)
+        botonGrabar = self.browser.find_element_by_id('submit_bitacora')
+        botonGrabar.click()
+
 
 
 

@@ -9,7 +9,7 @@ $('form').submit(function (e){
             contentType: false,
             processData: false,
             success: function () {
-                window.location = "/polls/recurso/";
+                window.location = "/polls/";
             },
 
         });

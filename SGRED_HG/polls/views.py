@@ -16,7 +16,7 @@ from .forms import RecursoForm, ArtefactoForm
 from .models import Artefacto, Recurso, Proyecto, Tipo
 from .forms import RecursoForm, ArtefactoForm, PlanForm, ProyectoForm, ActividadForm
 from .forms import RecursoForm, ArtefactoForm
-from .models import Artefacto, Recurso, Proyecto,Actividad
+from .models import Artefacto, Recurso, Proyecto,Actividad,Bitacora
 
 DEFAULT_HOME_PAGE = "polls/recursos/listRecurso.html"
 
@@ -259,22 +259,24 @@ def add_artefacto(request):
         return HttpResponse(serializers.serialize("json", []))
 
 
-def form_bitacora(request):
+def form_bitacora(request,actividad_id):
     return render(request, 'polls/addBitacora.html')
 
 @csrf_exempt
 def add_bitacora_rest(request):
     if request.method == 'POST':
-        actividad = get_object_or_404(Actividad, id_actividad=request.POST['id_actividad'])
-        new_actividad = Recurso(titulo=request.POST['titulo'],
-                              fecha =datetime.now(),
-                              descripcion=request.POST['descripcion'],
-                              archivo=request.FILES['archivo'],
-                              id_actividad=actividad
+        print (request)
+        actividad = get_object_or_404(Actividad, pk=request.POST['actividad_id'])
+        print(actividad)
+        new_bitacora = Bitacora(
+            fecha_bitacora=datetime.now(),
+            descripcion=request.POST['descripcion'],
+            archivo_bitacora=(request.FILES['archivo']),
+            id_actividad_bitacora=actividad
                             )
-        new_actividad.save()
-        print(serializers.serialize("json", [new_actividad]));
-        return HttpResponse(serializers.serialize("json", [new_actividad]))
+        new_bitacora.save()
+        print(serializers.serialize("json", [new_bitacora]));
+        return HttpResponse(serializers.serialize("json", [new_bitacora]))
     else:
         return HttpResponse(serializers.serialize("json", []))
 
