@@ -192,8 +192,9 @@ def addRecurso(request):
 @csrf_exempt
 def add_recurso_rest(request):
     usuario = None
-    if request.user is None:
+    if request.user is not None:
         usuario = Usuario.objects.filter(auth_user=request.user).first()
+        print("entre")
     if request.method == 'POST':
         proyecto = get_object_or_404(Proyecto, id_proyecto=request.POST['id_proyecto'])
         tipo = get_object_or_404(Tipo, id_tipo=request.POST['tipo'])
