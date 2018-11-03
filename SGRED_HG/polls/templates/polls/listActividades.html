@@ -52,7 +52,7 @@
                     var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
 
                     chart.draw(data, options);
-                    $("#list_div").prepend('<button onclick="return detalleexample('+ item.pk +')" class="btn btn-success">' +
+                    $("#list_div").prepend('<button onclick="return detalleexample('+ item.pk +')" class="btn btn-success" styles="margin-top: 10px;margin-left:10px;">' +
                         item.fields.nombre + '</button>');
 
 
