@@ -6,7 +6,23 @@
     <!-- Static files -->
     <script type="text/javascript" src="{% static 'js/recursos/detalleActividad.js' %}"></script>
 
-    <div id="form_detalle" ></div>
+    <h2>Detalle Actividad</h2>
+    <div id="form_detalle" >
+
+
+    </div>
+    <button class="btn btn-success" onclick="return add_bitacora()">Añadir bitacora</button>
+
+<script>
+
+
+function add_bitacora() {
+   let url_id = window.location.pathname.split("/")[3];
+   window.location.href="./addbitacora/"
+}
+</script>
+
+
 
 {% endblock %}
 

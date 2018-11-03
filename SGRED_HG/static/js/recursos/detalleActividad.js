@@ -2,6 +2,7 @@ $(document).ready(function() {
     fetchActividadPorId();
 });
 
+
 function fetchActividadPorId() {
     let urlParts = window.location.href.split("/");
     let id = urlParts[5];
