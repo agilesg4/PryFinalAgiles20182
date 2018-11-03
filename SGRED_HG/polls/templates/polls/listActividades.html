@@ -53,8 +53,17 @@
         });
 
     }
+
+    function detalleexample() {
+         window.location.href='./1/'
+    }
 </script>
     <h1>Listar Actividades</h1>
-    <div id="chart_div"></div>
+    <div id="chart_div" onclick="return function() {
+       window.location.href='./1/'
+    }"></div>
+    <button onclick="return detalleexample()" class="btn btn-success">Ver Actividad 1</button>
+
+
 
 {% endblock %}
