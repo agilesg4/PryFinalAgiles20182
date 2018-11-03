@@ -1,5 +1,5 @@
 $('form').submit(function (e){
-        e.preventDefault();
+
         var formData = new FormData($("#formRecurso")[0]);
         $.ajax({
             url: $(this).attr('action'),
@@ -13,6 +13,7 @@ $('form').submit(function (e){
             },
 
         });
+        e.preventDefault();
         console.log(formData)
 
     });
