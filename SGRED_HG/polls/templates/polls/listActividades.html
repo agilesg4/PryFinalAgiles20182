@@ -31,7 +31,6 @@
                     ' No existen creadas actividades' + '</div>');
             }
             $.each(actividad, function (i, item) {
-                alert(item.pk);
                 if(item.fields.nombre==="" || item.fields.nombre===undefined) {
                     $("#chart_div").prepend('<p>' +
                         'No hay Actividades' + '</p>');
