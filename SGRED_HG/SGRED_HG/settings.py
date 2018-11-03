@@ -132,11 +132,11 @@ STATICFILES_DIRS = [
 ]
 
 #Comentar estas 2 lineas para desplegar localmente
-#import dj_database_url
-#DATABASES['default'] = dj_database_url.config()
+import dj_database_url
+DATABASES['default'] = dj_database_url.config()
 
-try:
-    from local_settings import *
-except ImportError, e:
-    print "import error", e
-    pass
+#try:
+#    from local_settings import *
+#except ImportError, e:
+#    print "import error", e
+#    pass
