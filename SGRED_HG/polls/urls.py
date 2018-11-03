@@ -22,8 +22,10 @@ urlpatterns = [
     url(r'^proyectos/(?P<proyecto_id>[0-9]+)/$', views.detalle_proyecto, name='detalle_proyecto'),
     url(r'^lista_recursos/$', views.recurso, name='lista_recursos'),
     url(r'^tipo_artefacto/$', views.tipo_artefacto, name='tipo_artefacto'),
-    url(r'^bitacora/$', views.form_bitacora, name='form_bitacora'),
-    url(r'^addbitacora/$', views.add_bitacora_rest, name='add_bitacora_rest'),
+
+    url(r'^listar_actividades/(?P<actividad_id>[0-9]+)/addbitacora/$', views.form_bitacora, name='form_bitacora'),
+    url(r'^listar_actividades/addbitacora/$', views.add_bitacora_rest, name='add_bitacora_rest'),
+
     url(r'^add_plan/$', views.add_plan, name='add_plan'),
     url(r'^agregar_Plan/$', views.agregar_Plan, name='agregar_Plan'),
     url(r'^add_actividad/$', views.add_actividad, name='add_actividad'),

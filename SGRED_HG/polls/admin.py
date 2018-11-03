@@ -13,6 +13,7 @@ from .models import Fase
 from .models import TipoAct
 from .models import Actividad
 from .models import ResponsableAct
+from .models import Bitacora
 from django.contrib import admin
 
 
@@ -31,3 +32,4 @@ admin.site.register(TipoAct)
 admin.site.register(Actividad)
 admin.site.register(ResponsableAct)
 admin.site.register(Tipo_artefacto)
+admin.site.register(Bitacora)
