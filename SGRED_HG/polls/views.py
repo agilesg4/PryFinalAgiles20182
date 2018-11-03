@@ -35,11 +35,15 @@ def api_proyecto_recursos_por_tipo(request, proyecto_id):
 @csrf_exempt
 def api_recursos_por_tipo(request):
     usuario = None
-    if request.user is not None:
+    if request.user.is_authenticated:
         usuario = Usuario.objects.filter(auth_user=request.user)
-    tipos = dict()
-    for obj in Recurso.objects.filter(id_usuario_id=usuario):
-        tipos.setdefault(obj.tipo.nombre, []).append(RecursoSerializer(obj).data)
+        tipos = dict()
+        for obj in Recurso.objects.filter(id_usuario_id=usuario):
+            tipos.setdefault(obj.tipo.nombre, []).append(RecursoSerializer(obj).data)
+    else:
+        tipos = dict()
+        for obj in Recurso.objects.filter(id_usuario_id=None):
+            tipos.setdefault(obj.tipo.nombre, []).append(RecursoSerializer(obj).data)
     return HttpResponse(json.dumps(tipos), content_type='application/json')
 
 @csrf_exempt
@@ -192,7 +196,7 @@ def addRecurso(request):
 @csrf_exempt
 def add_recurso_rest(request):
     usuario = None
-    if request.user is None:
+    if request.user.is_authenticated:
         usuario = Usuario.objects.filter(auth_user=request.user).first()
     if request.method == 'POST':
         proyecto = get_object_or_404(Proyecto, id_proyecto=request.POST['id_proyecto'])
