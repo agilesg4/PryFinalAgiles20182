@@ -193,7 +193,7 @@ def addRecurso(request):
 def add_recurso_rest(request):
     usuario = None
     if request.user is None:
-        usuario = Usuario.objects.filter(auth_user=request.user).first()
+        usuario = User.objects.filter(auth_user=request.user).first()
     if request.method == 'POST':
         proyecto = get_object_or_404(Proyecto, id_proyecto=request.POST['id_proyecto'])
         tipo = get_object_or_404(Tipo, id_tipo=request.POST['tipo'])
