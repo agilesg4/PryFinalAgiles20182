@@ -289,11 +289,11 @@ def add_bitacora_rest(request):
             id_actividad_bitacora=actividad
                             )
         new_bitacora.save()
-        print(serializers.serialize("json", [new_bitacora]));
-        return render(request, 'polls/recursos/listActividades.html')
+        print(serializers.serialize("json", [new_bitacora]))
+        return render(request, 'polls/listActividades.html')
         #return HttpResponse(serializers.serialize("json", [new_bitacora]))
     else:
-        return render(request, 'polls/recursos/listActividades.html')
+        return render(request, 'polls/listActividades.html')
         #return HttpResponse(serializers.serialize("json", []))
 
 def handle_uploaded_file(f):
