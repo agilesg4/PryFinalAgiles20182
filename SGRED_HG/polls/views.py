@@ -207,8 +207,8 @@ def add_recurso_rest(request):
                             )
 
         new_recurso.save()
-        return render(request, "/polls/recurso/list")
-        #return HttpResponse(serializers.serialize("json", [new_recurso]))
+        #return render(request, "/polls/recurso/list")
+        return HttpResponse(serializers.serialize("json", [new_recurso]))
     else:
         return HttpResponse(serializers.serialize("json", []))
 
