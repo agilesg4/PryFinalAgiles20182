@@ -256,8 +256,8 @@ def add_artefacto(request):
                                   fecha_hora_carga=datetime.now(),
                                   fecha_hora_edicion=datetime.now(),
                                   id_recurso=Recurso.objects.get(titulo=request.POST.get('recurso')),
-                                  cargado_por=usuario,
-                                  editado_por=usuario,
+                                  cargado_por=User.objects.get(username=request.user),
+                                  editado_por=User.objects.get(username=request.user),
                                   )
 
         new_artefacto.save()
