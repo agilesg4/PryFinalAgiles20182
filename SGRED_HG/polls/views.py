@@ -203,7 +203,7 @@ def add_recurso_rest(request):
                                   ubicacion=request.POST['ubicacion'],
                                   id_proyecto=proyecto,
                                   fecha_creacion=datetime.now(),
-                                  id_usuario=usuario
+                                  id_usuario=usuario,
                             )
 
         new_recurso.save()
@@ -236,6 +236,10 @@ def listActividadesFuturas(request):
 
 @csrf_exempt
 def add_artefacto(request):
+    usuario = None
+    if request.user is None:
+        usuario = Usuario.objects.filter(auth_user=request.user).first()
+
     if request.method == 'POST':
         if 'reusable' in request.POST:
             if request.POST.get('reusable') == 'on':
@@ -252,8 +256,8 @@ def add_artefacto(request):
                                   fecha_hora_carga=datetime.now(),
                                   fecha_hora_edicion=datetime.now(),
                                   id_recurso=Recurso.objects.get(titulo=request.POST.get('recurso')),
-                                  cargado_por=User.objects.get(username=request.user),
-                                  editado_por=User.objects.get(username=request.user),
+                                  cargado_por=usuario,
+                                  editado_por=usuario,
                                   )
 
         new_artefacto.save()
