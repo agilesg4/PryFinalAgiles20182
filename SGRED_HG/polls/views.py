@@ -233,8 +233,9 @@ def listResources(request):
 
 def listActividadesFuturas(request):
     usuario = None
-    if request.user is not None:
-        usuario = Usuario.objects.filter(auth_user=request.user)
+
+    if request.user.is_authenticated:
+        usuario = User.objects.filter(username=request.user).first()
     lista_Actividades_Futuras = Actividad.objects.filter(id_responsable=usuario)
     # lista_Actividades_Futuras = Actividad.objects.all()
     return HttpResponse(serializers.serialize("json", lista_Actividades_Futuras))
