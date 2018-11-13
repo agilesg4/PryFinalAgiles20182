@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +25,7 @@ SECRET_KEY = 'brzz*h3-a5uj)0e*)z8ud7a!y!$j=qls9m+*@xf2t^i27c(d#p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'sgrede4.herokuapp.com','sgrede4-testing.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'sgrede4.herokuapp.com', 'codeshipravelinx.herokuapp.com']
 
 
 # Application definition
@@ -81,15 +81,14 @@ WSGI_APPLICATION = 'SGRED_HG.wsgi.application'
 
 DATABASES = {
      'default': {
-         'ENGINE': 'django.db.backends.sqlite3',
-         'NAME': "SGRED",
-         'USER': "root",
-         "PASSWORD": "",
-         "HOST": "127.0.0.1",
-         "PORT": "1111"
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'NAME': os.environ.get('DATABASE_NAME'),
+         'USER': os.environ.get('PGUSER'),
+         'PASSWORD': os.environ.get('PGPASSWORD'),
+         'HOST': os.environ.get('DATABASE_HOST'),
+         'PORT': os.environ.get('DATABASE_PORT')
      }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -133,12 +132,23 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
 
-#Comentar estas 2 lineas para desplegar localmente
-import dj_database_url
-DATABASES['default'] = dj_database_url.config()
-
 #try:
 #    from local_settings import *
 #except ImportError, e:
-#    print "import error", e
+#    print "import err", e
 #    pass
+
+# No cambiar
+ON_HEROKU = os.environ.get('ON_HEROKU')
+ON_CODESHIP = os.environ.get('ON_CODESHIP')
+if ON_HEROKU == "True":
+    DATABASES['default'] = dj_database_url.config()
+elif ON_CODESHIP == "True":
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('PGUSER'),
+        'PASSWORD': os.environ.get('PGPASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': os.environ.get('DATABASE_PORT')
+    }
