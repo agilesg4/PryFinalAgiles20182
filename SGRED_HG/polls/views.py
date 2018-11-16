@@ -32,6 +32,19 @@ def api_proyecto_recursos_por_tipo(request, proyecto_id):
         tipos.setdefault(obj.tipo.nombre, []).append(RecursoSerializer(obj).data)
     return HttpResponse(json.dumps(tipos), content_type='application/json')
 
+
+def recurso_por_titulo_o_descripcion(request, palabra_clave):
+    listname = Recurso.objects.filter(titulo__icontains=palabra_clave)
+    listdesc = Recurso.objects.filter(descripcion__icontains=palabra_clave)
+    recursos = listname | listdesc
+    return recursos
+
+
+def buscar_objetos(request, palabra_clave):
+    recursos = recurso_por_titulo_o_descripcion(request, palabra_clave)
+    return render(request, 'polls/busqueda.html', {'recursos': recursos})
+
+
 @csrf_exempt
 def api_recursos_por_tipo(request):
     usuario = None

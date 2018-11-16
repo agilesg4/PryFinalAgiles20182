@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados Busqueda</title>
+</head>
+<body>
+    <h1>Resultados búsqueda</h1>
+    {% for recurso in recursos %}
+    <h2>{{ recurso.titulo }} - {{ recurso.descripcion }}</h2>
+    {% endfor %}
+</body>
+</html>
