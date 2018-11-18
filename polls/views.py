@@ -71,6 +71,36 @@ def api_recursos_tipos(request):
     serializer = TipoSerializer(lista_tipos, many=True)
     return HttpResponse(json.dumps(serializer.data), content_type='application/json')
 
+
+def recurso_por_titulo_o_descripcion(request, palabra_clave):
+    listname = Recurso.objects.filter(titulo__icontains=palabra_clave)
+    listdesc = Recurso.objects.filter(descripcion__icontains=palabra_clave)
+    recursos = listname | listdesc
+    return recursos
+
+
+def actividad_por_nombre_o_descripcion(request, palabra_clave):
+    listname = Actividad.objects.filter(nombre__icontains=palabra_clave)
+    listdesc = Actividad.objects.filter(descripcion__icontains=palabra_clave)
+    actividades = listname | listdesc
+    return actividades
+
+
+def artefacto_por_nombre_o_descripcion(request, palabra_clave):
+    listname = Artefacto.objects.filter(nombre_mostrar__icontains=palabra_clave)
+    listdesc = Artefacto.objects.filter(descripcion__icontains=palabra_clave)
+    artefactos = listname | listdesc
+    return artefactos
+
+
+def buscar_objetos(request, palabra_clave):
+    recursos = recurso_por_titulo_o_descripcion(request, palabra_clave)
+    actividades = actividad_por_nombre_o_descripcion(request, palabra_clave)
+    artefactos = artefacto_por_nombre_o_descripcion(request, palabra_clave)
+    return render(request, 'polls/busqueda.html', {'recursos': recursos, 'actividades': actividades,
+                                                   'artefactos': artefactos})
+
+
 #############################
 # Views
 #############################
