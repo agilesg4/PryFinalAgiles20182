@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados Busqueda</title>
+</head>
+<body>
+    <h1>Resultados búsqueda</h1>
+    <h2>Recursos</h2>
+    {% for recurso in recursos %}
+    <h3>{{ recurso.titulo }} - {{ recurso.descripcion }}</h3>
+    {% endfor %}
+    <h2>Actividades</h2>
+    {% for actividad in actividades %}
+    <h3>{{ actividad.nombre }} - {{ actividad.descripcion }}</h3>
+    {% endfor %}
+    <h2>Artefactos</h2>
+    {% for artefacto in artefactos %}
+    <h3>{{ artefacto.nombre_mostrar }} - {{ artefacto.descripcion }}</h3>
+    {% endfor %}
+</body>
+</html>
