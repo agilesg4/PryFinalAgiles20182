@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^tipoact/$', views.tipoact, name='tipoact'),
     url(r'^id_fase/$', views.id_fase, name='id_fase'),
     url(r'^id_plan/$', views.id_plan, name='id_plan'),
+    url(r'^id_tpplan/$', views.id_tpplan, name='id_tpplan'),
     url(r'^responsable/$', views.responsable, name='responsable'),
     url(r'^add_proyecto/$', views.add_proyecto, name='add_proyecto'),
     url(r'^recurso/$', views.addRecurso, name='addRecurso'),
@@ -28,8 +29,15 @@ urlpatterns = [
 
     url(r'^add_plan/$', views.add_plan, name='add_plan'),
     url(r'^agregar_Plan/$', views.agregar_Plan, name='agregar_Plan'),
+    url(r'^add_tpplan/$', views.add_tpplan, name='add_tpplan'),
+    url(r'^agregar_TPPlan/$', views.agregar_TPPlan, name='agregar_TPPlan'),
+    url(r'^create_TPPlan/$', views.create_TPPlan, name='create_TPPlan'),
+
     url(r'^add_actividad/$', views.add_actividad, name='add_actividad'),
     url(r'^agregar_Actividad/$', views.agregar_Actividad, name='agregar_Actividad'),
+    url(r'^add_tpactividad/$', views.add_tpactividad, name='add_tpactividad'),
+    url(r'^agregar_TPActividad/$', views.agregar_TPActividad, name='agregar_TPActividad'),
+
     url(r'^lista_actividades/$', views.listActividadesFuturas, name='lista_actividades'),
     url(r'^listar_actividades/$', views.listar_actividades, name='listar_actividades'),
     url(r'^listar_actividades/(?P<actividad_id>[0-9]+)/$', views.detalle_actividad, name='detalle_actividad'),

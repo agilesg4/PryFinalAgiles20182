@@ -4,9 +4,25 @@
 
 {%block content%}
 
+
 <head>
        <script type="text/javascript" src="{% static 'js/recursos/addRecurso.js' %}"></script>
+
+    <script>
+        (function(){
+			$.getJSON("/polls/id_tpplan").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#id_tpplan").prepend('<option value="'+item.fields.nombre+'">'+
+						item.fields.nombre.toUpperCase() + '</option>');
+
+				});
+			});
+		})();
+    </script>
+
 </head>
+
+
 
 <div class="container">
     <div  class="col-md-6 col-sm-offset-3">
@@ -14,6 +30,9 @@
         <form method="POST" class="form-group" id="formRecurso" action="../../polls/addRecurso/"/>
             {% csrf_token %}
             {{ form|crispy }}
+            <select class="form-control input-md" id="id_tpplan" name="id_tpplan">
+                <option selected>Seleccionar Template Plan</option>
+            </select><br>
             <button type="submit" class="btn btn-primary" id="id_grabar">Crear</button>
             <a id="cancelar" href="/">Cancelar</a>
         </form>
