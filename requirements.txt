@@ -1,4 +1,4 @@
-cd django-crispy-forms
+django-crispy-forms
 dj-database-url==0.5.0
 dj-static==0.0.6
 Django==1.11.15
