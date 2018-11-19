@@ -30,6 +30,8 @@
         <form method="POST" class="form-group" id="formRecurso" action="../../polls/addRecurso/"/>
             {% csrf_token %}
             {{ form|crispy }}
+
+            <h5><b>Seleccionar Template*</b></h5>
             <select class="form-control input-md" id="id_tpplan" name="id_tpplan">
                 <option selected>Seleccionar Template Plan</option>
             </select><br>

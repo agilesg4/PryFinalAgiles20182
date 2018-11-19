@@ -206,7 +206,8 @@ def add_actividad(request):
                                   finalizado=bool_finalizado,
                                   periodicidad=request.POST['periodicidad'],
                                   id_plan=Plan.objects.get(nombre=request.POST['id_plan']),
-                                  id_responsable=Usuario.objects.get(auth_user=request.user),
+                                  id_responsable=Usuario.objects.get(name=request.POST['responsable']),
+                                  #id_responsable=Usuario.objects.get(auth_user=request.user),
                                   )
         new_actividad.save()
         return HttpResponse(serializers.serialize("json", []))
@@ -266,20 +267,24 @@ def add_recurso_rest(request):
 
         new_recurso.save()
 
+        if request.POST['id_tpplan'] == 'Seleccionar Template Plan':
+            {
 
-        new_plan = Plan(nombre="Plan de Trabajo de Recurso " + request.POST['titulo'],
+            }
+        else:
+            new_plan = Plan(nombre="Plan de Trabajo de Recurso " + request.POST['titulo'],
                         descripcion="Plan de Trabajo de Recurso " + request.POST['titulo'],
                         id_recurso=new_recurso,
                         )
-        new_plan.save()
+            new_plan.save()
 
-        id_tpplan=TPPlan.objects.filter(nombre=request.POST['id_tpplan']).first()
-        actividades=TPActividad.objects.filter(id_tpplan=id_tpplan)
+            id_tpplan=TPPlan.objects.filter(nombre=request.POST['id_tpplan']).first()
+            actividades=TPActividad.objects.filter(id_tpplan=id_tpplan)
 
 
-        for actividad in actividades:
+            for actividad in actividades:
 
-            new_actividad = Actividad(nombre=actividad.nombre + " Actividad de Recurso " + request.POST['titulo'],
+                new_actividad = Actividad(nombre=actividad.nombre + " Actividad de Recurso " + request.POST['titulo'],
                                   descripcion=actividad.descripcion + " Actividad de Recurso " + request.POST['titulo'],
                                   tipoact=actividad.tipoact,
                                   id_fase=actividad.id_fase,
@@ -290,7 +295,7 @@ def add_recurso_rest(request):
                                   id_plan=new_plan,
                                   id_responsable=usuario,
                                   )
-            new_actividad.save()
+                new_actividad.save()
 
 #        print(request.POST['id_tpplan'])
         return render(request, 'polls/recursos/listRecurso.html')
