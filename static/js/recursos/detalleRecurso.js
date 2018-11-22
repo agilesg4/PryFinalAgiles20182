@@ -63,6 +63,10 @@ function getArtefacto(artefacto) {
     let cargado_subtitle_label = $("<span class='card_subtitle_label'>Cargado Por: </span>");
     let cargado_subtitle_ans = $("<span class='card_subtitle_ans'>" + artefacto.cargado_por.username + "</span>");
 
+    let editado_subtitle = $("<div class='card_subtitle'></div>");
+    let editado_subtitle_label = $("<span class='card_subtitle_label'>Editado Por: </span>");
+    let editado_subtitle_ans = $("<span class='card_subtitle_ans'>" + artefacto.editado_por.username + "</span>");
+
     // Integrar partes
     tipo_subtitle.append(tipo_subtitle_label)
         .append(tipo_subtitle_ans);
@@ -73,11 +77,15 @@ function getArtefacto(artefacto) {
     cargado_subtitle.append(cargado_subtitle_label)
         .append(cargado_subtitle_ans);
 
+    editado_subtitle.append(editado_subtitle_label)
+        .append(editado_subtitle_ans);
+
     artefacto_card.append(title)
         .append(description)
         .append(tipo_subtitle)
         .append(actualizacion_subtitle)
-        .append(cargado_subtitle);
+        .append(cargado_subtitle)
+        .append(editado_subtitle);
 
     artefacto_column.append(artefacto_card);
 
