@@ -274,10 +274,11 @@ class ResponsableAct(models.Model):
 
 class Bitacora(models.Model):
     id_bitacora = models.AutoField(primary_key=True)
-    descripcion = models.CharField(max_length=1000, blank=True)
+    descripcion = models.CharField(max_length=1000,blank=True)
     archivo_bitacora = models.FileField(upload_to='files', null=False, blank=False)
     fecha_bitacora = models.DateTimeField(null=True)
     id_actividad_bitacora = models.ForeignKey(Actividad, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
         return self.descripcion
+
