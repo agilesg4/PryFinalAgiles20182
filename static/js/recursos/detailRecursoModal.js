@@ -7,15 +7,11 @@ var availableTipos = [];
 var recurso_id = null;
 
 function buildModal() {
-    let modal = $("<div class='modal fade' id='recurso_build_modal' tabindex='-1' role='dialog' aria-labelledby='recurso_modal_label' aria-hidden='true'></div>");
+    let modal = $("<div id='recurso_modal'></div>");
     let modal_dialog = $("<div class='modal-dialog' role='document'></div>");
     let modal_content = $("<div class='modal-content'></div>")
-    let modal_header = $("<div class='modal-header'></div>");
     let modal_body = $("<div class='modal-body'></div>");
     let modal_footer = $("<div class='modal-footer'></div>");
-
-    // Add content to modal
-    modal_header.append("<h5 class='modal_title'>Detalle Recurso</h5>");
 
     let data_form = buildModalForm();
     modal_body.append(data_form);
@@ -23,12 +19,10 @@ function buildModal() {
     let save_button = $("<input type='submit' id='modal_save_button' form='recurso_form' class='btn btn-secondary' value='Guardar Cambios'>")
         .css("visibility", "hidden");
 
-    modal_footer.append(save_button)
-        .append("<button type='button' class='btn btn-secondary' data-dismiss='modal' onclick='clearModalInfo();'>Cancelar</button>");
+    modal_footer.append(save_button);
 
     // Build modal
-    modal_content.append(modal_header)
-        .append(modal_body)
+    modal_content.append(modal_body)
         .append(modal_footer);
 
     modal_dialog.append(modal_content);
@@ -44,7 +38,6 @@ function buildModalForm() {
     let tipo_field = $("<div class='form-group form-inline'></div>");
     let descripcion_field = $("<div class='form-group form-inline'></div>");
     let ubicacion_field = $("<div class='form-group form-inline'></div>");
-
 
     // Add content to form
     titulo_field.append("<label for='recurso_titulo' class='col-form-label col-md-3'>Titulo:</label>")
@@ -79,7 +72,6 @@ function buildModalForm() {
 
     ubicacion_field.append("<label for='load_file_name_input' class='col-form-label col-md-3'>Ubicación:</label>")
         .append(path_field);
-
 
 
     // Build form

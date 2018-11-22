@@ -1,9 +1,11 @@
 // Listeners
+let RECURSO_BASE_PATH = "/polls/recursos/";
+
+
 function onClickRecurso(e) {
     e.preventDefault();
     let recurso = e.data.data;
-    setModalInfo(recurso);
-    $('#recurso_build_modal').modal('toggle');
+    window.location = RECURSO_BASE_PATH + recurso.id_recurso;
 }
 
 // Manejo del UI

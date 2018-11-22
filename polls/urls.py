@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^api/recursosPorTipo$', views.api_recursos_por_tipo, name='api_recursos_por_tipo'),
     url(r'^api/recursos/tipos$', views.api_recursos_tipos, name='api_recursos_tipos'),
     url(r'^api/recursos/(?P<recurso_id>[0-9]+)/update$', views.api_update_recurso, name='api_update_recurso'),
+    url(r'^api/recursos/(?P<recurso_id>[0-9]+)$', views.api_detalle_recurso, name='api_detalle_recurso'),
     url(r'^recurso/list$', views.listResources, name='listRecurso'),
     url(r'^dueno/$', views.dueno, name='dueno'),
     url(r'^tipoact/$', views.tipoact, name='tipoact'),
@@ -22,6 +23,8 @@ urlpatterns = [
     url(r'^agregar_Proyecto/$', views.agregar_Proyecto, name='agregar_Proyecto'),
     url(r'^proyectos/(?P<proyecto_id>[0-9]+)/$', views.detalle_proyecto, name='detalle_proyecto'),
     url(r'^lista_recursos/$', views.recurso, name='lista_recursos'),
+    url(r'^recursos/(?P<recurso_id>[0-9]+)/$', views.detalle_recurso, name='detalle_recurso'),
+    url(r'^recursos/(?P<recurso_id>[0-9]+)/update$', views.update_recurso, name='update_recurso'),
     url(r'^tipo_artefacto/$', views.tipo_artefacto, name='tipo_artefacto'),
 
     url(r'^listar_actividades/(?P<actividad_id>[0-9]+)/addbitacora/$', views.form_bitacora, name='form_bitacora'),

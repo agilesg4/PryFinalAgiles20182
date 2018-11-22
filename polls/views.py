@@ -62,6 +62,12 @@ def api_update_recurso(request, recurso_id):
     else:
         return HttpResponse(serializers.serialize("json", []))
 
+@csrf_exempt
+def api_detalle_recurso(request, recurso_id):
+    recurso = Recurso.objects.get(id_recurso=recurso_id)
+    serializer = RecursoSerializer(recurso)
+    return HttpResponse(json.dumps(serializer.data), content_type="application/json")
+
 # Tipos de recursos
 @csrf_exempt
 def api_recursos_tipos(request):
@@ -109,6 +115,12 @@ def id_tpplan(request):
 def recurso(request):
     lista_recurso = Recurso.objects.all()
     return HttpResponse(serializers.serialize("json", lista_recurso))
+
+def detalle_recurso(request, recurso_id):
+    return render(request, "polls/recursos/detalleRecurso.html")
+
+def update_recurso(request, recurso_id):
+    return render(request, "polls/recursos/updateRecurso.html")
 
 def tipo_artefacto(request):
     lista_tipo_artefacto = Tipo_artefacto.objects.all()
