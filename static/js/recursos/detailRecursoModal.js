@@ -45,6 +45,7 @@ function buildModalForm() {
     let descripcion_field = $("<div class='form-group form-inline'></div>");
     let ubicacion_field = $("<div class='form-group form-inline'></div>");
 
+
     // Add content to form
     titulo_field.append("<label for='recurso_titulo' class='col-form-label col-md-3'>Titulo:</label>")
         .append("<input type='text' class='form-control col-md-9' id='recurso_titulo' autocomplete='nope' disabled>");
@@ -78,6 +79,7 @@ function buildModalForm() {
 
     ubicacion_field.append("<label for='load_file_name_input' class='col-form-label col-md-3'>Ubicación:</label>")
         .append(path_field);
+
 
 
     // Build form

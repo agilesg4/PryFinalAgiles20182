@@ -1,0 +1,171 @@
+{% extends "index.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{%block content%}
+
+<head>
+
+    <script>
+		(function(){
+			$.getJSON("/polls/tipoact").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#tipoact").prepend('<option value="'+item.fields.nombre+'">'+
+						item.fields.nombre.toUpperCase() + '</option>');
+
+				});
+			});
+
+		})();
+	</script>
+
+    <script>
+		(function(){
+			$.getJSON("/polls/id_fase").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#id_fase").prepend('<option value="'+item.fields.nombre+'">'+
+						item.fields.nombre.toUpperCase() + '</option>');
+
+				});
+			});
+
+		})();
+	</script>
+
+
+    <script>
+		(function(){
+			$.getJSON("/polls/id_plan").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#id_plan").prepend('<option value="'+item.fields.nombre+'">'+
+						item.fields.nombre.toUpperCase() + '</option>');
+
+				});
+			});
+
+		})();
+	</script>
+
+    <script>
+    (function(){
+        $.getJSON("/polls/responsable").done(function (data) {
+            $.each(data, function (i, item) {
+                $("#responsable").prepend('<option value="'+item.fields.name+'">'+
+                    item.fields.name.toUpperCase() + '</option>');
+
+            });
+        });
+
+    })();
+    </script>
+
+
+    <script>
+		function enviarForm() {
+
+			if ($('#tipoact').val() === 'Seleccionar Tipo Actividad') {
+				return false;
+			}
+
+			if ($('#id_fase').val() === 'Seleccionar Fase') {
+				return false;
+			}
+
+			if ($('#id_plan').val() === 'Seleccionar Plan') {
+				return false;
+			}
+
+			if ($('#responsable').val() === 'Seleccionar Responsable') {
+                return false;
+            }
+
+			// Aca lo cargo
+			$.ajax({
+				type: "POST",
+				url: "/polls/add_actividad/",
+				data: JSON.stringify({
+					nombrep: $('#nombrep').val(),
+                    descripcion: $('#descripcion').val(),
+                    tipoact: $('#tipoact').val(),
+                    id_fase: $('#id_fase').val(),
+                    fecha_inicio: $('#fecha_inicio').val(),
+                    fecha_fin: $('#fecha_fin').val(),
+                    finalizado: $('#finalizado').val(),
+                    periodicidad: $('#periodicidad').val(),
+                    id_plan: $('#id_plan').val(),
+                    responsable: $('#responsable').val(),
+                }),
+                contentType: "application/json; charset=UTF-8",
+				dataType: "json",
+				success: function (data) {
+					// Aca lo agrego nuevamente
+                    window.location = "/polls/index"
+				},
+				failure: function (errMsg) {
+					alert("Hubo un error.")
+
+				}
+			});
+
+			return false;
+		}
+	</script>
+
+
+
+
+
+</head>
+<div class="container">
+    <div  class="col-md-6 col-sm-offset-3">
+        <h1>Nueva Actividad</h1>
+        <form id="formActividad" action="../../polls/add_actividad/" enctype="multipart/form-data" method="post" >
+            <input id="nombre" name="nombre" type="text" placeholder="Title" class="form-control input-md" required=""><br>
+            <input id="descripcion" name="descripcion" type="text" placeholder="Descripcion" class="form-control input-md" required=""><br>
+            <select class="form-control input-md" id="tipoact" name="tipoact">
+                <option selected>Seleccionar Tipo Actividad</option>
+            </select><br>
+            <select class="form-control input-md" id="id_fase" name="id_fase">
+                <option selected>Seleccionar Fase</option>
+            </select><br>
+            <input id="fecha_inicio" name="fecha_inicio" type="date" placeholder="Fecha Inicio" class="form-control input-md" required=""><br>
+            <input id="fecha_fin" name="fecha_fin" type="date" placeholder="Fecha Fin" class="form-control input-md" required=""><br>
+            <input id="finalizado" type="checkbox" name="finalizado"  >Finalizado<br>
+            <select class="form-control input-md" id="periodicidad" name="periodicidad">
+                <option selected>Seleccionar Periodicidad</option>
+                <option >Diario</option>
+                <option >Semanal</option>
+                <option >Mensual</option>
+            </select><br>
+            <select class="form-control input-md" id="id_plan" name="id_plan">
+                <option selected>Seleccionar Plan</option>
+            </select><br>
+            <select class="form-control input-md" id="responsable" name="responsable">
+                <option selected>Seleccionar Responsable</option>
+            </select><br>
+
+            <input type="submit" value="Añadir" class="btn btn-primary">
+                <a href="/polls/" class="btn btn-primary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('form').submit(function (e) {
+        var formData = new FormData($("#formActividad")[0]);
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function () {
+                window.location = "/polls/";
+            },
+
+        });
+        e.preventDefault();
+    });
+</script>
+{% endblock %}

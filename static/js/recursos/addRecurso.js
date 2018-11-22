@@ -1,5 +1,5 @@
 $('form').submit(function (e){
-        e.preventDefault();
+
         var formData = new FormData($("#formRecurso")[0]);
         $.ajax({
             url: $(this).attr('action'),
@@ -9,10 +9,14 @@ $('form').submit(function (e){
             contentType: false,
             processData: false,
             success: function () {
-                window.location = "/polls/";
+             //window.location = "polls/create_TPPLAN";
             },
-
         });
+        e.preventDefault();
         console.log(formData)
+        return false
+
 
     });
+
+

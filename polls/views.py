@@ -35,11 +35,15 @@ def api_proyecto_recursos_por_tipo(request, proyecto_id):
 @csrf_exempt
 def api_recursos_por_tipo(request):
     usuario = None
-    if request.user is not None:
+    if request.user.is_authenticated:
         usuario = Usuario.objects.filter(auth_user=request.user)
-    tipos = dict()
-    for obj in Recurso.objects.filter(id_usuario_id=usuario):
-        tipos.setdefault(obj.tipo.nombre, []).append(RecursoSerializer(obj).data)
+        tipos = dict()
+        for obj in Recurso.objects.filter(id_usuario_id=usuario):
+            tipos.setdefault(obj.tipo.nombre, []).append(RecursoSerializer(obj).data)
+    else:
+        tipos = dict()
+        for obj in Recurso.objects.filter(id_usuario_id=None):
+            tipos.setdefault(obj.tipo.nombre, []).append(RecursoSerializer(obj).data)
     return HttpResponse(json.dumps(tipos), content_type='application/json')
 
 @csrf_exempt
@@ -192,9 +196,8 @@ def addRecurso(request):
 @csrf_exempt
 def add_recurso_rest(request):
     usuario = None
-    if request.user is not None:
+    if request.user.is_authenticated:
         usuario = Usuario.objects.filter(auth_user=request.user).first()
-        print("entre")
     if request.method == 'POST':
         proyecto = get_object_or_404(Proyecto, id_proyecto=request.POST['id_proyecto'])
         tipo = get_object_or_404(Tipo, id_tipo=request.POST['tipo'])
@@ -204,13 +207,15 @@ def add_recurso_rest(request):
                                   ubicacion=request.POST['ubicacion'],
                                   id_proyecto=proyecto,
                                   fecha_creacion=datetime.now(),
-                                  id_usuario=usuario
+                                  id_usuario=usuario,
                             )
 
         new_recurso.save()
-        return HttpResponse(serializers.serialize("json", [new_recurso]))
+        return render(request, 'polls/recursos/listRecurso.html')
+        #return HttpResponse(serializers.serialize("json", [new_recurso]))
     else:
-        return HttpResponse(serializers.serialize("json", []))
+        return render(request, 'polls/recursos/listRecurso.html')
+        #return HttpResponse(serializers.serialize("json", []))
 
 
 def agregar_artefacto(request):
@@ -227,12 +232,21 @@ def listResources(request):
 
 
 def listActividadesFuturas(request):
-    lista_Actividades_Futuras = Actividad.objects.all()
+    usuario = None
+
+    if request.user.is_authenticated:
+        usuario = User.objects.filter(username=request.user).first()
+    lista_Actividades_Futuras = Actividad.objects.filter(id_responsable=usuario)
+    # lista_Actividades_Futuras = Actividad.objects.all()
     return HttpResponse(serializers.serialize("json", lista_Actividades_Futuras))
 
 
 @csrf_exempt
 def add_artefacto(request):
+    usuario = None
+    if request.user is None:
+        usuario = Usuario.objects.filter(auth_user=request.user).first()
+
     if request.method == 'POST':
         if 'reusable' in request.POST:
             if request.POST.get('reusable') == 'on':
@@ -276,10 +290,12 @@ def add_bitacora_rest(request):
             id_actividad_bitacora=actividad
                             )
         new_bitacora.save()
-        print(serializers.serialize("json", [new_bitacora]));
-        return HttpResponse(serializers.serialize("json", [new_bitacora]))
+        print(serializers.serialize("json", [new_bitacora]))
+        return render(request, 'polls/listActividades.html')
+        #return HttpResponse(serializers.serialize("json", [new_bitacora]))
     else:
-        return HttpResponse(serializers.serialize("json", []))
+        return render(request, 'polls/listActividades.html')
+        #return HttpResponse(serializers.serialize("json", []))
 
 def handle_uploaded_file(f):
     with open('some/file/name.txt', 'wb+') as destination:

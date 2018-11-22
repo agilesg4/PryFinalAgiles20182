@@ -10,6 +10,9 @@
         <form id="formPlan" action="../../polls/add_plan/" enctype="multipart/form-data" method="post" >
             <input id="nombre" name="nombre" type="text" placeholder="Title" class="form-control input-md" required=""><br>
             <input id="descripcion" name="descripcion" type="text" placeholder="Descripcion" class="form-control input-md" required=""><br>
+            <select class="form-control input-md" id="recurso" name="recurso">
+                <option selected>Seleccionar Recurso</option>
+            </select><br>
             <input type="submit" value="Añadir" class="btn btn-primary">
                 <a href="/polls/" class="btn btn-primary">Cancelar</a>
         </form>
@@ -34,4 +37,19 @@
         e.preventDefault();
     });
 </script>
+  <script>
+		(function(){
+			$.getJSON("/polls/lista_recursos").done(function (data) {
+				$.each(data, function (i, item) {
+					$("#recurso").prepend('<option value="'+item.fields.titulo+'">'+
+						item.fields.titulo.toUpperCase() + '</option>');
+
+				});
+			});
+
+		})();
+  </script>
+
+
+
 {% endblock %}
