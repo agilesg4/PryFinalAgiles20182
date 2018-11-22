@@ -17,7 +17,6 @@ function buildModal() {
     modal_body.append(data_form);
 
     let save_button = $("<input type='submit' id='modal_save_button' form='recurso_form' class='btn btn-secondary' value='Guardar Cambios'>")
-        .css("visibility", "hidden");
 
     modal_footer.append(save_button);
 
@@ -41,11 +40,11 @@ function buildModalForm() {
 
     // Add content to form
     titulo_field.append("<label for='recurso_titulo' class='col-form-label col-md-3'>Titulo:</label>")
-        .append("<input type='text' class='form-control col-md-9' id='recurso_titulo' autocomplete='nope' disabled>");
+        .append("<input type='text' class='form-control col-md-9' id='recurso_titulo' autocomplete='nope'>");
 
 
-    let tipo_select = $("<select class='select form-control col-md-9' id='recurso_tipo_select' disabled></select>")
-        .append("<option value='' disabled selected>---------</option>");
+    let tipo_select = $("<select class='select form-control col-md-9' id='recurso_tipo_select'></select>")
+        .append("<option value='' selected>---------</option>");
 
     for(var i = 0; i < availableTipos.length; i++) {
         let option = availableTipos[i];
@@ -56,7 +55,7 @@ function buildModalForm() {
         .append(tipo_select);
 
     descripcion_field.append("<label for='recurso_descripcion' class='col-form-label col-md-3'>Descripción:</label>")
-        .append("<textarea class='form-control col-md-9' id='recurso_descripcion' autocomplete='nope' disabled></textarea>");
+        .append("<textarea class='form-control col-md-9' id='recurso_descripcion' autocomplete='nope'></textarea>");
 
     let file_dialog_button = $("<button class='load_file_button btn-secondary' id='file_dialog_button'>Cargar</button>")
         .css("visibility","hidden")
@@ -93,15 +92,10 @@ function setModalInfo(recurso) {
         $("#recurso_tipo_select").val(recurso.tipo.id_tipo);
     }
     if(recurso.ubicacion) {
-        $("#load_file_name_input").val(recurso.ubicacion)
-            .prop("disabled", true);
-        $("#modal_save_button").css("visibility", "hidden");
-        $("#file_dialog_button").css("visibility","hidden");
-    } else {
-        $("#load_file_name_input").prop("disabled", false);
-        $("#modal_save_button").css("visibility", "visible");
-        $("#file_dialog_button").css("visibility","visible");
+        $("#load_file_name_input").val(recurso.ubicacion);
     }
+    $("#load_file_name_input").prop("disabled", false);
+    $("#file_dialog_button").css("visibility","visible");
 }
 
 function clearModalInfo() {
