@@ -4,6 +4,9 @@
 
 {%block content%}
 
+<link href="{% static 'css/recursos/detalleRecurso.css' %}" rel="stylesheet" />
+<link href="{% static 'css/recursos/artefactoCards.css' %}" rel="stylesheet" />
+
 <script type="text/javascript" src="{% static 'js/recursos/detalleRecurso.js' %}"></script>
 
 <div class="container">
@@ -41,7 +44,7 @@
         </div>
     </div>
     <h4>Artefactos</h4>
-
+    <div class="row" id="artefacto_list"></div>
 </div>
 
 {% endblock %}
