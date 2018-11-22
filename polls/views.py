@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate, logout, update_session_auth
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
-from .serializers import RecursoSerializer, TipoSerializer
+from .serializers import RecursoSerializer, TipoSerializer, ArtefactoSerializer
 from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto, Plan, TipoAct, Actividad, Fase, Tipo_artefacto, TPPlan, Bitacora, Tipo
 import json
 from datetime import datetime
@@ -66,6 +66,12 @@ def api_update_recurso(request, recurso_id):
 def api_detalle_recurso(request, recurso_id):
     recurso = Recurso.objects.get(id_recurso=recurso_id)
     serializer = RecursoSerializer(recurso)
+    return HttpResponse(json.dumps(serializer.data), content_type="application/json")
+
+@csrf_exempt
+def api_recurso_artefactos(request, recurso_id):
+    lista_artefactos = Artefacto.objects.filter(id_recurso=recurso_id)
+    serializer = ArtefactoSerializer(lista_artefactos, many=True)
     return HttpResponse(json.dumps(serializer.data), content_type="application/json")
 
 # Tipos de recursos

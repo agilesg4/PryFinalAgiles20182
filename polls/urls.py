@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^api/recursos/tipos$', views.api_recursos_tipos, name='api_recursos_tipos'),
     url(r'^api/recursos/(?P<recurso_id>[0-9]+)/update$', views.api_update_recurso, name='api_update_recurso'),
     url(r'^api/recursos/(?P<recurso_id>[0-9]+)$', views.api_detalle_recurso, name='api_detalle_recurso'),
+    url(r'^api/recursos/(?P<recurso_id>[0-9]+)/artefactos', views.api_recurso_artefactos, name='api_recurso_artefactos'),
     url(r'^recurso/list$', views.listResources, name='listRecurso'),
     url(r'^dueno/$', views.dueno, name='dueno'),
     url(r'^tipoact/$', views.tipoact, name='tipoact'),
