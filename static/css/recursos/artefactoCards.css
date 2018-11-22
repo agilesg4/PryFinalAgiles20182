@@ -12,10 +12,13 @@ div {
     border-radius: 8px;
     border: 1px solid #e7e7e7;
     height: 300px;
+}
+
+.artefacto_card_selectable {
     cursor: pointer;
 }
 
-.artefacto_card:hover {
+.artefacto_card_selectable:hover {
     background-color: #e7e7e7;
 }
 

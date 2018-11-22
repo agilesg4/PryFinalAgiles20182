@@ -1,3 +1,5 @@
+let ACCEPTED_IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".gif"];
+
 $(document).ready(function() {
     let id = getId();
     getRecurso(id);
@@ -13,7 +15,12 @@ function setModalInfo(recurso) {
 }
 
 function handleOnRecursoClick(artefacto) {
-    console.log("Buenas forever 21");
+    if(!artefacto.archivo) return;
+
+    let imageRelativePath = artefacto.archivo.trim();
+    let parts = imageRelativePath.split("/");
+    let imageName = parts[parts.length-1];
+    window.open("/static/" + imageName);
 }
 
 // Helpers
@@ -26,9 +33,18 @@ function addArtefactos(artefactos) {
 }
 
 function getArtefacto(artefacto) {
-    console.log(artefacto);
     let artefacto_column = $("<div class='col-md-3'></div>");
-    let artefacto_card = $("<div class='artefacto_card' onclick='handleOnRecursoClick();'></div>");
+    var artefacto_card = null;
+
+    if(isArtefactoSelectable(artefacto)) {
+       artefacto_card = $("<div class='artefacto_card artefacto_card_selectable'></div>")
+        .click(function() {
+            handleOnRecursoClick(artefacto);
+        });
+    } else {
+        artefacto_card = $("<div class='artefacto_card'></div>")
+    }
+
     let title = $("<div class='card_title'>" + artefacto.nombre_mostrar + "</div>")
     let description = $("<div class='card_description'>" + artefacto.descripcion + "</div>")
 
@@ -66,6 +82,16 @@ function getArtefacto(artefacto) {
     artefacto_column.append(artefacto_card);
 
     return artefacto_column;
+}
+
+function isArtefactoSelectable(artefacto) {
+    if(!artefacto.archivo) return false;
+    let fileRelativePath = artefacto.archivo.toLowerCase();
+    for(var i = 0; i < ACCEPTED_IMAGE_EXTENSIONS.length; i++) {
+        let currentExtension = ACCEPTED_IMAGE_EXTENSIONS[i].toLowerCase();
+        if(fileRelativePath.includes(currentExtension)) return true;
+    }
+    return false;
 }
 
 // HTTP
