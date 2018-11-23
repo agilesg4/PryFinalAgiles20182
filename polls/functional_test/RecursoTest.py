@@ -47,6 +47,9 @@ class RecursoTest(TestCase):
     def test_recurso_etiqueta(self):
         self.browser.get('http://127.0.0.1:8000/polls/recurso/')
         self.browser.implicitly_wait(3)
-        titulo = self.browser.find_element_by_id('id_etiquetas')
-        titulo.send_keys('Graficos barras ')
-        self.browser.implicitly_wait(3)
+        tags = self.browser.find_element_by_id('id_etiquetas')
+        sendtags = self.browser.find_element_by_class_name('select2-search__field')
+        sendtags.send_keys('Graficos barras')
+        self.browser.implicitly_wait(10)
+
+

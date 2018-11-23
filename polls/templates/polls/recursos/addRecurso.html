@@ -21,7 +21,30 @@
 		})();
     </script>
 
-    <script>new Taggle('example1');</script>
+    <script>
+        $(document).ready(function() {
+
+            $('select').select2({
+              createTag: function (params) {
+                var term = $.trim(params.term);
+
+                if (term === '') {
+                  return null;
+                }
+
+                return {
+                  id: term,
+                  text: term,
+                  newTag: true // add additional parameters
+                }
+              }
+            });
+
+            $(".js-tags").select2({
+              tags: true
+            });
+        });
+    </script>
 
 </head>
 
@@ -38,7 +61,13 @@
             <select class="form-control input-md" id="id_tpplan" name="id_tpplan">
                 <option selected>Seleccionar Template Plan</option>
             </select><br>
-            <div id="example1">hik</div>
+
+            <select class="js-tags" id="id_etiquetas" multiple="multiple">
+              <option selected="selected">orange</option>
+              <option>white</option>
+              <option selected="selected">purple</option>
+            </select>
+
             <button type="submit" class="btn btn-primary" id="id_grabar">Crear</button>
             <a id="cancelar" href="/">Cancelar</a>
         </form>
