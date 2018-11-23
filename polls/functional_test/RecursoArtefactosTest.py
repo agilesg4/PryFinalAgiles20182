@@ -6,7 +6,7 @@ from selenium import webdriver
 class RecursoTest(TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Chrome()
+        self.browser = webdriver.Chrome('C:\\chromedriver.exe')
 
     def tearDown(self):
         self.browser.quit()
@@ -21,3 +21,11 @@ class RecursoTest(TestCase):
         self.assertIsNotNone(artefacto_list.is_displayed())
         self.assertEqual(True, artefacto_list.is_displayed())
         self.assertIsNotNone(artefacto_list.find_elements_by_class_name("artefacto_card"))
+
+    def test_artefacto_etiqueta(self):
+        self.browser.get('http://127.0.0.1:8000/polls/agregarArtefacto/')
+        self.browser.implicitly_wait(3)
+        tags = self.browser.find_element_by_id('id_etiquetas')
+        sendtags = self.browser.find_element_by_class_name('select2-search__field')
+        sendtags.send_keys('Graficos barras')
+        self.browser.implicitly_wait(10)
