@@ -6,7 +6,9 @@ from selenium import webdriver
 class RecursoTest(TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Chrome()
+        self.browser = webdriver.Chrome('C:\\chromedriver.exe')
+
+
 
     def tearDown(self):
         self.browser.quit()
@@ -40,3 +42,11 @@ class RecursoTest(TestCase):
         self.browser.find_element_by_xpath("//select[@id='id_id_proyecto']/option[text()='Primero']").click()
         botonGrabar = self.browser.find_element_by_id('id_grabar')
         botonGrabar.click()
+
+
+    def test_recurso_etiqueta(self):
+        self.browser.get('http://127.0.0.1:8000/polls/recurso/')
+        self.browser.implicitly_wait(3)
+        titulo = self.browser.find_element_by_id('id_etiquetas')
+        titulo.send_keys('Graficos barras ')
+        self.browser.implicitly_wait(3)
