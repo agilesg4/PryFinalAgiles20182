@@ -35,9 +35,9 @@
     $('form').submit(function (e) {
         var formData = new FormData($("#formArtefacto")[0]);
         var etiquetas = $('#id_etiquetas').select2('data');
-        tag = etiquetas.map((x)=>x.text)
+        tag = etiquetas.map((x)=>x.text);
 
-        formData.append('etiquetas', tag)
+        formData.append('etiquetas', tag);
         $.ajax({
             url: $(this).attr('action'),
             type: $(this).attr('method'),

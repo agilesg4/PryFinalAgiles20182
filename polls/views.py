@@ -286,9 +286,7 @@ def add_recurso_rest(request):
         new_recurso.save()
 
         if request.POST['id_tpplan'] == 'Seleccionar Template Plan':
-            {
-
-            }
+            print('')
         else:
             new_plan = Plan(nombre="Plan de Trabajo de Recurso " + request.POST['titulo'],
                         descripcion="Plan de Trabajo de Recurso " + request.POST['titulo'],
@@ -314,6 +312,29 @@ def add_recurso_rest(request):
                                   id_responsable=usuario,
                                   )
                 new_actividad.save()
+
+        print(request.POST)
+        etiquetas = request.POST.getlist('etiquetas')
+
+
+        print(etiquetas)
+        print('-----------------------------------------------------')
+        for e in etiquetas:
+            buscado = Etiqueta.objects.filter(descripcion=e)
+            print(buscado)
+            if not buscado.exists():
+                new_etiqueta = Etiqueta(descripcion=e)
+                new_etiqueta.save()
+            id_etiqueta = Etiqueta.objects.get(descripcion=e)
+            id_recurso = Recurso.objects.filter(titulo=request.POST.get('titulo')).first()
+            print (id)
+            new_etiqueta_recurso = Etiqueta_Recurso(id_etiqueta_recurso=id_etiqueta,
+                                                    id_recurso=id_recurso)
+            new_etiqueta_recurso.save()
+
+
+
+
 
 #        print(request.POST['id_tpplan'])
         return render(request, 'polls/recursos/listRecurso.html')
@@ -361,10 +382,7 @@ def add_artefacto(request):
         else:
             bool_reusable = False
 
-            print(request.POST['etiquetas'])
-            etiquetas = request.POST['etiquetas'].split(',');
-            print (etiquetas[0])
-
+        etiquetas = request.POST['etiquetas'].split(',')
         new_artefacto = Artefacto(nombre_mostrar=request.POST['nombre_mostrar'],
                                   descripcion=request.POST['descripcion'],
                                   tipo_artefacto=Tipo_artefacto.objects.get(nombre=request.POST.get('tipo_artefacto')),

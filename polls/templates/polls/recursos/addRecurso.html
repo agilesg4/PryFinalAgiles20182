@@ -15,11 +15,12 @@
 				$.each(data, function (i, item) {
 					$("#id_tpplan").prepend('<option value="'+item.fields.nombre+'">'+
 						item.fields.nombre.toUpperCase() + '</option>');
-
 				});
 			});
 		})();
     </script>
+
+
 
     <script>
         $(document).ready(function() {
@@ -63,7 +64,7 @@
             </select><br>
 
          <h5><b>Etiquetas: </b></h5>
-            <select class="js-tags col-md-12 col-sm-offset-3" id="id_etiquetas" multiple="multiple" >
+            <select class="js-tags col-md-12 col-sm-offset-3" id="id_etiquetas" multiple="multiple" name="etiquetas">
               <option selected="selected">imagen</option>
               <option>infrografia</option>
               <option selected="selected">video</option>
