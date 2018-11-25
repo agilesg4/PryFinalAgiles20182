@@ -1,6 +1,6 @@
 # Sistema de gestion de recursos educativos digitales
 
-[ ![Codeship Status for agilesg4/PryFinalAgiles20182](https://app.codeship.com/projects/26013ab0-bfaa-0136-6260-628ad8a7bead/status?branch=master)](https://app.codeship.com/projects/313377)
+[ ![Codeship Status for agilesg4/PryFinalAgiles20182](https://app.codeship.com/projects/26013ab0-bfaa-0136-6260-628ad8a7bead/status?branch=Develop)](https://app.codeship.com/projects/313377)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/02f1cef710074cc8958ab94c6c9378f9)](https://www.codacy.com/app/drummerwilliam/PryFinalAgiles20182?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=agilesg4/PryFinalAgiles20182&amp;utm_campaign=Badge_Grade)
 
