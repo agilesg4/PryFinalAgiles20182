@@ -56,7 +56,7 @@
         {% if actividades %}
             <h3>Actividades</h3>
             {% for actividad in actividades %}
-            <a href="#" class="list-group-item list-group-item-action active">{{ actividad.nombre }} - {{ actividad.descripcion }}</a>
+            <a href="#" class="list-group-item list-group-item-action">{{ actividad.nombre }} - {{ actividad.descripcion }}</a>
             {% endfor %}
         {% endif %}
         </div>
@@ -66,7 +66,7 @@
         {% if artefactos %}
             <h3>Artefactos</h3>
             {% for artefacto in artefactos %}
-            <a href="#" class="list-group-item list-group-item-action active">{{ artefacto.nombre_mostrar }} - {{ artefacto.descripcion }}</a>
+            <a href="#" class="list-group-item list-group-item-action">{{ artefacto.nombre_mostrar }} - {{ artefacto.descripcion }}</a>
             {% endfor %}
         {% endif %}
         </div>
