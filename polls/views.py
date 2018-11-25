@@ -93,7 +93,7 @@ def artefacto_por_nombre_o_descripcion(request, palabra_clave):
     return artefactos
 
 
-def buscar_objetos(request, palabra_clave):
+def buscar_objetos(request, palabra_clave=""):
     recursos = recurso_por_titulo_o_descripcion(request, palabra_clave)
     actividades = actividad_por_nombre_o_descripcion(request, palabra_clave)
     artefactos = artefacto_por_nombre_o_descripcion(request, palabra_clave)

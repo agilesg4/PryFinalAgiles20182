@@ -1,22 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Resultados Busqueda</title>
-</head>
-<body>
-    <h1>Resultados búsqueda</h1>
-    <h2>Recursos</h2>
-    {% for recurso in recursos %}
-    <h3>{{ recurso.titulo }} - {{ recurso.descripcion }}</h3>
-    {% endfor %}
-    <h2>Actividades</h2>
-    {% for actividad in actividades %}
-    <h3>{{ actividad.nombre }} - {{ actividad.descripcion }}</h3>
-    {% endfor %}
-    <h2>Artefactos</h2>
-    {% for artefacto in artefactos %}
-    <h3>{{ artefacto.nombre_mostrar }} - {{ artefacto.descripcion }}</h3>
-    {% endfor %}
-</body>
-</html>
+{% extends "index.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{%block content%}
+<!-- Static files -->
+<link href="{% static 'css/busqueda/list.css' %}" rel="stylesheet" />
+<script type="text/javascript" src="{% static 'js/busqueda/busqueda.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/helpers.js' %}"></script>
+<script>
+
+</script>
+
+<div class="header row">
+    <div class="col-lg-1">
+        <h2>Búsqueda</h2>
+    </div>
+</div>
+
+<div class="modal-body row">
+
+    <div class="col-md-2 border-right" id="filtros">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="defaultChecked1" name="Recurso" checked onclick="myFunction()">
+          <label class="custom-control-label" for="defaultChecked1">Recurso</label>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="defaultChecked2" name="Actividad" checked onclick="myFunction()">
+          <label class="custom-control-label" for="defaultChecked2">Actividad</label>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="defaultChecked3" name="Artefacto" checked onclick="myFunction()"x>
+          <label class="custom-control-label" for="defaultChecked3">Artefacto</label>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+
+
+        <div class="list-group" id="Recurso">
+            <h3>Recursos</h3>
+            {% for recurso in recursos %}
+            <a href="#" class="list-group-item list-group-item-action">{{ recurso.titulo }} - {{ recurso.descripcion }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="list-group" id="Actividad">
+            <h3>Actividades</h3>
+            {% for actividad in actividades %}
+            <a href="#" class="list-group-item list-group-item-action active">{{ actividad.nombre }} - {{ actividad.descripcion }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="list-group" id="Artefacto">
+            <h3>Artefactos</h3>
+            {% for artefacto in artefactos %}
+            <a href="#" class="list-group-item list-group-item-action active">{{ artefacto.nombre_mostrar }} - {{ artefacto.descripcion }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
