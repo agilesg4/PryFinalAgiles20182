@@ -3,20 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Resultados Busqueda</title>
+    <script>
+        function toggleResourcesResult(){
+            if(document.getElementById("checkRecursos").checked){
+                document.getElementById("resources").style.display = "block";
+            } else {
+                document.getElementById("resources").style.display = "none";
+            }
+        };
+        function toggleActivitiesResult(){
+            if(document.getElementById("checkActividades").checked){
+                document.getElementById("activities").style.display = "block";
+            } else {
+                document.getElementById("activities").style.display = "none";
+            }
+        };
+        function toggleArtifactsResult(){
+            if(document.getElementById("checkArtefactos").checked){
+                document.getElementById("artifacts").style.display = "block";
+            } else {
+                document.getElementById("artifacts").style.display = "none";
+            }
+        };
+
+    </script>
 </head>
 <body>
-    <h1>Resultados búsqueda</h1>
-    <h2>Recursos</h2>
-    {% for recurso in recursos %}
-    <h3>{{ recurso.titulo }} - {{ recurso.descripcion }}</h3>
-    {% endfor %}
-    <h2>Actividades</h2>
-    {% for actividad in actividades %}
-    <h3>{{ actividad.nombre }} - {{ actividad.descripcion }}</h3>
-    {% endfor %}
-    <h2>Artefactos</h2>
-    {% for artefacto in artefactos %}
-    <h3>{{ artefacto.nombre_mostrar }} - {{ artefacto.descripcion }}</h3>
-    {% endfor %}
+    <h1>Resultados búsqueda<br>================</h1>
+    <div id="resources">
+        {% if recursos %}
+            <h2>Recursos</h2>
+            {% for recurso in recursos %}
+            <h3>{{ recurso.titulo }} - {{ recurso.descripcion }}</h3>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div id="activities">
+        {% if actividades %}
+            <h2>Actividades</h2>
+            {% for actividad in actividades %}
+            <h3>{{ actividad.nombre }} - {{ actividad.descripcion }}</h3>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div id="artifacts">
+        {% if artefactos %}
+            <h2>Artefactos</h2>
+            {% for artefacto in artefactos %}
+            <h3>{{ artefacto.nombre_mostrar }} - {{ artefacto.descripcion }}</h3>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <h2>=========<br>Filtrar<br>=========</h2>
+    {% if recursos %}
+        <input id="checkRecursos" onchange='toggleResourcesResult();' type="checkbox" name="recursos" value="recursos" checked> Recursos <br>
+    {% endif %}
+    {% if actividades %}
+        <input id="checkActividades" onchange='toggleActivitiesResult();' type="checkbox" name="actividades" value="actividades" checked> Actividades <br>
+    {% endif %}
+    {% if artefactos %}
+        <input id="checkArtefactos" onchange='toggleArtifactsResult();' type="checkbox" name="artefactos" value="artefactos" checked> Artefactos <br>
+    {% endif %}
 </body>
 </html>
