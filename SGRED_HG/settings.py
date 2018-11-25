@@ -14,7 +14,7 @@ SECRET_KEY = 'brzz*h3-a5uj)0e*)z8ud7a!y!$j=qls9m+*@xf2t^i27c(d#p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'sgrede4.herokuapp.com', 'codeshipravelinx.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'sgrede4.herokuapp.com', 'sgrede4-testing.herokuapp.com']
 
 
 # Application definition
@@ -69,15 +69,16 @@ WSGI_APPLICATION = 'SGRED_HG.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': os.environ.get('DATABASE_NAME'),
-         'USER': os.environ.get('PGUSER'),
-         'PASSWORD': os.environ.get('PGPASSWORD'),
-         'HOST': os.environ.get('DATABASE_HOST'),
-         'PORT': os.environ.get('DATABASE_PORT')
-     }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DATABASE_NAME'),
+        'USER': os.environ.get('PGUSER'),
+        'PASSWORD': os.environ.get('PGPASSWORD'),
+        'HOST': os.environ.get('DATABASE_HOST'),
+        'PORT': os.environ.get('DATABASE_PORT')
+    }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -117,7 +118,9 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
+    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "files"),
+    os.path.join(BASE_DIR, "images")
 ]
 
 #try:
