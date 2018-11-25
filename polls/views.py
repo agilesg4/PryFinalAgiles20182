@@ -1,3 +1,4 @@
+
 from __future__ import unicode_literals
 import datetime
 from django.shortcuts import render, redirect, render_to_response
@@ -5,18 +6,16 @@ from django.contrib.auth import login, authenticate, logout, update_session_auth
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
-from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto
-from .serializers import RecursoSerializer, TipoSerializer
-from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto, Plan, TipoAct, Actividad, Fase, Tipo_artefacto
-from .serializers import RecursoSerializer
+from .serializers import RecursoSerializer, TipoSerializer, ArtefactoSerializer
+from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto, Plan, TipoAct, Actividad, Fase, Tipo_artefacto, TPPlan, Bitacora, Tipo, Etiqueta, Etiqueta_Artefacto, Etiqueta_Recurso
 import json
 from datetime import datetime
 from django.shortcuts import get_object_or_404
-from .forms import RecursoForm, ArtefactoForm
-from .models import Artefacto, Recurso, Proyecto, Tipo
-from .forms import RecursoForm, ArtefactoForm, PlanForm, ProyectoForm, ActividadForm
-from .forms import RecursoForm, ArtefactoForm
-from .models import Artefacto, Recurso, Proyecto,Actividad,Bitacora
+from .models import Tipo, TPActividad
+from .forms import RecursoForm, ArtefactoForm, PlanForm, ProyectoForm, ActividadForm,TPPlanForm
+from datetime import datetime, timedelta
+
+
 
 DEFAULT_HOME_PAGE = "polls/recursos/listRecurso.html"
 
@@ -64,6 +63,18 @@ def api_update_recurso(request, recurso_id):
     else:
         return HttpResponse(serializers.serialize("json", []))
 
+@csrf_exempt
+def api_detalle_recurso(request, recurso_id):
+    recurso = Recurso.objects.get(id_recurso=recurso_id)
+    serializer = RecursoSerializer(recurso)
+    return HttpResponse(json.dumps(serializer.data), content_type="application/json")
+
+@csrf_exempt
+def api_recurso_artefactos(request, recurso_id):
+    lista_artefactos = Artefacto.objects.filter(id_recurso=recurso_id)
+    serializer = ArtefactoSerializer(lista_artefactos, many=True)
+    return HttpResponse(json.dumps(serializer.data), content_type="application/json")
+
 # Tipos de recursos
 @csrf_exempt
 def api_recursos_tipos(request):
@@ -110,6 +121,7 @@ def buscar_objetos(request, palabra_clave=""):
 def index(request):
     return render(request, DEFAULT_HOME_PAGE)
 
+
 @csrf_exempt
 def listar_actividades(request):
     return render(request, "polls/listActividades.html")
@@ -131,18 +143,28 @@ def id_plan(request):
     lista_id_plan = Plan.objects.all()
     return HttpResponse(serializers.serialize("json", lista_id_plan))
 
+def id_tpplan(request):
+    lista_id_tpplan = TPPlan.objects.all()
+    return HttpResponse(serializers.serialize("json", lista_id_tpplan))
+
 
 
 def recurso(request):
     lista_recurso = Recurso.objects.all()
     return HttpResponse(serializers.serialize("json", lista_recurso))
 
+def detalle_recurso(request, recurso_id):
+    return render(request, "polls/recursos/detalleRecurso.html")
+
+def update_recurso(request, recurso_id):
+    return render(request, "polls/recursos/updateRecurso.html")
+
 def tipo_artefacto(request):
     lista_tipo_artefacto = Tipo_artefacto.objects.all()
     return HttpResponse(serializers.serialize("json", lista_tipo_artefacto))
 
 def responsable(request):
-    lista_responsable = User.objects.all()
+    lista_responsable = Usuario.objects.all()
     return HttpResponse(serializers.serialize("json", lista_responsable))
 
 
@@ -157,9 +179,16 @@ def detalle_proyecto(request, proyecto_id):
 def agregar_Plan(request):
     return render(request, "polls/addPlan.html")
 
+def agregar_TPPlan(request):
+    return render(request, "polls/templatePlan.html")
+
 
 def agregar_Actividad(request):
     return render(request, "polls/addActividad.html")
+
+def agregar_TPActividad(request):
+    return render(request, "polls/templateActividad.html")
+
 
 
 @csrf_exempt
@@ -183,11 +212,27 @@ def add_plan(request):
     if request.method == 'POST':
         new_plan = Plan(nombre=request.POST['nombre'],
                         descripcion=request.POST['descripcion'],
+                        id_recurso=Recurso.objects.get(titulo=request.POST.get('recurso')),
                         )
         new_plan.save()
         return HttpResponse(serializers.serialize("json", []))
     else:
         return HttpResponse(serializers.serialize("json", []))
+
+
+@csrf_exempt
+def add_tpplan(request):
+    if request.method == 'POST':
+        new_tpplan = TPPlan(nombre=request.POST['nombre'],
+                            descripcion=request.POST['descripcion'],
+                            )
+        new_tpplan.save()
+        return HttpResponse(serializers.serialize("json", []))
+    else:
+        return HttpResponse(serializers.serialize("json", []))
+
+
+
 
 
 @csrf_exempt
@@ -200,7 +245,7 @@ def add_actividad(request):
                 bool_finalizado = False
         else:
             bool_finalizado = False
-
+        #usuario = Usuario.objects.filter(auth_user=request.user).first()
         new_actividad = Actividad(nombre=request.POST['nombre'],
                                   descripcion=request.POST['descripcion'],
                                   tipoact=TipoAct.objects.get(nombre=request.POST['tipoact']),
@@ -210,12 +255,41 @@ def add_actividad(request):
                                   finalizado=bool_finalizado,
                                   periodicidad=request.POST['periodicidad'],
                                   id_plan=Plan.objects.get(nombre=request.POST['id_plan']),
-                                  id_responsable=User.objects.get(username=request.POST['responsable']),
+                                  id_responsable=Usuario.objects.get(name=request.POST['responsable']),
+                                  #id_responsable=Usuario.objects.get(auth_user=request.user),
                                   )
         new_actividad.save()
         return HttpResponse(serializers.serialize("json", []))
     else:
         return HttpResponse(serializers.serialize("json", []))
+
+
+@csrf_exempt
+def add_tpactividad(request):
+    if request.method == 'POST':
+        if 'finalizado' in request.POST:
+            if request.POST.get('finalizado') == 'on':
+                bool_finalizado = True
+            else:
+                bool_finalizado = False
+        else:
+            bool_finalizado = False
+
+        new_tpactividad = TPActividad(nombre=request.POST['nombre'],
+                                  descripcion=request.POST['descripcion'],
+                                  tipoact=TipoAct.objects.get(nombre=request.POST['tipoact']),
+                                  id_fase=Fase.objects.get(nombre=request.POST['id_fase']),
+                                  num_dias=request.POST['num_dias'],
+                                  finalizado=bool_finalizado,
+                                  id_tpplan=TPPlan.objects.get(nombre=request.POST['id_tpplan']),
+                                  )
+        new_tpactividad.save()
+        return HttpResponse(serializers.serialize("json", []))
+    else:
+        return HttpResponse(serializers.serialize("json", []))
+
+
+
 
 
 def addRecurso(request):
@@ -241,6 +315,59 @@ def add_recurso_rest(request):
                             )
 
         new_recurso.save()
+
+        if request.POST['id_tpplan'] == 'Seleccionar Template Plan':
+            print('')
+        else:
+            new_plan = Plan(nombre="Plan de Trabajo de Recurso " + request.POST['titulo'],
+                        descripcion="Plan de Trabajo de Recurso " + request.POST['titulo'],
+                        id_recurso=new_recurso,
+                        )
+            new_plan.save()
+
+            id_tpplan=TPPlan.objects.filter(nombre=request.POST['id_tpplan']).first()
+            actividades=TPActividad.objects.filter(id_tpplan=id_tpplan)
+
+
+            for actividad in actividades:
+
+                new_actividad = Actividad(nombre=actividad.nombre + " Actividad de Recurso " + request.POST['titulo'],
+                                  descripcion=actividad.descripcion + " Actividad de Recurso " + request.POST['titulo'],
+                                  tipoact=actividad.tipoact,
+                                  id_fase=actividad.id_fase,
+                                  fecha_inicio=datetime.now(),
+                                  fecha_fin=datetime.now()+timedelta(days=int(actividad.num_dias)),
+                                  finalizado=actividad.finalizado,
+                                  periodicidad='Dia',
+                                  id_plan=new_plan,
+                                  id_responsable=usuario,
+                                  )
+                new_actividad.save()
+
+        print(request.POST)
+        etiquetas = request.POST.getlist('etiquetas')
+
+
+        print(etiquetas)
+        print('-----------------------------------------------------')
+        for e in etiquetas:
+            buscado = Etiqueta.objects.filter(descripcion=e)
+            print(buscado)
+            if not buscado.exists():
+                new_etiqueta = Etiqueta(descripcion=e)
+                new_etiqueta.save()
+            id_etiqueta = Etiqueta.objects.get(descripcion=e)
+            id_recurso = Recurso.objects.filter(titulo=request.POST.get('titulo')).first()
+            print (id)
+            new_etiqueta_recurso = Etiqueta_Recurso(id_etiqueta_recurso=id_etiqueta,
+                                                    id_recurso=id_recurso)
+            new_etiqueta_recurso.save()
+
+
+
+
+
+#        print(request.POST['id_tpplan'])
         return render(request, 'polls/recursos/listRecurso.html')
         #return HttpResponse(serializers.serialize("json", [new_recurso]))
     else:
@@ -265,7 +392,7 @@ def listActividadesFuturas(request):
     usuario = None
 
     if request.user.is_authenticated:
-        usuario = User.objects.filter(username=request.user).first()
+        usuario = Usuario.objects.filter(auth_user=request.user)
     lista_Actividades_Futuras = Actividad.objects.filter(id_responsable=usuario)
     # lista_Actividades_Futuras = Actividad.objects.all()
     return HttpResponse(serializers.serialize("json", lista_Actividades_Futuras))
@@ -285,6 +412,8 @@ def add_artefacto(request):
                 bool_reusable = False
         else:
             bool_reusable = False
+
+        etiquetas = request.POST['etiquetas'].split(',')
         new_artefacto = Artefacto(nombre_mostrar=request.POST['nombre_mostrar'],
                                   descripcion=request.POST['descripcion'],
                                   tipo_artefacto=Tipo_artefacto.objects.get(nombre=request.POST.get('tipo_artefacto')),
@@ -295,9 +424,23 @@ def add_artefacto(request):
                                   id_recurso=Recurso.objects.get(titulo=request.POST.get('recurso')),
                                   cargado_por=User.objects.get(username=request.user),
                                   editado_por=User.objects.get(username=request.user),
+
                                   )
 
         new_artefacto.save()
+        for e in etiquetas:
+            buscado = Etiqueta.objects.filter(descripcion=e)
+            print(buscado)
+            if not buscado.exists():
+                new_etiqueta = Etiqueta(descripcion=e)
+                new_etiqueta.save()
+            id_etiqueta = Etiqueta.objects.get(descripcion=e)
+            id_artefacto = Artefacto.objects.filter(nombre_mostrar=request.POST['nombre_mostrar']).first()
+            print (id)
+            new_etiqueta_artefacto = Etiqueta_Artefacto(id_etiqueta_artefacto=id_etiqueta,
+                                                        id_artefacto=id_artefacto)
+            new_etiqueta_artefacto.save()
+
         print(serializers.serialize("json", [new_artefacto]))
         return HttpResponse(serializers.serialize("json", [new_artefacto]))
     else:
@@ -366,3 +509,12 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return render(request, DEFAULT_HOME_PAGE)
+
+
+def create_TPPlan(nombre_plan):
+    new_plan = Plan(nombre="Plan de Trabajo de Recurso " + nombre_plan ,
+                    descripcion="Plan de Trabajo de Recurso " + nombre_plan ,
+                    id_recurso=Recurso.objects.filter(nombre=nombre_plan).order_by('-id_recurso')[0],
+                    )
+    new_plan.save()
+    return render(request, 'polls/recursos/listRecurso.html')
