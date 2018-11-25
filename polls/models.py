@@ -123,7 +123,7 @@ class Proyecto(models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     id_dueno_prod = models.ForeignKey(Dueno, on_delete=models.PROTECT, null=True)
-    id_responsable = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+    id_responsable = models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
         return self.nombre

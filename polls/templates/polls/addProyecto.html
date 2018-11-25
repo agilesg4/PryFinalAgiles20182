@@ -19,8 +19,8 @@
     (function(){
         $.getJSON("/polls/responsable").done(function (data) {
             $.each(data, function (i, item) {
-                $("#responsable").prepend('<option value="'+item.fields.username+'">'+
-                    item.fields.username.toUpperCase() + '</option>');
+                $("#responsable").prepend('<option value="'+item.fields.name+'">'+
+                    item.fields.name.toUpperCase() + '</option>');
 
             });
         });
@@ -68,6 +68,8 @@
 </script>
 <div class="container">
     <div  class="col-md-6 col-sm-offset-3">
+        <div id="alert" name="alert">
+        </div>
         <h1>Nuevo Proyecto</h1>
         <form id="formProyecto" action="../../polls/add_proyecto/" enctype="multipart/form-data" method="post" >
             <input id="nombre" name="nombre" type="text" placeholder="Title" class="form-control input-md" required=""><br>
@@ -97,7 +99,16 @@
             contentType: false,
             processData: false,
             success: function () {
-                window.location = "/polls/";
+                $("#alert").prepend('<div class="alert alert-success alert-dismissible"  role="alert">' +
+                    'Proyecto Creado con Éxito. ' +
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">\n' +
+                    '    <span aria-hidden="true">&times;</span>\n' +
+                    '  </button></div>');
+                    document.getElementById("formProyecto").reset();
+            },
+            failure: function () {
+            $("#alert").prepend('<div class="alert alert-danger" role="alert">' +
+                    'Proyecto Creado con Error. </div>');
             },
 
         });

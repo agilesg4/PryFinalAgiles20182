@@ -255,7 +255,7 @@ def add_actividad(request):
                                   finalizado=bool_finalizado,
                                   periodicidad=request.POST['periodicidad'],
                                   id_plan=Plan.objects.get(nombre=request.POST['id_plan']),
-                                  id_responsable=Usuario.objects.get(name=request.POST['responsable']),
+                                  id_responsable=Usuario.objects.filter(name=request.POST['responsable'])[0],
                                   #id_responsable=Usuario.objects.get(auth_user=request.user),
                                   )
         new_actividad.save()
