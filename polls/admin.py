@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .models import Departamento, TPPlan, TPActividad
+from .models import Departamento, TPPlan, TPActividad, Etiqueta, Etiqueta_Artefacto, Etiqueta_Recurso
 from .models import Area_Usuaria
 from .models import Dueno
 from .models import Artefacto
@@ -35,3 +35,6 @@ admin.site.register(TPActividad)
 admin.site.register(ResponsableAct)
 admin.site.register(Tipo_artefacto)
 admin.site.register(Bitacora)
+admin.site.register(Etiqueta)
+admin.site.register(Etiqueta_Artefacto)
+admin.site.register(Etiqueta_Recurso)

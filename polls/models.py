@@ -6,6 +6,7 @@ from django.contrib.auth.forms import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from rest_framework import serializers
+from django.contrib.postgres.forms import SimpleArrayField
 
 
 # Create your models here.
@@ -166,8 +167,31 @@ class Artefacto(models.Model):
     reusable = models.BooleanField(default=False)
     id_recurso = models.ForeignKey(Recurso, on_delete=models.PROTECT, null=True)
 
+
     def __unicode__(self):
         return self.nombre_mostrar
+
+class Etiqueta(models.Model):
+    id_etiqueta = models.AutoField(primary_key=True)
+    descripcion = models.CharField(max_length=250, blank=False)
+
+    def __unicode__(self):
+        return self.descripcion
+
+class Etiqueta_Artefacto(models.Model):
+    id_etiqueta_artefacto =  models.ForeignKey(Etiqueta, on_delete=models.PROTECT,primary_key=True)
+    id_artefacto = models.ForeignKey(Artefacto, on_delete=models.PROTECT, null=False )
+
+
+    def __unicode__(self):
+        return self.id_etiqueta_artefacto
+
+class Etiqueta_Recurso(models.Model):
+    id_etiqueta_recurso = models.ForeignKey(Etiqueta, on_delete=models.PROTECT,primary_key=True)
+    id_recurso = models.ForeignKey(Recurso, on_delete=models.PROTECT, null=False)
+
+    def __unicode__(self):
+        return self.id_etiqueta_recurso
 
 
 class Plan(models.Model):

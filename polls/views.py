@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, HttpResponseRedirect, request, HttpResponseBadRequest, JsonResponse
 from django.core import serializers
 from .serializers import RecursoSerializer, TipoSerializer, ArtefactoSerializer
-from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto, Plan, TipoAct, Actividad, Fase, Tipo_artefacto, TPPlan, Bitacora, Tipo
+from .models import Recurso, Artefacto, Dueno, User, Usuario, Proyecto, Plan, TipoAct, Actividad, Fase, Tipo_artefacto, TPPlan, Bitacora, Tipo, Etiqueta, Etiqueta_Artefacto, Etiqueta_Recurso
 import json
 from datetime import datetime
 from django.shortcuts import get_object_or_404
@@ -360,6 +360,11 @@ def add_artefacto(request):
                 bool_reusable = False
         else:
             bool_reusable = False
+
+            print(request.POST['etiquetas'])
+            etiquetas = request.POST['etiquetas'].split(',');
+            print (etiquetas[0])
+
         new_artefacto = Artefacto(nombre_mostrar=request.POST['nombre_mostrar'],
                                   descripcion=request.POST['descripcion'],
                                   tipo_artefacto=Tipo_artefacto.objects.get(nombre=request.POST.get('tipo_artefacto')),
@@ -370,9 +375,23 @@ def add_artefacto(request):
                                   id_recurso=Recurso.objects.get(titulo=request.POST.get('recurso')),
                                   cargado_por=User.objects.get(username=request.user),
                                   editado_por=User.objects.get(username=request.user),
+
                                   )
 
         new_artefacto.save()
+        for e in etiquetas:
+            buscado = Etiqueta.objects.filter(descripcion=e)
+            print(buscado)
+            if not buscado.exists():
+                new_etiqueta = Etiqueta(descripcion=e)
+                new_etiqueta.save()
+            id_etiqueta = Etiqueta.objects.get(descripcion=e)
+            id_artefacto = Artefacto.objects.filter(nombre_mostrar=request.POST['nombre_mostrar']).first()
+            print (id)
+            new_etiqueta_artefacto = Etiqueta_Artefacto(id_etiqueta_artefacto=id_etiqueta,
+                                                        id_artefacto=id_artefacto)
+            new_etiqueta_artefacto.save()
+
         print(serializers.serialize("json", [new_artefacto]))
         return HttpResponse(serializers.serialize("json", [new_artefacto]))
     else:
