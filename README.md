@@ -1,5 +1,9 @@
 # Sistema de gestion de recursos educativos digitales
 
+[ ![Codeship Status for agilesg4/PryFinalAgiles20182](https://app.codeship.com/projects/26013ab0-bfaa-0136-6260-628ad8a7bead/status?branch=master)](https://app.codeship.com/projects/313377)
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/02f1cef710074cc8958ab94c6c9378f9)](https://www.codacy.com/app/drummerwilliam/PryFinalAgiles20182?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=agilesg4/PryFinalAgiles20182&amp;utm_campaign=Badge_Grade)
+
 Este es un proyecto de desarrollo por sprints realizado en Django para el curso de procesos de metodologías ágiles MISO4101 en la universidad de los Andes. Se trata de un sistema de gestion de recursos digitales utilizados por la unidad CONECTA-TE de la universidad para realizar apoyo tecnologico y multimedia a las clases de la universidad.
 
 ## Getting Started
