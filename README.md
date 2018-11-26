@@ -31,12 +31,7 @@ Hacemos las migraciones de los modelos
 ```
 python manage.py makemigrations polls
 ```
-Creamos el script de la base de datos
-
-```
-python manage.py sqlmigrate polls 
-```
-Realizamos las migraciones
+Corremos las migraciones
 
 ```
 python manage.py migrate 
@@ -45,6 +40,14 @@ De este modo tendremos la base de datos necesaria para correr el proyecto. Final
 ```
 python manage.py runserver 
 ```
+
+### Variables de entorno para Heroku
+
+ON_CODESHIP=False</br>
+ON_HEROKU=True</br>
+DISABLE_COLLECTSTATIC=1</br>
+
+Tambien es necesario una base de datos de tipo Postgresql
 
 ## Built With
 
