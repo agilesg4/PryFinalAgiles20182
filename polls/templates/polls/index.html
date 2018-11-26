@@ -17,7 +17,9 @@
     <!-- include summernote css/js -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
-
+    <!-- Tags -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <link href="{% static 'css/index.css' %}" rel="stylesheet" />
 </head>
 <body id="bg">
@@ -50,9 +52,6 @@
                             <a id="recursosDropdown" data-toggle="dropdown" class="nav-link">Recursos</a>
                             <ul class="dropdown-menu" aria-labelledby="recursosDropdown">
                                 <li>
-                                    <a href="{% url 'addRecurso' %}" class="" id="add_recurso">Añadir Recurso</a>
-                                </li>
-                                <li>
                                     <a class="" href="{% url 'listRecurso' %}">Listar recursos</a>
                                 </li>
                             </ul>
@@ -67,14 +66,11 @@
                         </li>
 
                         <!-- Artefacto Links -->
-                        <li class="dropdown nav-item">
+                        <!-- <li class="dropdown nav-item">
                             <a id="artefactosDropdown" data-toggle="dropdown" class="nav-link">Artefactos</a>
                             <ul class="dropdown-menu" aria-labelledby="artefactosDropdown">
-                                <li>
-                                    <a href="{% url 'agregarArtefacto' %}" class="" id="add_artefacto">Añadir artefacto</a>
-                                </li>
                             </ul>
-                        </li>
+                        </li> -->
 
                         <!-- Actividades Links -->
                         <li class="dropdown nav-item">
@@ -86,6 +82,11 @@
                                 <li>
                                     <a class="" href="{% url 'agregar_Actividad' %}">Agregar Actividad</a>
                                 </li>
+                                <li>
+                                    <a class="" href="{% url 'agregar_TPActividad' %}">Agregar Template Actividad</a>
+                                </li>
+
+
                             </ul>
                         </li>
 
@@ -96,8 +97,13 @@
                                 <li>
                                     <a class="" href="{% url 'agregar_Plan' %}">Agrear Plan de Trabajo</a>
                                 </li>
+                                <li>
+                                    <a class="" href="{% url 'agregar_TPPlan' %}">Agrear Template Plan de Trabajo</a>
+                                </li>
+
                             </ul>
                         </li>
+
                     </ul>
 
                     <!-- Login Links -->
@@ -126,6 +132,11 @@
                         </li>
                         {% endif %}
                     </ul>
+
+                    <ul class="nav navbar-nav navbar-right ">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search_text" onchange="window.location='{% url 'buscar_objetos' %}' + document.getElementById('search_text').value.toString();">
+                    </ul>
+
                 </div>
             </nav>
         </section>

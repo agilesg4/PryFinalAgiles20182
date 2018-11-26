@@ -1,0 +1,78 @@
+{% extends "index.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{%block content%}
+<!-- Static files -->
+<link href="{% static 'css/busqueda/list.css' %}" rel="stylesheet" />
+<script type="text/javascript" src="{% static 'js/busqueda/busqueda.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/helpers.js' %}"></script>
+<script>
+
+</script>
+
+<div class="header row">
+    <div class="col-lg-1">
+        <h2>Búsqueda</h2>
+    </div>
+</div>
+
+<div class="modal-body row">
+
+    <div class="col-md-2 border-right" id="filtros">
+        <div class="custom-control custom-checkbox">
+            {% if recursos %}
+          <input type="checkbox" class="custom-control-input" id="defaultChecked1" name="Recurso" checked onclick="myFunction()">
+          <label class="custom-control-label" for="defaultChecked1">Recurso</label>
+            {% endif %}
+        </div>
+        <div class="custom-control custom-checkbox">
+            {% if actividades %}
+          <input type="checkbox" class="custom-control-input" id="defaultChecked2" name="Actividad" checked onclick="myFunction()">
+          <label class="custom-control-label" for="defaultChecked2">Actividad</label>
+            {% endif %}
+        </div>
+        <div class="custom-control custom-checkbox">
+            {% if artefactos %}
+          <input type="checkbox" class="custom-control-input" id="defaultChecked3" name="Artefacto" checked onclick="myFunction()"x>
+          <label class="custom-control-label" for="defaultChecked3">Artefacto</label>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-8">
+
+
+        <div class="list-group" id="Recurso">
+        {% if recursos %}
+            <h3>Recursos</h3>
+            {% for recurso in recursos %}
+            <a href="#" class="list-group-item list-group-item-action">{{ recurso.titulo }} - {{ recurso.descripcion }}</a>
+            {% endfor %}
+         {% endif %}
+        </div>
+
+        <div class="list-group" id="Actividad">
+        {% if actividades %}
+            <h3>Actividades</h3>
+            {% for actividad in actividades %}
+            <a href="#" class="list-group-item list-group-item-action">{{ actividad.nombre }} - {{ actividad.descripcion }}</a>
+            {% endfor %}
+        {% endif %}
+        </div>
+
+
+        <div class="list-group" id="Artefacto">
+        {% if artefactos %}
+            <h3>Artefactos</h3>
+            {% for artefacto in artefactos %}
+            <a href="#" class="list-group-item list-group-item-action">{{ artefacto.nombre_mostrar }} - {{ artefacto.descripcion }}</a>
+            {% endfor %}
+        {% endif %}
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -6,6 +6,7 @@ from django.contrib.auth.forms import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from rest_framework import serializers
+from django.contrib.postgres.forms import SimpleArrayField
 
 
 # Create your models here.
@@ -17,12 +18,14 @@ class Departamento(models.Model):
     def __unicode__(self):
         return self.nombre
 
+
 class Tipo_artefacto(models.Model):
     id_tipo_artefacto = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=150, blank=True)
 
     def __unicode__(self):
         return self.nombre
+
 
 class Area_Usuaria(models.Model):
     id_area = models.AutoField(primary_key=True)
@@ -31,6 +34,7 @@ class Area_Usuaria(models.Model):
 
     def __unicode__(self):
         return self.nombre
+
 
 class Dueno(models.Model):
     id_dueno = models.AutoField(primary_key=True)
@@ -63,6 +67,7 @@ class Usuario(models.Model):
     picture = models.ImageField(upload_to="images", blank=True)
     country = models.CharField(max_length=30, blank=True)
     city = models.CharField(max_length=30, blank=True)
+    name = models.CharField(max_length=30, blank=True)
     auth_user = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
@@ -118,7 +123,7 @@ class Proyecto(models.Model):
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
     id_dueno_prod = models.ForeignKey(Dueno, on_delete=models.PROTECT, null=True)
-    id_responsable = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+    id_responsable = models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
         return self.nombre
@@ -137,16 +142,17 @@ class Tipo(models.Model):
 class Recurso(models.Model):
     id_recurso = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=150, blank=False)
-    tipo=models.ForeignKey(Tipo, on_delete=models.PROTECT, null=True)
-    descripcion=models.CharField(max_length=1000,blank=False)
-    ubicacion = models.CharField(max_length=1000,blank=True)
-    fecha_creacion= models.DateField()
-    id_usuario=models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True)
+    tipo = models.ForeignKey(Tipo, on_delete=models.PROTECT, null=True)
+    descripcion = models.CharField(max_length=1000, blank=False)
+    ubicacion = models.CharField(max_length=1000, blank=True)
+    fecha_creacion = models.DateField()
+    id_usuario = models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True)
     reusable = models.BooleanField(default=False)
     id_proyecto = models.ForeignKey(Proyecto, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
         return self.titulo
+
 
 class Artefacto(models.Model):
     id_artefacto = models.AutoField(primary_key=True)
@@ -161,14 +167,38 @@ class Artefacto(models.Model):
     reusable = models.BooleanField(default=False)
     id_recurso = models.ForeignKey(Recurso, on_delete=models.PROTECT, null=True)
 
+
     def __unicode__(self):
         return self.nombre_mostrar
+
+class Etiqueta(models.Model):
+    id_etiqueta = models.AutoField(primary_key=True)
+    descripcion = models.CharField(max_length=250, blank=False)
+
+    def __unicode__(self):
+        return self.descripcion
+
+class Etiqueta_Artefacto(models.Model):
+    id_etiqueta_artefacto =  models.ForeignKey(Etiqueta, on_delete=models.PROTECT,primary_key=True)
+    id_artefacto = models.ForeignKey(Artefacto, on_delete=models.PROTECT, null=False )
+
+
+    def __unicode__(self):
+        return self.id_etiqueta_artefacto
+
+class Etiqueta_Recurso(models.Model):
+    id_etiqueta_recurso = models.ForeignKey(Etiqueta, on_delete=models.PROTECT,primary_key=True)
+    id_recurso = models.ForeignKey(Recurso, on_delete=models.PROTECT, null=False)
+
+    def __unicode__(self):
+        return self.id_etiqueta_recurso
 
 
 class Plan(models.Model):
     id_plan = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=150, blank=True)
     descripcion = models.CharField(max_length=1000, blank=True)
+    id_recurso = models.ForeignKey(Recurso, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
         return self.nombre
@@ -178,6 +208,22 @@ class PlanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Plan
+        fields = 'nombre'
+
+
+class TPPlan(models.Model):
+    id_tpplan = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=150, blank=True)
+    descripcion = models.CharField(max_length=1000, blank=True)
+
+    def __unicode__(self):
+        return self.nombre
+
+
+class TPPlanSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TPPlan
         fields = 'nombre'
 
 
@@ -196,7 +242,6 @@ class FaseSerializer(serializers.ModelSerializer):
         fields = 'nombre'
 
 
-
 class TipoAct(models.Model):
     id_tipoact = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=150, blank=True)
@@ -212,20 +257,32 @@ class TipoActSerializer(serializers.ModelSerializer):
         fields = 'nombre'
 
 
-
-
 class Actividad(models.Model):
     id_actividad = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=150, blank=True)
     descripcion = models.CharField(max_length=1000, blank=True)
     tipoact = models.ForeignKey(TipoAct, on_delete=models.PROTECT, null=True)
     id_fase = models.ForeignKey(Fase, on_delete=models.PROTECT, null=True)
-    fecha_inicio = models.DateField()
-    fecha_fin = models.DateField()
+    fecha_inicio = models.DateField(null=True, blank=True)
+    fecha_fin = models.DateField(null=True, blank=True)
     finalizado = models.BooleanField(default=False)
     periodicidad = models.CharField(max_length=150, blank=True)
     id_plan = models.ForeignKey(Plan, on_delete=models.PROTECT, null=True)
-    id_responsable = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+    #id_responsable = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+    id_responsable = models.ForeignKey(Usuario, on_delete=models.PROTECT, null=True)
+    def __unicode__(self):
+        return self.nombre
+
+
+class TPActividad(models.Model):
+    id_actividad = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=150, blank=True)
+    descripcion = models.CharField(max_length=1000, blank=True)
+    tipoact = models.ForeignKey(TipoAct, on_delete=models.PROTECT, null=True)
+    id_fase = models.ForeignKey(Fase, on_delete=models.PROTECT, null=True)
+    num_dias = models.CharField(max_length=1000, blank=True)
+    finalizado = models.BooleanField(default=False)
+    id_tpplan = models.ForeignKey(TPPlan, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
         return self.nombre
@@ -248,7 +305,4 @@ class Bitacora(models.Model):
 
     def __unicode__(self):
         return self.descripcion
-
-
-
 

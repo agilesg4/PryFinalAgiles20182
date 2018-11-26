@@ -17,6 +17,14 @@
         </select><br>
         <input id="archivo" name="archivo" type="file" required><br>
         <input id="reusable" type="checkbox" name="reusable" > reusable<br>
+        <h5><b>Etiquetas: </b></h5>
+            <select class="js-tags col-md-12 col-sm-offset-3" id="id_etiquetas" multiple="multiple" name="etiquetas">
+              <option selected="selected">imagen</option>
+              <option>infrografia</option>
+              <option selected="selected">video</option>
+            </select>
+        <br/><br/>
+
         <input id="grabar" type="submit" value="Añadir" class="btn btn-primary">
 
             <a href="/polls/" class="btn btn-primary">Cancelar</a>
@@ -26,6 +34,10 @@
 <script>
     $('form').submit(function (e) {
         var formData = new FormData($("#formArtefacto")[0]);
+        var etiquetas = $('#id_etiquetas').select2('data');
+        tag = etiquetas.map((x)=>x.text);
+
+        formData.append('etiquetas', tag);
         $.ajax({
             url: $(this).attr('action'),
             type: $(this).attr('method'),
@@ -66,4 +78,29 @@
 
 		})();
   </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('select').select2({
+              createTag: function (params) {
+                var term = $.trim(params.term);
+
+                if (term === '') {
+                  return null;
+                }
+
+                return {
+                  id: term,
+                  text: term,
+                  newTag: true // add additional parameters
+                }
+              }
+            });
+
+            $(".js-tags").select2({
+              tags: true
+            });
+        });
+    </script>
 {% endblock %}

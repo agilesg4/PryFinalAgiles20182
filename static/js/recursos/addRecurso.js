@@ -9,11 +9,14 @@ $('form').submit(function (e){
             contentType: false,
             processData: false,
             success: function () {
-                window.location = "polls/recurso/list";
+             //window.location = "polls/create_TPPLAN";
             },
-
         });
         e.preventDefault();
         console.log(formData)
+        return false
+
 
     });
+
+

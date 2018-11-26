@@ -1,0 +1,59 @@
+{% extends "index.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{%block content%}
+
+<link href="{% static 'css/recursos/detalleRecurso.css' %}" rel="stylesheet" />
+<link href="{% static 'css/recursos/artefactoCards.css' %}" rel="stylesheet" />
+
+<script type="text/javascript" src="{% static 'js/recursos/detalleRecurso.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/helpers.js' %}"></script>
+
+<div class="container">
+    <h3>Detalle Recurso</h3>
+    <div id="recurso_modal_detail">
+        <div id="recurso_build_modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form onsubmit="handleSubmit();return false;" id="recurso_form">
+                            <div id="form_error_field"></div>
+                            <div class="form-group form-inline">
+                                <label for="recurso_titulo" class="col-form-label col-md-3">Titulo:</label>
+                                <input type="text" class="form-control col-md-9" id="recurso_titulo" autocomplete="nope" disabled="">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label class="col-form-label col-md-3">Tipo:</label>
+                                <input type="text" class="form-control col-md-9" id="recurso_tipo" autocomplete="nope" disabled="">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recurso_descripcion" class="col-form-label col-md-3">Descripción:</label>
+                                <textarea class="form-control col-md-9" id="recurso_descripcion" autocomplete="nope" disabled=""></textarea>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="recurso_titulo" class="col-form-label col-md-3">Ubicación:</label>
+                                <input type="text" class="form-control col-md-9" id="recurso_ubicacion" autocomplete="nope" disabled="">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="function update() { window.location = 'update'};update();"  id="modal_save_button" class="btn btn-secondary">Editar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Artefactos</h4>
+        </div>
+        <div class="col-lg-6">
+            <button class="agregar_artefacto float-right" id="btn_add_artefacto" onClick="goToUrl('polls/agregarArtefacto')">Agregar Nuevo Artefacto</button>
+        </div>
+    </div>
+    <div class="row" id="artefacto_list"></div>
+</div>
+
+{% endblock %}
+
